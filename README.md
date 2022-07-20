@@ -1,5 +1,4 @@
-아직 고칠부분 너무 많은 레포.
-다운받아도 괜찮은 파일: Data.js, DataExtraction.js, Point.js
+#### 아직 고칠부분 너무 많은 레포. 다운받아도 괜찮은 파일: src/Data.js, src/DataExtraction.js, src/Point.js
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
