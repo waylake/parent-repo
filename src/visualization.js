@@ -1,36 +1,83 @@
 import { Point } from "./Point";
 import { drawPopulation } from "./drawPopulation";
+import { drawBranch } from "./drawBranch";
+import { drawInfoTrial } from "./drawInfoTrial";
 
-export function visualization(data){
+export function visualization(data) {
+  // data from extraction
   let designModel = data.designModel;
   let population = data.population;
   let infoTrial = data.infoTrial;
   let armGroup = data.armGroup;
   let intervention = data.intervention;
 
+  // gather all info
+  let Gdata = [];
+  let Glayout = {};
+  let Gframes = [];
+  let Gconfig = {};
+
   let startPoint = new Point(10, 10);
   let startW = 4;
-  let box1 = {'boxstyle': 'round', 
-          'ec': (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
-          'fc': (1.0, 0.8, 0.8)}
+  let box1 = {
+    boxstyle: "round",
+    ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
+    fc: (1.0, 0.8, 0.8),
+  };
   let popDrawInfo = drawPopulation(startPoint, startW, box1, population);
+  let startH = popDrawInfo.startH;
+  console.log(startH);
 
-  return popDrawInfo
-  
-  // let numberPoint = new Point(startPoint.x+startW, startPoint.y + startH/20);
-  // let numberW = 2;
-  // // # allocation
-  // let radius = 0.2;
-  // let allocationPoint = new Point(numberPoint.x+numberW+radius, numberPoint.y);
+  let numberPoint = new Point(
+    startPoint.x + startW,
+    startPoint.y + startH / 2
+  );
+  let numberW = 2;
+  // # allocation
+  let radius = 0.2;
+  let allocationPoint = new Point(
+    numberPoint.x + numberW + radius*2,
+    numberPoint.y
+  );
 
   // drawPreIntervention(startH, numberPoint, numberW, allocationPoint, radius, intervention);
 
-  // let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
-  // let armGW = 1;
-  // let armGArrowW = 7;
-  // let legendPoint = new Point(startPoint.x,startPoint.y-startH/6);
+  let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
+  let armGW = 1;
+  let armGArrowW = 7;
+  let legendPoint = new Point(startPoint.x, startPoint.y - startH / 6);
 
-  // drawBranch(ax, armGLinePoint1, armGW, armGArrowW, startPoint, startH, legendPoint, intervention, designModel, armGroup);
+  let branchDrawInfo = drawBranch(
+    armGLinePoint1,
+    armGW,
+    armGArrowW,
+    startPoint,
+    startH,
+    legendPoint,
+    intervention,
+    designModel,
+    armGroup
+  );
+
+  let durationPoint = new Point(armGLinePoint1.x+armGW+armGArrowW+1, allocationPoint.y-startH*2/3);
+  let numArm = armGroup.armGroupLabel.length;
+  let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
+
+  for(let i=0; i<branchDrawInfo.branch.lineList.length; i++){
+    Gdata.push(branchDrawInfo.branch.lineList[i]);
+  }
+  Gdata.push(detailDrawInfo.completeline);
+
+  // gather altogether
+  Glayout = Object.assign(popDrawInfo.layout, );
+
+  return {
+    Gdata,
+    Glayout,
+    Gframes,
+    Gconfig,
+  };
+
   // writeIntervention(ax, startPoint, startH, armGLinePoint1, armGW, armGArrowW, designModel, armGroup, intervention);
 
   // let durationPoint = new Point(armGLinePoint1.x+armGW+armGArrowW+1, allocationPoint.y-startH);
