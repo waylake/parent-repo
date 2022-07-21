@@ -20,8 +20,8 @@ class App extends React.Component {
     //Layout
     let vLayout = visualizationInfo.Glayout;
     let shapes = vLayout.shapes;
-    let width = vLayout.width;
-    let height = vLayout.height;
+    let width = 800;
+    let height = 800;
 
     this.state = {
       data: vData,

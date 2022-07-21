@@ -1,5 +1,7 @@
 import { Point } from "./Point";
 import { drawPopulation } from "./drawPopulation";
+import { drawPreIntervention } from "./drawPreIntervention";
+
 import { drawBranch } from "./drawBranch";
 import { drawInfoTrial } from "./drawInfoTrial";
 
@@ -10,10 +12,11 @@ export function visualization(data) {
   let infoTrial = data.infoTrial;
   let armGroup = data.armGroup;
   let intervention = data.intervention;
-
-  // gather all info
+  // gather altogether
   let Gdata = [];
-  let Glayout = {};
+  let Glayout = {
+    shapes: [],
+  };
   let Gframes = [];
   let Gconfig = {};
 
@@ -25,22 +28,21 @@ export function visualization(data) {
     fc: (1.0, 0.8, 0.8),
   };
   let popDrawInfo = drawPopulation(startPoint, startW, box1, population);
-  let startH = popDrawInfo.startH;
-  console.log(startH);
-
-  let numberPoint = new Point(
-    startPoint.x + startW,
-    startPoint.y + startH / 2
-  );
+  const startH = popDrawInfo.startH
+  let numberPoint = new Point(startPoint.x+startW, startPoint.y+startH/2);
   let numberW = 2;
   // # allocation
   let radius = 0.2;
-  let allocationPoint = new Point(
-    numberPoint.x + numberW + radius*2,
-    numberPoint.y
-  );
+  let allocationPoint = new Point(numberPoint.x+numberW+radius, numberPoint.ygit);
+  let preInterDrawInfo = drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention);
 
-  // drawPreIntervention(startH, numberPoint, numberW, allocationPoint, radius, intervention);
+  // 합치기 수정 필요
+  Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
+  Gdata.push(preInterDrawInfo.data); 
+  
+
+  
+
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
