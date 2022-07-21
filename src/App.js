@@ -7,23 +7,34 @@ import { visualization } from "./visualization";
 // import Point from "./Point";
 // import $ from "jquery";
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    let dataJson = getInfo(
-      "put url in this area"
-    );
+    let dataJson = getInfo("put url in this area");
     let visualizationInfo = visualization(dataJson);
 
+    //data
+    let vData = visualizationInfo.Gdata;
+
     //Layout
-    let vLayout = visualizationInfo.layout;
+    let vLayout = visualizationInfo.Glayout;
     let shapes = vLayout.shapes;
     let width = vLayout.width;
     let height = vLayout.height;
-    
-    this.state = { data: [], layout: {width, height, shapes}, frames: [], config: {} };
+
+    this.state = {
+      data: vData,
+      layout: {
+        width,
+        height,
+        shapes,
+        xaxis: { range: [9, 27] },
+        yaxis: { range: [9, 11.5] },
+      },
+      frames: [],
+      config: {},
+    };
     console.log(this.state);
   }
 
