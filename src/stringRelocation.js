@@ -5,3 +5,4 @@ function stringGoDown(inString, limit, x, y, fontSize, delta) {
   let textList = result[1];
   return textList;
 }
+

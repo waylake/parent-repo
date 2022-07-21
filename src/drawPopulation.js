@@ -5,7 +5,7 @@ export function countLine(inString, limit) {
   var slist = [];
   while (inString.length > limit) {
     point = inString.slice(0, limit).lastIndexOf("\u00a0");
-    if (point == -1) {
+    if (point === -1) {
       slist.push(inString.slice(0, limit));
       inString = inString.slice(limit);
     } else {
@@ -32,8 +32,6 @@ export function drawPopulation(startPoint, startW, box, population) {
   let result = countLine(condition, 48);
   let cLine = result[0];
   let textList = result[1];
-  console.log("cLine" + cLine);
-  console.log("textList" + textList);
   let height = (cLine + 5) / 10 + 0.1;
 
   let textX = startPoint.x + dx;
@@ -44,7 +42,7 @@ export function drawPopulation(startPoint, startW, box, population) {
   }
 
   //박스그리기
-  return {
+  return { 
     layout: {
       shapes: [
         {
