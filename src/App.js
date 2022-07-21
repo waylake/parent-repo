@@ -7,28 +7,36 @@ import { visualization } from "./visualization";
 // import Point from "./Point";
 // import $ from "jquery";
 
-// function runPy() {
-//   $.ajax({
-//     type: "POST",
-//     url: "./test.py",
-//     success: function (data) {
-//       console.log(data);
-//     },
-//   });
-// }
-
 
 class App extends React.Component {
-  render() {
-    const dataJson = getInfo(
-      "https://www.clinicaltrials.gov/ct2/show/NCT05442268?draw=2&rank=3"
+  constructor(props) {
+    super(props);
+
+    let dataJson = getInfo(
+      "put url in this area"
     );
-    console.log(dataJson);
-    // runPy();
+    let visualizationInfo = visualization(dataJson);
 
+    //Layout
+    let vLayout = visualizationInfo.layout;
+    let shapes = vLayout.shapes;
+    let width = vLayout.width;
+    let height = vLayout.height;
+    
+    this.state = { data: [], layout: {width, height, shapes}, frames: [], config: {} };
+    console.log(this.state);
+  }
 
+  render() {
     return (
-      visualization(dataJson)
+      <Plot
+        data={this.state.data}
+        layout={this.state.layout}
+        frames={this.state.frames}
+        config={this.state.config}
+        onInitialized={(figure) => this.setState(figure)}
+        onUpdate={(figure) => this.setState(figure)}
+      />
     );
   }
 }
