@@ -46,10 +46,6 @@ export function drawPopulation(startPoint, startW, box, population) {
   //박스그리기
   return {
     layout: {
-      width: 800,
-      height: 800,
-      // xaxis: { color: "#FFF" },
-      // yaxis: { color: "#FFF" },
       shapes: [
         {
           type: "rect",
@@ -59,7 +55,7 @@ export function drawPopulation(startPoint, startW, box, population) {
           x0: startPoint.x,
           y0: startPoint.y,
           x1: startPoint.x + startW,
-          y1: startPoint.y + startW,
+          y1: startPoint.y + height,
           line: {
             color: "rgba(140, 140, 255, 1)",
           },

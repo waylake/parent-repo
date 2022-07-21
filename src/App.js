@@ -18,12 +18,20 @@ class App extends React.Component {
     let visualizationInfo = visualization(dataJson);
 
     //Layout
-    let vLayout = visualizationInfo.layout;
+    let vLayout = visualizationInfo.Glayout;
     let shapes = vLayout.shapes;
-    let width = vLayout.width;
-    let height = vLayout.height;
+    let annotations = vLayout.annotations;
+    let width = 800;
+    let height = 800;
     
-    this.state = { data: [], layout: {width, height, shapes}, frames: [], config: {} };
+    this.state = { data: [], layout: {
+      width,
+      height,
+      shapes,
+      annotations,
+      xaxis: { range: [9, 20] },
+      yaxis: { range: [9, 15] },
+    }, frames: [], config: {} };
     console.log(this.state);
   }
 
