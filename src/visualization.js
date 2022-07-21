@@ -13,9 +13,10 @@ export function visualization(data){
   let box1 = {'boxstyle': 'round', 
           'ec': (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
           'fc': (1.0, 0.8, 0.8)}
-  return (drawPopulation(startPoint, startW, box1, population)
-  );
+  let popDrawInfo = drawPopulation(startPoint, startW, box1, population);
 
+  return popDrawInfo
+  
   // let numberPoint = new Point(startPoint.x+startW, startPoint.y + startH/20);
   // let numberW = 2;
   // // # allocation

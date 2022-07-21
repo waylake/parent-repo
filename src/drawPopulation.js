@@ -1,6 +1,6 @@
 import Plot from "react-plotly.js";
 
-function countLine(inString, limit) {
+export function countLine(inString, limit) {
   var point = 0;
   var slist = [];
   while (inString.length > limit) {
@@ -15,13 +15,13 @@ function countLine(inString, limit) {
   }
   slist.push(inString);
   let n = slist.length;
-  return n;
+  return [n, slist];
 }
 
 export function drawPopulation(startPoint, startW, box, population) {
   const condition = population.condition;
   const gender = population.gender;
-  const healthy_condition = population.healthy_condition;
+  const healthyCondition = population.healthyCondition;
   const maxAge = population.maxAge;
   const minAge = population.minAge;
 
@@ -29,34 +29,53 @@ export function drawPopulation(startPoint, startW, box, population) {
   let dy = 0.1; //위치 조절량
 
   //높이 구하기
-  let cLine = countLine(condition, 48);
+  let result = countLine(condition, 48);
+  let cLine = result[0];
+  let textList = result[1];
+  console.log("cLine" + cLine);
+  console.log("textList" + textList);
   let height = (cLine + 5) / 10 + 0.1;
 
+  let textX = startPoint.x + dx;
+  let textYList = [startPoint.y + height];
+  for (let i = 0; i < textList.length + 4; i++) {
+    let baseTextY = startPoint.y + height - cLine * dy - 0.05;
+    textYList.push(baseTextY - dy * i);
+  }
+
   //박스그리기
-  return (
-    <Plot
-      layout={{
-        width: 600,
-        height: 600,
-        // xaxis: { color: "#FFF" },
-        // yaxis: { color: "#FFF" },
-        shapes: [
-          {
-            type: "rect",
-            // xref: "x",
-            // yref: "y",
-            // fillcolor: "rgba(50, 171, 96, 0.7)",
-            x0: startPoint.x,
-            y0: startPoint.y,
-            x1: startPoint.x + startW,
-            y1: startPoint.y + startW,
-            line: {
-              color: "rgba(50, 171, 96, 1)",
-            },
-            text: "Population",
+  return {
+    layout: {
+      width: 800,
+      height: 800,
+      // xaxis: { color: "#FFF" },
+      // yaxis: { color: "#FFF" },
+      shapes: [
+        {
+          type: "rect",
+          // xref: "x",
+          // yref: "y",
+          // fillcolor: "rgba(50, 171, 96, 0.7)",
+          x0: startPoint.x,
+          y0: startPoint.y,
+          x1: startPoint.x + startW,
+          y1: startPoint.y + startW,
+          line: {
+            color: "rgba(140, 140, 255, 1)",
           },
-        ],
-      }}
-    />
-  );
+          x: [startPoint.x + startW / 2 - 1, textX, textX, textX, textX, textX],
+          y: textYList,
+          text: [
+            "Population",
+            "Condition: " + condition,
+            "Gender: " + gender,
+            "Healthy condition: " + healthyCondition,
+            "minAge: " + minAge,
+            "maxAge: " + maxAge,
+          ],
+        },
+      ],
+    },
+    startH: height,
+  };
 }
