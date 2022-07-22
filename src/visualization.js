@@ -38,7 +38,7 @@ export function visualization(data) {
 
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
-  Gdata.push(preInterDrawInfo.data);
+  Gdata = Gdata.concat(preInterDrawInfo.data);
 
 
 

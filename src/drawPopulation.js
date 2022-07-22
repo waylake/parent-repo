@@ -1,21 +1,24 @@
 import Plot from "react-plotly.js";
 
 export function countLine(inString, limit) {
-  var point = 0;
-  var slist = [];
+  let point = 0;
+  let brString = [];
+  let n = 0;
   while (inString.length > limit) {
-    point = inString.slice(0, limit).lastIndexOf("\u00a0");
+    n++;
+    point = inString.slice(0, limit).lastIndexOf(" ");
     if (point === -1) {
-      slist.push(inString.slice(0, limit));
+      brString += inString.slice(0, limit) + '<br>';
       inString = inString.slice(limit);
     } else {
-      slist.push(inString.slice(0, point + 1));
+      brString += inString.slice(0, point) + '<br>';
       inString = inString.slice(point + 1);
     }
   }
-  slist.push(inString);
-  let n = slist.length;
-  return [n, slist];
+  n++;
+  brString += inString;
+
+  return [n, brString];
 }
 
 export function drawPopulation(startPoint, startW, box, population) {
@@ -42,7 +45,7 @@ export function drawPopulation(startPoint, startW, box, population) {
   }
 
   //박스그리기
-  return { 
+  return {
     layout: {
       shapes: [
         {
