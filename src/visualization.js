@@ -28,19 +28,18 @@ export function visualization(data) {
     fc: (1.0, 0.8, 0.8),
   };
   let popDrawInfo = drawPopulation(startPoint, startW, box1, population);
-  const startH = popDrawInfo.startH
+  const startH = popDrawInfo.startH;
+
   let numberPoint = new Point(startPoint.x+startW, startPoint.y+startH/2);
   let numberW = 2;
   // # allocation
-  let radius = 0.2;
-  let allocationPoint = new Point(numberPoint.x+numberW+radius, numberPoint.ygit);
+  let radius = 0.6;
+  let allocationPoint = new Point(numberPoint.x+numberW+radius, numberPoint.y);
   let preInterDrawInfo = drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention);
 
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
   Gdata.push(preInterDrawInfo.data); 
-  
-
   
 
 
@@ -71,8 +70,6 @@ export function visualization(data) {
   Gdata.push(detailDrawInfo.completeline);
 
   // gather altogether
-  Glayout = Object.assign(popDrawInfo.layout, );
-
   return {
     Gdata,
     Glayout,
