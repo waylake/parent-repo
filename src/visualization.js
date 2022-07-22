@@ -27,21 +27,21 @@ export function visualization(data) {
     ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
     fc: (1.0, 0.8, 0.8),
   };
-  let popDrawInfo = drawPopulation(startPoint, startW, box1, population);
+  const popDrawInfo = drawPopulation(startPoint, startW, box1, population);
   const startH = popDrawInfo.startH
-  let numberPoint = new Point(startPoint.x+startW, startPoint.y+startH/2);
-  let numberW = 2;
+  const numberPoint = new Point(startPoint.x + startW, startPoint.y + startH / 2);
+  const numberW = 2;
   // # allocation
-  let radius = 0.2;
-  let allocationPoint = new Point(numberPoint.x+numberW+radius, numberPoint.ygit);
-  let preInterDrawInfo = drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention);
+  const radius = 0.6;
+  const allocationPoint = new Point(numberPoint.x + numberW + radius, numberPoint.y);
+  const preInterDrawInfo = drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention);
 
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
-  Gdata.push(preInterDrawInfo.data); 
-  
+  Gdata.push(preInterDrawInfo.data);
 
-  
+
+
 
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
@@ -61,17 +61,15 @@ export function visualization(data) {
     armGroup
   );
 
-  let durationPoint = new Point(armGLinePoint1.x+armGW+armGArrowW+1, allocationPoint.y-startH*2/3);
+  let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1, allocationPoint.y - startH * 2 / 3);
   let numArm = armGroup.armGroupLabel.length;
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
 
-  for(let i=0; i<branchDrawInfo.branch.lineList.length; i++){
+  for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
     Gdata.push(branchDrawInfo.branch.lineList[i]);
   }
   Gdata.push(detailDrawInfo.completeline);
 
-  // gather altogether
-  Glayout = Object.assign(popDrawInfo.layout, );
 
   return {
     Gdata,

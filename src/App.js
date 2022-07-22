@@ -41,8 +41,8 @@ class App extends React.Component {
   render() {
     return (
       <Plot
-        data={this.state.data}
         layout={this.state.layout}
+        data={this.state.data}
         frames={this.state.frames}
         config={this.state.config}
         onInitialized={(figure) => this.setState(figure)}
