@@ -64,6 +64,10 @@ export function visualization(data) {
   let numArm = armGroup.armGroupLabel.length;
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
 
+  //push info into G Lists
+  for (let i = 0; i < popDrawInfo.data.length; i++) {
+    Gdata.push(popDrawInfo.data[i])
+  }
   for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
     Gdata.push(branchDrawInfo.branch.lineList[i]);
   }

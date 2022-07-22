@@ -27,8 +27,16 @@ class App extends React.Component {
         width,
         height,
         shapes,
-        xaxis: { range: [9, 27], showgrid: false, showticklabels: false },
-        yaxis: { range: [9, 11.5], showgrid: false, showticklabels: false },
+        xaxis: { 
+          range: [9, 27], 
+          // showgrid: false, 
+          // showticklabels: false 
+        },
+        yaxis: { 
+          range: [9, 11.5], 
+          // showgrid: false, 
+          // showticklabels: false 
+        },
       },
       frames: [],
       config: {},
