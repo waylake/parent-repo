@@ -110,6 +110,46 @@ export function drawBranch(
       },
     };
     lineList.push(mark);
+  } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
+    for (let i = 0; i < numBranch; i++) {
+      let colorB = armColorDict[armG.armGroupType[i]];
+      let lineLoc = {
+        x: [
+          armGLinePoint1.x,
+          armGLinePoint1.x + armGW,
+          armGLinePoint1.x + armGW + armGArrowW,
+        ],
+        y: [
+          armGLinePoint1.y,
+          startPoint.y + startH - i * (startH / (numBranch - 1)),
+          startPoint.y + startH - i * (startH / (numBranch - 1)),
+        ],
+        mode: "lines",
+        line: {
+          color: colorB,
+          width: 1.5,
+        },
+      };
+      lineList.push(lineLoc);
+    }
+  } else if (designModel === "Single Group Assignment" || numBranch === 1) {
+    let colorB = armColorDict[armG.armGroupType[0]];
+    let lineLoc = {
+      x: [
+        armGLinePoint1.x,
+        armGLinePoint1.x + armGW + armGArrowW,
+      ],
+      y: [
+        armGLinePoint1.y,
+        armGLinePoint1.y,
+      ],
+      mode: "lines",
+      line: {
+        color: colorB,
+        width: 1.5,
+      },
+    };
+    lineList.push(lineLoc);
   } else {
     console.log(
       "we only consider single, parallel, crossover or may be sequential!"
