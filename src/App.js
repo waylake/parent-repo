@@ -1,10 +1,8 @@
 import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
-// import * as data from "./Data";
 import getInfo from "./DataExtraction";
 import { visualization } from "./visualization";
-// import Point from "./Point";
 // import $ from "jquery";
 
 class App extends React.Component {
@@ -29,13 +27,15 @@ class App extends React.Component {
         width,
         height,
         shapes,
-        xaxis: { range: [9, 27] },
-        yaxis: { range: [9, 11.5] },
+        xaxis: { range: [9, 27], showgrid: false, showticklabels: false },
+        yaxis: { range: [9, 11.5], showgrid: false, showticklabels: false },
       },
       frames: [],
       config: {},
     };
+
     console.log(this.state);
+    ////////////////////////////////
   }
 
   render() {

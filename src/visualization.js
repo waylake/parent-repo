@@ -43,7 +43,6 @@ export function visualization(data) {
 
 
 
-
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
   let armGArrowW = 7;
@@ -70,7 +69,7 @@ export function visualization(data) {
   }
   Gdata.push(detailDrawInfo.completeline);
 
-
+  // gather altogether
   return {
     Gdata,
     Glayout,

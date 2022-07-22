@@ -39,7 +39,6 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           path: `M ${numberPoint.x + numberW - 1} ${numberPoint.y} V ${numberPoint.y + deltaTrianlge} 
                 L ${numberPoint.x + numberW} ${numberPoint.y} L ${numberPoint.x + numberW - 1} ${numberPoint.y - deltaTrianlge} Z`,
           fillcolor: 'rgb(0,0,0)',
-
         },
         {
           type: "circle",
@@ -51,8 +50,9 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           line: {
             color: 'rgba(201, 205, 212, 0)'
           }
-        },
-      ],
-    },
+        },]
+    }
   };
 }
+
+
