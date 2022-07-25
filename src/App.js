@@ -43,13 +43,11 @@ class App extends React.Component {
       frames: [],
       config: {
         // staticPlot: true, 
-        editable: true,
+
         edits: {
-          axisTitleText: false,
-          titleText: false,
-          shapePosition: false,
-          legendPosition: false,
-        }
+          annotationText: true,
+        },
+        modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d'],
       },
     };
   }
