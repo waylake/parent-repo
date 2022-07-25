@@ -42,6 +42,7 @@ export function drawInfoTrial(
           color: "rgba(1,1,1,1)",
           width: 1,
         },
+        showlegend: false,
       },
     ],
     layout: {
@@ -52,6 +53,9 @@ export function drawInfoTrial(
           text: objective,
           showarrow: false,
           xanchor: 'left',
+          font: {
+            size: 13,
+          },
         },
         {
           x: titlePoint.x,
@@ -59,6 +63,9 @@ export function drawInfoTrial(
           text: title,
           showarrow: false,
           xanchor: 'left',
+          font: {
+            size: 16,
+          },
         },
         {
           x: officialPoint.x,
@@ -66,6 +73,9 @@ export function drawInfoTrial(
           text: official_title,
           showarrow: false,
           xanchor: 'left',
+          font: {
+            size: 13,
+          },
         },
       ]
     }
