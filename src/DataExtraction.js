@@ -58,7 +58,7 @@ export function getInfo(url) {
   );
 
   // ##intervetntion##
-  const masking = infoDict["Masking"];
+  const masking = infoDict["Masking"].includes('None') ? 'None' : infoDict["Masking"]; // None이면 그냥 None만 리턴
   const allocation = infoDict["Allocation"];
   const ratio = infoDict["PopulationRatio"];
   // # print(infoDict)

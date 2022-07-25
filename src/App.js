@@ -41,15 +41,15 @@ class App extends React.Component {
         },
       },
       frames: [],
-      config: { 
+      config: {
         // staticPlot: true, 
-        editable: true, 
+        editable: true,
         edits: {
           axisTitleText: false,
           titleText: false,
           shapePosition: false,
           legendPosition: false,
-      }
+        }
       },
     };
   }
@@ -63,7 +63,7 @@ class App extends React.Component {
         config={this.state.config}
         onInitialized={(figure) => this.setState(figure)}
         onUpdate={(figure) => this.setState(figure)}
-        onClick={function (data) {}}
+        onClick={function (data) { }}
       />
     );
   }

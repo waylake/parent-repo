@@ -1,5 +1,6 @@
 import Plot from "react-plotly.js";
 
+
 export function drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention) {
   const masking = intervention.masking
   const enrollment = intervention.enrollment
@@ -7,21 +8,11 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
   const ratio = intervention.ratio
 
   const deltaRadius = 7;
+  const delta = 0.1;
   const deltaTrianlge = 0.04;
 
-  // ax.text(allocationPoint.x-0.1, allocationPoint.y, intervention.allocation[0], color="white")
   // ax.text(allocationPoint.x-radius, allocationPoint.y+radius+0.1, intervention.ratio)
   return {
-    data: {
-      x: [allocationPoint.x],
-      y: [allocationPoint.y],
-      text: [intervention.allocation[0]],
-      textfont: {
-        color: 'black',
-      },
-      mode: 'text',
-
-    },
     layout: {
       shapes: [
         {
@@ -50,7 +41,34 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           line: {
             color: 'rgba(201, 205, 212, 0)'
           }
-        },]
+        },],
+      annotations: [
+        { //maksing
+          x: numberPoint.x + numberW / 2,
+          y: numberPoint.y - delta,
+          text: 'M=' + masking,
+          showarrow: false
+        },
+        { //enrollment
+          x: numberPoint.x + numberW / 2,
+          y: numberPoint.y + delta,
+          text: 'N=' + enrollment,
+          showarrow: false
+        },
+        { //allocation
+          x: allocationPoint.x,
+          y: allocationPoint.y,
+          text: allocation[0],
+          showarrow: false
+        },
+        {// ratio
+          x: allocationPoint.x,
+          y: allocationPoint.y + radius,
+          text: ratio,
+          showarrow: false
+        },
+
+      ]
     }
   };
 }
