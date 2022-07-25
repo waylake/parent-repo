@@ -47,7 +47,7 @@ class App extends React.Component {
         edits: {
           annotationText: true,
         },
-        modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d'],
+        modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d'],
       },
     };
   }

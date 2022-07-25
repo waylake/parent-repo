@@ -32,15 +32,15 @@ export function drawPopulation(startPoint, startW, box, population) {
   let result = countLine("<b>Condition:</b> " + condition, 20);
   let cLine = result[0];
   let conditionText = result[1];
-  let height = (cLine+3) / 10 ;
+  let height = (cLine + 3) / 10;
 
-  let popContent = ""+ conditionText + "<br>";
+  let popContent = "" + conditionText + "<br>";
   popContent += "<b>Gender:</b> " + gender + "<br>"
   popContent += "<b>Healthy condition:</b> " + healthyCondition + "<br>"
   popContent += "<b>minAge:</b> " + minAge + "<br>"
   popContent += "<b>maxAge:</b> " + maxAge + "<br>"
 
-    return {
+  return {
     layout: {
       shapes: [
         {
@@ -60,11 +60,16 @@ export function drawPopulation(startPoint, startW, box, population) {
       annotations: [{
         // xref: "paper",
         // yref: "paper",
-        x: startPoint.x + startW/2,
-        y: startPoint.y + height/2,
-        align: "bottom right",
+        x: startPoint.x,
+        y: startPoint.y + height,
+        xanchor: 'left',
+        yanchor: 'top',
+        align: 'left',
         text: popContent,
         showarrow: false,
+        font: {
+          size: 11,
+        }
       }]
     },
     startH: height,
