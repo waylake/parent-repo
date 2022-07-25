@@ -31,7 +31,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           x1: numberPoint.x + numberW - 1, //끝에 화살표 만들려고 길이 살짝 뺌
           y1: numberPoint.y,
           line: {
-            width: 10
+            width: 6
           }
         },
         {

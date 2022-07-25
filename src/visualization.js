@@ -16,6 +16,7 @@ export function visualization(data) {
   let Gdata = [];
   let Glayout = {
     shapes: [],
+    annotations: [],
   };
   let Gframes = [];
   let Gconfig = {};
