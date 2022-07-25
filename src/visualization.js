@@ -39,7 +39,8 @@ export function visualization(data) {
 
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
-  Gdata.push(preInterDrawInfo.data);
+  Glayout.annotations = Glayout.annotations.concat(preInterDrawInfo.layout.annotations);
+  console.log(Glayout);
 
 
 
@@ -60,7 +61,7 @@ export function visualization(data) {
     designModel,
     armGroup
   );
-
+  //drawInfoTrial
   let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1, allocationPoint.y - startH * 2 / 3);
   let numArm = armGroup.armGroupLabel.length;
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
@@ -72,7 +73,8 @@ export function visualization(data) {
   for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
     Gdata.push(branchDrawInfo.branch.lineList[i]);
   }
-  Gdata.push(detailDrawInfo.completeline);
+  Gdata = Gdata.concat(detailDrawInfo.data);
+  Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
 
   // gather altogether
   return {

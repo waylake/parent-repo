@@ -2,20 +2,23 @@ import { pushListElement, pushSameElement } from "./pushElements";
 
 export function countLine(inString, limit) {
   let point = 0;
-  let slist = [];
+  let brString = [];
+  let n = 0;
   while (inString.length > limit) {
+    n++;
     point = inString.slice(0, limit).lastIndexOf(" ");
     if (point === -1) {
-      slist.push(inString.slice(0, limit));
+      brString += inString.slice(0, limit) + '<br>';
       inString = inString.slice(limit);
     } else {
-      slist.push(inString.slice(0, point + 1));
+      brString += inString.slice(0, point) + '<br>';
       inString = inString.slice(point + 1);
     }
   }
-  slist.push(inString);
-  let n = slist.length;
-  return [n, slist];
+  n++;
+  brString += inString;
+
+  return [n, brString];
 }
 
 // export function countLine(inString, limit) {
@@ -38,14 +41,14 @@ export function countLine(inString, limit) {
 //   return [n, brString];
 // }
 
-export function stringGoDown(inString, limit, datalst, startPoint, delta){
+export function stringGoDown(inString, limit, datalst, startPoint, delta) {
   let result = countLine(inString, limit);
   let cLine = result[0];
   let getTextList = result[1];
 
   let giveList = [];
   for (let i = 0; i < datalst.length; i++) {
-    let baseLoc = startPoint.y - delta *i;
+    let baseLoc = startPoint.y - delta * i;
     giveList.push(baseLoc);
   }
   return giveList;
@@ -65,13 +68,13 @@ export function drawPopulation(startPoint, startW, box, population) {
   let result = countLine("Condition: " + condition, 20);
   let cLine = result[0];
   let contidionTextList = result[1];
-  let height = (cLine+3) / 10 ;
+  let height = (cLine + 3) / 10;
 
   let textX = startPoint.x + dx;
   let textYList = [];
   for (let i = 0; i < contidionTextList.length + 4; i++) {
     let baseTextY = startPoint.y + height - cLine * dy * 0.3 - 0.005;
-    textYList.push(baseTextY - dy * i*0.6);
+    textYList.push(baseTextY - dy * i * 0.6);
   }
   let textXList = [];
   pushSameElement(textXList, textX, contidionTextList.length, 4);
@@ -84,7 +87,7 @@ export function drawPopulation(startPoint, startW, box, population) {
     "minAge: " + minAge,
     "maxAge: " + maxAge
   );
-  
+
   return {
     data: [
       {
@@ -126,7 +129,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         },
       ],
       annotation: {
-        
+
       }
     },
     startH: height,
