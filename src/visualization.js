@@ -39,10 +39,8 @@ export function visualization(data) {
 
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
+  Glayout.annotations = Glayout.annotations.concat(popDrawInfo.layout.annotations)
   Gdata.push(preInterDrawInfo.data);
-
-
-
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
