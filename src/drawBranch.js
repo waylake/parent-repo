@@ -79,7 +79,7 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 1.5,
+          width: 2,
         },
       };
       lineList.push(lineLoc);
@@ -95,7 +95,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: "rgba(1,1,1,1)",
-        width: 1,
+        width: 2,
       },
     };
     lineList.push(timeLine);
@@ -127,7 +127,7 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 1.5,
+          width: 2,
         },
       };
       lineList.push(lineLoc);
@@ -146,7 +146,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: colorB,
-        width: 1.5,
+        width: 2,
       },
     };
     lineList.push(lineLoc);

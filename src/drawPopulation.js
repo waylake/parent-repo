@@ -18,6 +18,39 @@ export function countLine(inString, limit) {
   return [n, slist];
 }
 
+// export function countLine(inString, limit) {
+//   let point = 0;
+//   let brString = [];
+//   let n = 0;
+//   while (inString.length > limit) {
+//     n++;
+//     point = inString.slice(0, limit).lastIndexOf(" ");
+//     if (point === -1) {
+//       brString += inString.slice(0, limit) + '<br>';
+//       inString = inString.slice(limit);
+//     } else {
+//       brString += inString.slice(0, point) + '<br>';
+//       inString = inString.slice(point + 1);
+//     }
+//   }
+//   n++;
+//   brString += inString;
+//   return [n, brString];
+// }
+
+export function stringGoDown(inString, limit, datalst, startPoint, delta){
+  let result = countLine(inString, limit);
+  let cLine = result[0];
+  let getTextList = result[1];
+
+  let giveList = [];
+  for (let i = 0; i < datalst.length; i++) {
+    let baseLoc = startPoint.y - delta *i;
+    giveList.push(baseLoc);
+  }
+  return giveList;
+}
+
 export function drawPopulation(startPoint, startW, box, population) {
   const condition = population.condition;
   const gender = population.gender;
@@ -32,7 +65,6 @@ export function drawPopulation(startPoint, startW, box, population) {
   let result = countLine("Condition: " + condition, 20);
   let cLine = result[0];
   let contidionTextList = result[1];
-  console.log("contidionTextList: " + contidionTextList);
   let height = (cLine+3) / 10 ;
 
   let textX = startPoint.x + dx;
@@ -52,9 +84,7 @@ export function drawPopulation(startPoint, startW, box, population) {
     "minAge: " + minAge,
     "maxAge: " + maxAge
   );
-  console.log(popContent);
   
-
   return {
     data: [
       {
@@ -95,6 +125,9 @@ export function drawPopulation(startPoint, startW, box, population) {
           },
         },
       ],
+      annotation: {
+        
+      }
     },
     startH: height,
   };

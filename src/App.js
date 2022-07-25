@@ -18,6 +18,7 @@ class App extends React.Component {
     //Layout
     let vLayout = visualizationInfo.Glayout;
     let shapes = vLayout.shapes;
+    let annotations = vLayout.annotations;
     let width = 800;
     let height = 800;
 
@@ -26,24 +27,31 @@ class App extends React.Component {
       layout: {
         width,
         height,
+        annotations,
         shapes,
-        xaxis: { 
-          range: [9, 27], 
-          // showgrid: false, 
-          // showticklabels: false 
+        xaxis: {
+          range: [9, 27],
+          showgrid: false,
+          showticklabels: false,
         },
-        yaxis: { 
-          range: [9, 11.5], 
-          // showgrid: false, 
-          // showticklabels: false 
+        yaxis: {
+          range: [9, 11.5],
+          showgrid: false,
+          showticklabels: false,
         },
       },
       frames: [],
-      config: {},
+      config: { 
+        // staticPlot: true, 
+        editable: true, 
+        edits: {
+          axisTitleText: false,
+          titleText: false,
+          shapePosition: false,
+          legendPosition: false,
+      }
+      },
     };
-
-    console.log(this.state);
-    ////////////////////////////////
   }
 
   render() {
@@ -55,6 +63,7 @@ class App extends React.Component {
         config={this.state.config}
         onInitialized={(figure) => this.setState(figure)}
         onUpdate={(figure) => this.setState(figure)}
+        onClick={function (data) {}}
       />
     );
   }
