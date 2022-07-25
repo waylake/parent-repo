@@ -40,7 +40,6 @@ export function visualization(data) {
   // 합치기 수정 필요
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
   Glayout.annotations = Glayout.annotations.concat(popDrawInfo.layout.annotations)
-  Gdata.push(preInterDrawInfo.data);
   Glayout.annotations = Glayout.annotations.concat(preInterDrawInfo.layout.annotations);
   console.log(Glayout);
 
@@ -66,9 +65,7 @@ export function visualization(data) {
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
 
   //push info into G Lists
-  for (let i = 0; i < popDrawInfo.data.length; i++) {
-    Gdata.push(popDrawInfo.data[i])
-  }
+
   for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
     Gdata.push(branchDrawInfo.branch.lineList[i]);
   }
