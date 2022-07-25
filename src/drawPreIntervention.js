@@ -1,5 +1,5 @@
 import Plot from "react-plotly.js";
-import { countLine } from "./drawPopulation";
+
 
 export function drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention) {
   const masking = intervention.masking
@@ -8,17 +8,16 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
   const ratio = intervention.ratio
 
   const deltaRadius = 7;
+  const delta = 0.1;
   const deltaTrianlge = 0.04;
 
-  const brMasking = countLine('M=' + masking, 6)[1];
-  console.log(brMasking);
   // ax.text(allocationPoint.x-radius, allocationPoint.y+radius+0.1, intervention.ratio)
   return {
     data: [// masking, enrollment, allocation, ratio 순서
       {
         x: [numberPoint.x + numberW / 2, numberPoint.x + numberW / 2, allocationPoint.x, allocationPoint.x],
-        y: [numberPoint.y - 0.3, numberPoint.y + 0.1, allocationPoint.y, allocationPoint.y + radius],
-        text: [masking, 'N=' + enrollment, allocation[0], ratio],
+        y: [numberPoint.y - delta, numberPoint.y + delta, allocationPoint.y, allocationPoint.y + radius],
+        text: ['M=' + masking, 'N=' + enrollment, allocation[0], ratio],
         textfont: {
           color: 'black',
         },

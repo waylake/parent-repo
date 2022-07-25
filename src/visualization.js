@@ -67,7 +67,7 @@ export function visualization(data) {
   for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
     Gdata.push(branchDrawInfo.branch.lineList[i]);
   }
-  Gdata.push(detailDrawInfo.completeline);
+  Gdata = Gdata.concat(detailDrawInfo.data);
 
   // gather altogether
   return {

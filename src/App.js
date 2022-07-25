@@ -31,7 +31,7 @@ class App extends React.Component {
         yaxis: { range: [9, 11.5], showgrid: false, showticklabels: false },
       },
       frames: [],
-      config: {},
+      config: { editable: true },
     };
 
     console.log(this.state);
