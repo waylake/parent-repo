@@ -13,17 +13,6 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
 
   // ax.text(allocationPoint.x-radius, allocationPoint.y+radius+0.1, intervention.ratio)
   return {
-    data: [// masking, enrollment, allocation, ratio 순서
-      {
-        x: [numberPoint.x + numberW / 2, numberPoint.x + numberW / 2, allocationPoint.x, allocationPoint.x],
-        y: [numberPoint.y - delta, numberPoint.y + delta, allocationPoint.y, allocationPoint.y + radius],
-        text: ['M=' + masking, 'N=' + enrollment, allocation[0], ratio],
-        textfont: {
-          color: 'black',
-        },
-        mode: 'text',
-      },
-    ],
     layout: {
       shapes: [
         {
@@ -33,7 +22,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           x1: numberPoint.x + numberW - 1, //끝에 화살표 만들려고 길이 살짝 뺌
           y1: numberPoint.y,
           line: {
-            width: 10
+            width: 6
           }
         },
         {
@@ -52,7 +41,34 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           line: {
             color: 'rgba(201, 205, 212, 0)'
           }
-        },]
+        },],
+      annotations: [
+        { //maksing
+          x: numberPoint.x + numberW / 2,
+          y: numberPoint.y - delta,
+          text: 'M=' + masking,
+          showarrow: false
+        },
+        { //enrollment
+          x: numberPoint.x + numberW / 2,
+          y: numberPoint.y + delta,
+          text: 'N=' + enrollment,
+          showarrow: false
+        },
+        { //allocation
+          x: allocationPoint.x,
+          y: allocationPoint.y,
+          text: allocation[0],
+          showarrow: false
+        },
+        {// ratio
+          x: allocationPoint.x,
+          y: allocationPoint.y + radius,
+          text: ratio,
+          showarrow: false
+        },
+
+      ]
     }
   };
 }

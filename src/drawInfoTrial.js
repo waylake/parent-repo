@@ -43,18 +43,31 @@ export function drawInfoTrial(
           width: 1,
         },
       },
-      {
-        x: [objPoint.x, titlePoint.x, officialPoint.x,],
-        y: [objPoint.y, titlePoint.y, legendPoint.y - (numArm + 1) * startH / 3],
-        text: [objective, title, official_title],
-        textfont: {
-          color: 'black',
-          size: 10,
+    ],
+    layout: {
+      annotations: [
+        {
+          x: objPoint.x,
+          y: objPoint.y,
+          text: objective,
+          showarrow: false,
+          xanchor: 'left',
         },
-        mode: 'text',
-        textposition: 'right',
-
-      },
-    ]
+        {
+          x: titlePoint.x,
+          y: titlePoint.y,
+          text: title,
+          showarrow: false,
+          xanchor: 'left',
+        },
+        {
+          x: officialPoint.x,
+          y: legendPoint.y - (numArm + 1) * startH / 3,
+          text: official_title,
+          showarrow: false,
+          xanchor: 'left',
+        },
+      ]
+    }
   };
 }
