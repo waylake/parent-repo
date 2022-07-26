@@ -43,6 +43,11 @@ class App extends React.Component {
           showgrid: false,
           showticklabels: false,
         },
+        // legend position
+        legend:{
+          x:0.04, //x: -2~3
+          y:0.28, //y: -2~3
+        }
       },
       frames: [],
       config: {

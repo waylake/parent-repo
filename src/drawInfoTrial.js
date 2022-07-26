@@ -9,9 +9,9 @@ export function drawInfoTrial(
   numArm,
   infoTrial
 ) {
-  const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 70);
-  const title = countLine("Title: " + infoTrial.title, 70)[1];
-  const official_title = countLine("Official Title: " + infoTrial.official_title, 70)[1];
+  const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
+  const title = countLine("Title: " + infoTrial.title, 75)[1];
+  const OfficialTitle = countLine("Official Title: " + infoTrial.officialTitle, 110)[1];
   const completeTime = countLine(infoTrial.completeTime + " months required to complete", 20)[1];
   // #objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.3);
@@ -21,7 +21,7 @@ export function drawInfoTrial(
 
 
   // // # infoTrial.title
-  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10 + 0.1);
+  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
   // bboxString(ax, titlePoint.x, titlePoint.y, "Title: "+ infoTrial.title, 100, 20, 1)
 
   // #complete_time
@@ -30,10 +30,6 @@ export function drawInfoTrial(
   // // # infoTrial.official title
   const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
   // bboxString(ax, officialPoint.x, legendPoint.y - (numArm+1)*startH/3, "Official Title: " +  info_trial.official_title, 110, 15, 1)
-
-  // complete time
-
-
 
   return {
     data: [
@@ -56,6 +52,7 @@ export function drawInfoTrial(
           text: objective,
           showarrow: false,
           xanchor: 'left',
+          yanchor: "bottom",
           font: {
             size: 13,
           },
@@ -69,6 +66,7 @@ export function drawInfoTrial(
           text: title,
           showarrow: false,
           xanchor: 'left',
+          yanchor: "bottom",
           font: {
             size: 16,
           },
@@ -78,29 +76,31 @@ export function drawInfoTrial(
         },
         {
           x: officialPoint.x,
-          y: legendPoint.y - (numArm + 1) * startH / 3,
-          text: official_title,
+          y: legendPoint.y - startH/3,
+          text: OfficialTitle,
           showarrow: false,
           xanchor: 'left',
+          yanchor: 'top',
           font: {
-            size: 13,
+            size: 11,
           },
           bordercolor: '#c7c7c7',
           align: 'left',
           // captureevents: true,
         },
         {
-          x: officialPoint.x + 10,
-          y: legendPoint.y - (numArm + 1) * startH / 3,
+          x: officialPoint.x,
+          y: legendPoint.y - startH/2 - 0.2,
           text: 'EDIT',
           showarrow: false,
+          xanchor: 'left',
           font: {
             size: 15,
           },
           bordercolor: 'black',
           captureevents: true,
         },
-        {
+        { // complete time
           x: durationPoint.x,
           y: durationPoint.y - 0.05,
           text: completeTime,
