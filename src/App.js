@@ -3,6 +3,7 @@ import React from "react";
 import Plot from "react-plotly.js";
 import getInfo from "./DataExtraction";
 import { visualization } from "./visualization";
+import { countLine } from "./drawPopulation";
 // import $ from "jquery";
 
 
@@ -26,7 +27,6 @@ class App extends React.Component {
 
 
     this.state = {
-      mode: 'read',
       data: vData,
       layout: {
         width,
@@ -62,20 +62,6 @@ class App extends React.Component {
   }
 
   render() {
-    const newLayout = { ...this.state.layout };
-    if (this.state.mode === 'edit') {
-      const re = /<\/?[br]+>/g;
-      for (let i = 0; i < this.state.layout.annotations.length; i++) {
-        newLayout.annotations[i].text = this.state.layout.annotations[i].text.replace(re, ' ');
-        if (newLayout.annotations[i].text === 'EDIT') newLayout.annotations[i].text = 'COMPLETE'
-      }
-    }
-    // else if (this.state.mode === 'complete') {
-    //   //br태그 추가
-    //   for (let i = 0; i < this.state.layout.annotations.length; i++) {
-    //     newLayout.annotations[i].text = this.state.layout.annotations[i].text.replace(re, ' ');
-    //     if (newLayout.annotations[i].text === 'COMPLETE') newLayout.annotations[i].text = 'EDIT'
-    //   }
     return (
       <div>
         <Plot
@@ -86,7 +72,6 @@ class App extends React.Component {
           onInitialized={(figure) => this.setState(figure)}
           onUpdate={(figure) => this.setState(figure)}
           onClickAnnotation={e => {
-            //console.log(e);
             if (e.annotation.text === 'EDIT') { // edit 버튼 누르면
               this.setState({
                 config: {
@@ -95,10 +80,15 @@ class App extends React.Component {
                   },
                 }
               });
+              const newLayout = { ...this.state.layout };
+              const re = /<\/?[br]+>/g;
+              for (let i = 0; i < this.state.layout.annotations.length; i++) {
+                newLayout.annotations[i].text = this.state.layout.annotations[i].text.replace(re, ' ');
+                if (newLayout.annotations[i].text === 'EDIT') newLayout.annotations[i].text = 'COMPLETE'
+              }
               this.setState({
                 layout: newLayout
               });
-              this.setState({ mode: 'edit' });
             }// complete 버튼 누르면
             else if (e.annotation.text === 'COMPLETE') {
               this.setState({
@@ -119,8 +109,15 @@ class App extends React.Component {
                 },
               }
             });
-            this.setState({ mode: 'complete' });
-            console.log(this.state.layout.annotations);
+            //br태그 추가
+            const newLayout = { ...this.state.layout };
+            for (let i = 1; i < this.state.layout.annotations.length; i++) {
+              newLayout.annotations[i].text = countLine(newLayout.annotations[i].text, 70)[1];
+              if (newLayout.annotations[i].text === 'COMPLETE') newLayout.annotations[i].text = 'EDIT'
+            }
+            this.setState({
+              layout: newLayout
+            });
           }}
         />
       </div>
