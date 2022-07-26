@@ -30,7 +30,7 @@ class App extends React.Component {
         annotations,
         shapes,
         xaxis: {
-          range: [9, 27],
+          range: [9, 29],
           showgrid: false,
           showticklabels: false,
         },
