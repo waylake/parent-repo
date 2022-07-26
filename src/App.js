@@ -39,14 +39,17 @@ class App extends React.Component {
           showticklabels: false,
         },
         yaxis: {
-          range: [9, 11.5],
+          range: [9, 11],
           showgrid: false,
           showticklabels: false,
         },
         // legend position
         legend: {
           x: 0.04, //x: -2~3
-          y: 0.28, //y: -2~3
+          y: 0.44, //y: -2~3
+          font: {
+            size: 9,
+          }
         }
       },
       frames: [],

@@ -70,7 +70,7 @@ export function visualization(data) {
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
 
   
-  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, designModel, armGroup, intervention);
+  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention);
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   // gather altogether

@@ -29,9 +29,11 @@ export function drawBranch(
     None: "rgba(148, 20, 148, 1)", // violet
   };
 
-  // let setArmGroup = new Set(armG.armGroupType);
+  let setArmGroup = new Set(armG.armGroupType);
+  let setArmGroupToLst = Array.from(setArmGroup);
   const numBranch = armG.interventionDescription.length;
   let lineList = [];
+  let washH;
 
 
   //draw branch
@@ -59,6 +61,7 @@ export function drawBranch(
           color: colorB,
           width: 2,
         },
+        hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
     }
@@ -66,7 +69,7 @@ export function drawBranch(
     // ##crossover 약 먹는 기간 화살표
     let bfWashPoint = armGLinePoint1.x + armGW + armGArrowW / 3;
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
-    let washH = armGLinePoint1.y - startH / 4 - 0.4;
+    washH = armGLinePoint1.y - startH / 4 - 0.14;
     let timeLine = {
       x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW+0.5],
       y: [washH, washH],
@@ -76,6 +79,7 @@ export function drawBranch(
         width: 2,
       },
       showlegend: false,
+      hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
     };
     lineList.push(timeLine);
 
@@ -88,6 +92,7 @@ export function drawBranch(
         color: "rgba(255, 120, 120, 1)",
       },
       showlegend: false,
+      hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
     };
     lineList.push(mark);
   } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
@@ -136,5 +141,6 @@ export function drawBranch(
     branch: {
       lineList,
     },
+    washHeight: {washH},
   };
 }
