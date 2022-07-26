@@ -45,8 +45,6 @@ export function drawPopulation(startPoint, startW, box, population) {
       shapes: [
         {
           type: "rect",
-          // xref: "x",
-          // yref: "y",
           // fillcolor: "rgba(50, 171, 96, 0.7)",
           x0: startPoint.x,
           y0: startPoint.y,
@@ -58,8 +56,6 @@ export function drawPopulation(startPoint, startW, box, population) {
         },
       ],
       annotations: [{
-        // xref: "paper",
-        // yref: "paper",
         x: startPoint.x,
         y: startPoint.y + height,
         xanchor: 'left',

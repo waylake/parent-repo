@@ -3,7 +3,7 @@ import * as data from "./Data";
 export function getInfo(url) {
   // codes to run python file in javascript
 
-  const infoDict = require("./NCT03507790.json"); // read json file by using require method
+  const infoDict = require("./NCT05446467.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 
@@ -25,14 +25,14 @@ export function getInfo(url) {
   );
 
   // ##info_trial##
-  const official_title = infoDict["OfficialTitle"];
+  const officialTitle = infoDict["OfficialTitle"];
   const objective = infoDict["Objective"];
   const complete_time = infoDict["CompleteTime"];
   const title = infoDict["Title"];
   const NCTID = infoDict["NCTID"];
 
   const infoTrial = new data.InfoTrial(
-    official_title,
+    officialTitle,
     title,
     objective,
     complete_time,
