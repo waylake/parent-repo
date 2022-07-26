@@ -6,6 +6,7 @@ export function writeIntervention(
   armGLinePoint1,
   armGW,
   armGArrowW,
+  washH,
   designModel,
   armG,
   intervention
@@ -13,12 +14,13 @@ export function writeIntervention(
   let numBranch = armG.interventionDescription.length;
   let annotations = [];
   let drugDescription = "";
+  let drugHowToTake = "";
+  let onlyDrug = "";
   let textStartX;
   let testStartY;
   let drugInfo;
 
   let res;
-  let lineNum;
 
   if (
     (designModel === "Single Group Assignment" && numBranch === 1) ||
@@ -29,24 +31,35 @@ export function writeIntervention(
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
     for (let i = 0; i < drugInfo.length; i++) {
+      onlyDrug +=
+        drugInfo[i]["DrugName"] + " ";
       drugDescription +=
         drugInfo[i]["DrugName"] + "(" + drugInfo[i]["Dosage"] + ") ";
+      drugHowToTake = drugInfo[i]["HowToTake"];
     }
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
-    lineNum = res[0];
 
     let interObj = {
-      x: armGLinePoint1.x,
+      x: textStartX,
       y: startPoint.y + startH / 2 ,
       xanchor: "left",
       yanchor: "bottom",
       align: "left",
-      text: drugDescription,
+      text: onlyDrug,
       font: {
         size: 10,
       },
       showarrow: false,
+      hovertext: drugDescription+ ": " +drugHowToTake+ "<br>",
+      hoverlabel: {
+        bgcolor: "rgba(0,0,0,0.1)",
+        bordercolor: "rgba(0,0,0,0.1)",
+        font:{
+          size: 12,
+          color: 'black',
+        }
+      }
     };
     annotations.push(interObj);
 
@@ -65,11 +78,13 @@ export function writeIntervention(
     annotations.push(interDur);
   } else if (designModel === "Crossover Assignment") {
     for (let i = 0; i < numBranch; i++) {
-      drugDescription =""
+      drugDescription ="";
+      onlyDrug = "";
       drugInfo = armG.interventionDescription[i];
       for (let j = 0; j < drugInfo.length; j++) {
+        onlyDrug += drugInfo[j]["DrugName"] + " ";
         drugDescription +=
-          drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
+          drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : "+drugHowToTake + "<br>";
       }
 
       drugDescription = countLine(drugDescription, 15)[1];
@@ -80,9 +95,18 @@ export function writeIntervention(
         xanchor: "left",
         yanchor: "bottom",
         align: "left",
-        text: drugDescription,
+        text: onlyDrug,
         font: {
           size: 10,
+        },
+        hovertext: drugDescription,
+        hoverlabel: {
+          bgcolor: "rgba(0,0,0,0.1)",
+          bordercolor: "rgba(0,0,0,0.1)",
+          font:{
+            size: 12,
+            color: 'black',
+          }
         },
         showarrow: false,
       };
@@ -93,9 +117,18 @@ export function writeIntervention(
         xanchor: "left",
         yanchor: "bottom",
         align: "left",
-        text: drugDescription,
+        text: onlyDrug,
         font: {
           size: 10,
+        },
+        hovertext: drugDescription,
+        hoverlabel: {
+          bgcolor: "rgba(0,0,0,0.1)",
+          bordercolor: "rgba(0,0,0,0.1)",
+          font:{
+            size: 12,
+            color: 'black',
+          }
         },
         showarrow: false,
       };
@@ -105,12 +138,12 @@ export function writeIntervention(
     //write timeline
     let bfWashPoint = armGLinePoint1.x + armGW + armGArrowW / 3;
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
-    let washH = armGLinePoint1.y - startH / 2 - 0.33;
+    
 
     let timeObjB = {
       x: (armGLinePoint1.x + bfWashPoint) / 2,
       y: washH,
-      yanchor: "bottom",
+      yanchor: "top",
       align: "left",
       text: armG.interventionDescription[0][0]["Duration"],
       font: {
@@ -122,7 +155,7 @@ export function writeIntervention(
     let timeObjM = {
       x: (bfWashPoint + afWashPoint) / 2,
       y: washH + 0.05,
-      yanchor: "bottom",
+      yanchor: "top",
       text: "Washout period",
       font: {
         size: 9,
@@ -133,7 +166,7 @@ export function writeIntervention(
     let timeObjM2 = {
       x: (bfWashPoint + afWashPoint) / 2,
       y: washH,
-      yanchor: "bottom",
+      yanchor: "top",
       align: "left",
       text: intervention.washout_period,
       font: {
@@ -146,7 +179,7 @@ export function writeIntervention(
       x: (afWashPoint + armGLinePoint1.x + armGW + armGArrowW) / 2,
       y: washH - 0.1,
       xanchor: "left",
-      yanchor: "bottom",
+      yanchor: "top",
       align: "left",
       text: armG.interventionDescription[1][0]["Duration"],
       font: {
@@ -160,14 +193,16 @@ export function writeIntervention(
     for (let i = 0; i < numBranch; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
+      onlyDrug = "";
       try {
         textStartX = armGLinePoint1.x + armGW + 0.1;
         testStartY = startPoint.y + startH - 0.1;
         for (let j = 0; j < drugInfo.length; j++) {
+          onlyDrug += drugInfo[j]["DrugName"] + " ";
           drugDescription +=
-            drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
+            drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : "+drugHowToTake + "<br>";
         }
-        drugDescription = countLine(drugDescription, 45)[1];
+        // drugDescription = countLine(drugDescription, 45)[1];
 
         //make letter object
         let interObj = {
@@ -176,9 +211,18 @@ export function writeIntervention(
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
-          text: drugDescription,
+          text: onlyDrug,
           font: {
             size: 10,
+          },
+          hovertext: drugDescription,
+          hoverlabel: {
+            bgcolor: "rgba(0,0,0,0.1)",
+            bordercolor: "rgba(0,0,0,0.1)",
+            font:{
+              size: 12,
+              color: 'black',
+            }
           },
           showarrow: false,
         };

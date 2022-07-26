@@ -1,13 +1,10 @@
-import Plot from "react-plotly.js";
-
-
 export function drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention) {
   const masking = intervention.masking
   const enrollment = intervention.enrollment
   const allocation = intervention.allocation
   const ratio = intervention.ratio
 
-  const deltaRadius = 7;
+  const deltaRadius = 9;
   const delta = 0.1;
   const deltaTrianlge = 0.04;
 
