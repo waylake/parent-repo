@@ -4,6 +4,7 @@ import { drawPreIntervention } from "./drawPreIntervention";
 
 import { drawBranch } from "./drawBranch";
 import { drawInfoTrial } from "./drawInfoTrial";
+import { writeIntervention } from "./writeIntervention";
 
 export function visualization(data) {
   // data from extraction
@@ -22,7 +23,7 @@ export function visualization(data) {
   let Gconfig = {};
 
   let startPoint = new Point(10, 10);
-  let startW = 4;
+  let startW = 5;
   let box1 = {
     boxstyle: "round",
     ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
@@ -59,17 +60,18 @@ export function visualization(data) {
     armGroup
   );
   //drawInfoTrial
-  let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1, allocationPoint.y - startH * 2 / 3);
+  let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1.5, allocationPoint.y - startH * 2 / 3);
   let numArm = armGroup.armGroupLabel.length;
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
 
   //push info into G Lists
-
-  for (let i = 0; i < branchDrawInfo.branch.lineList.length; i++) {
-    Gdata.push(branchDrawInfo.branch.lineList[i]);
-  }
+  Gdata = Gdata.concat(branchDrawInfo.branch.lineList)
   Gdata = Gdata.concat(detailDrawInfo.data);
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
+
+  
+  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, designModel, armGroup, intervention);
+  Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   // gather altogether
   return {
@@ -78,9 +80,6 @@ export function visualization(data) {
     Gframes,
     Gconfig,
   };
-
-  // writeIntervention(ax, startPoint, startH, armGLinePoint1, armGW, armGArrowW, designModel, armGroup, intervention);
-
   // let durationPoint = new Point(armGLinePoint1.x+armGW+armGArrowW+1, allocationPoint.y-startH);
   // let numArm = armGroup.armGroupLabel.length;
 

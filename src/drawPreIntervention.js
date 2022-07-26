@@ -47,13 +47,19 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           x: numberPoint.x + numberW / 2,
           y: numberPoint.y - delta,
           text: 'M=' + masking,
-          showarrow: false
+          showarrow: false,
+          font:{
+            size: 10
+          }
         },
         { //enrollment
           x: numberPoint.x + numberW / 2,
           y: numberPoint.y + delta,
           text: 'N=' + enrollment,
-          showarrow: false
+          showarrow: false,
+          font:{
+            size: 10
+          }
         },
         { //allocation
           x: allocationPoint.x,
@@ -63,8 +69,12 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
         },
         {// ratio
           x: allocationPoint.x,
-          y: allocationPoint.y + radius,
+          y: allocationPoint.y + radius/deltaRadius,
+          yanchor: "bottom",
           text: ratio,
+          font:{
+            size: 7
+          },
           showarrow: false
         },
 
