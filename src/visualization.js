@@ -42,7 +42,6 @@ export function visualization(data) {
   Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
   Glayout.annotations = Glayout.annotations.concat(popDrawInfo.layout.annotations)
   Glayout.annotations = Glayout.annotations.concat(preInterDrawInfo.layout.annotations);
-  console.log(Glayout);
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;

@@ -59,6 +59,9 @@ export function drawInfoTrial(
           font: {
             size: 13,
           },
+          bordercolor: '#c7c7c7',
+          align: 'left',
+          // captureevents: true,
         },
         {
           x: titlePoint.x,
@@ -69,6 +72,9 @@ export function drawInfoTrial(
           font: {
             size: 16,
           },
+          bordercolor: '#c7c7c7',
+          align: 'left',
+          // captureevents: true,
         },
         {
           x: officialPoint.x,
@@ -79,9 +85,24 @@ export function drawInfoTrial(
           font: {
             size: 13,
           },
-        },{
+          bordercolor: '#c7c7c7',
+          align: 'left',
+          // captureevents: true,
+        },
+        {
+          x: officialPoint.x + 10,
+          y: legendPoint.y - (numArm + 1) * startH / 3,
+          text: 'EDIT',
+          showarrow: false,
+          font: {
+            size: 15,
+          },
+          bordercolor: 'black',
+          captureevents: true,
+        },
+        {
           x: durationPoint.x,
-          y: durationPoint.y-0.05,
+          y: durationPoint.y - 0.05,
           text: completeTime,
           showarrow: false,
           font: {
