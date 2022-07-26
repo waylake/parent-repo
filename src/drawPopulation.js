@@ -20,28 +20,30 @@ export function countLine(inString, limit) {
 
 export function drawPopulation(startPoint, startW, box, population) {
   const condition = population.condition;
-  const gender = population.gender;
-  const healthyCondition = population.healthyCondition;
-  const maxAge = population.maxAge;
-  const minAge = population.minAge;
+  let gender = population.gender;
+  let healthyCondition = population.healthyCondition;
+  let maxAge = population.maxAge;
+  let minAge = population.minAge;
+
+  const dy = 0.06; //위치 조절량
 
   //높이 구하기
-  let result = countLine("<b>Condition:</b> " + condition, 20);
-  let cLine = result[0];
-  let conditionText = result[1];
+  let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 20);
   let height = (cLine + 3) / 15;
 
-  let popContent = "" + conditionText + "<br>";
-  popContent += "<b>Gender:</b> " + gender + "<br>"
-  popContent += "<b>Healthy condition:</b> " + healthyCondition + "<br>"
-  popContent += "<b>minAge:</b> " + minAge + "<br>"
-  popContent += "<b>maxAge:</b> " + maxAge + "<br>"
+  gender = "<b>Gender:</b> " + gender;
+  healthyCondition = "<b>Healthy condition:</b> " + healthyCondition;
+  maxAge = "<b>Max age:</b> " + maxAge;
+  minAge = "<b>Min age:</b> " + minAge;
+
 
   return {
     layout: {
       shapes: [
         {
           type: "rect",
+          // xref: "x",
+          // yref: "y",
           // fillcolor: "rgba(50, 171, 96, 0.7)",
           x0: startPoint.x,
           y0: startPoint.y,
@@ -58,12 +60,65 @@ export function drawPopulation(startPoint, startW, box, population) {
         xanchor: 'left',
         yanchor: 'top',
         align: 'left',
-        text: popContent,
+        text: conditionText,
         showarrow: false,
+        name: 'population',
         font: {
           size: 11,
         }
-      }]
+      },
+      {
+        x: startPoint.x,
+        y: startPoint.y + height - cLine * dy,
+        xanchor: 'left',
+        yanchor: 'top',
+        align: 'left',
+        text: gender,
+        showarrow: false,
+        name: 'population',
+        font: {
+          size: 11,
+        }
+      },
+      {
+        x: startPoint.x,
+        y: startPoint.y + height - ++cLine * dy,
+        xanchor: 'left',
+        yanchor: 'top',
+        align: 'left',
+        text: healthyCondition,
+        showarrow: false,
+        name: 'population',
+        font: {
+          size: 11,
+        }
+      },
+      {
+        x: startPoint.x,
+        y: startPoint.y + height - ++cLine * dy,
+        xanchor: 'left',
+        yanchor: 'top',
+        align: 'left',
+        text: maxAge,
+        showarrow: false,
+        name: 'population',
+        font: {
+          size: 11,
+        }
+      },
+      {
+        x: startPoint.x,
+        y: startPoint.y + height - ++cLine * dy,
+        xanchor: 'left',
+        yanchor: 'top',
+        align: 'left',
+        text: minAge,
+        showarrow: false,
+        name: 'population',
+        font: {
+          size: 11,
+        }
+      },]
     },
     startH: height,
   };
