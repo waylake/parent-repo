@@ -12,7 +12,7 @@ export function drawInfoTrial(
   const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
   const title = countLine("Title: " + infoTrial.title, 75)[1];
   const OfficialTitle = countLine("Official Title: " + infoTrial.officialTitle, 110)[1];
-  const completeTime = countLine(infoTrial.completeTime + " months required to complete", 20)[1];
+  const completeTime = infoTrial.completeTime + " months<br>required to complete";
   // #objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.3);
 
@@ -42,6 +42,7 @@ export function drawInfoTrial(
           width: 1,
         },
         showlegend: false,
+        hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       },
     ],
     layout: {

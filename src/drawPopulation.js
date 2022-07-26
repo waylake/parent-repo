@@ -25,14 +25,11 @@ export function drawPopulation(startPoint, startW, box, population) {
   const maxAge = population.maxAge;
   const minAge = population.minAge;
 
-  let dx = 0.1;
-  let dy = 0.1; //위치 조절량
-
   //높이 구하기
   let result = countLine("<b>Condition:</b> " + condition, 20);
   let cLine = result[0];
   let conditionText = result[1];
-  let height = (cLine + 3) / 10;
+  let height = (cLine + 3) / 15;
 
   let popContent = "" + conditionText + "<br>";
   popContent += "<b>Gender:</b> " + gender + "<br>"
