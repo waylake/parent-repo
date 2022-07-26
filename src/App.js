@@ -44,9 +44,9 @@ class App extends React.Component {
           showticklabels: false,
         },
         // legend position
-        legend:{
-          x:0.04, //x: -2~3
-          y:0.28, //y: -2~3
+        legend: {
+          x: 0.04, //x: -2~3
+          y: 0.28, //y: -2~3
         }
       },
       frames: [],
@@ -62,6 +62,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.layout);
     return (
       <div>
         <Plot
@@ -73,6 +74,7 @@ class App extends React.Component {
           onUpdate={(figure) => this.setState(figure)}
           onClickAnnotation={e => {
             if (e.annotation.text === 'EDIT') { // edit 버튼 누르면
+              // editable하게 바꾸기
               this.setState({
                 config: {
                   edits: {
@@ -80,15 +82,20 @@ class App extends React.Component {
                   },
                 }
               });
+              // Layout값 바꾸기
               const newLayout = { ...this.state.layout };
-              const re = /<\/?[br]+>/g;
-              for (let i = 0; i < this.state.layout.annotations.length; i++) {
-                newLayout.annotations[i].text = this.state.layout.annotations[i].text.replace(re, ' ');
-                if (newLayout.annotations[i].text === 'EDIT') newLayout.annotations[i].text = 'COMPLETE'
+              const annot = newLayout.annotations;
+              const re1 = /<br>/g; //br태그 정규표현식
+              const re2 = /<\/?b>/g; //b태그 정규표현식
+              for (let i = 0; i < annot.length; i++) {
+                annot[i].text = annot[i].text.replace(re1, ' ');
+                annot[i].text = annot[i].text.replace(re2, '');
+                if (annot[i].text === 'EDIT') annot[i].text = 'COMPLETE'
               }
               this.setState({
                 layout: newLayout
               });
+              console.log(newLayout);
             }// complete 버튼 누르면
             else if (e.annotation.text === 'COMPLETE') {
               this.setState({
@@ -111,10 +118,22 @@ class App extends React.Component {
             });
             //br태그 추가
             const newLayout = { ...this.state.layout };
-            for (let i = 1; i < this.state.layout.annotations.length; i++) {
-              newLayout.annotations[i].text = countLine(newLayout.annotations[i].text, 70)[1];
-              if (newLayout.annotations[i].text === 'COMPLETE') newLayout.annotations[i].text = 'EDIT'
+            const annot = newLayout.annotations;
+            for (let i = 0; i < annot.length; i++) {
+              if (annot[i].name === 'population') {
+                const idx = annot[i].text.indexOf(':');
+                const front = annot[i].text.substring(0, idx + 1);
+                const back = annot[i].text.substring(idx + 1);
+
+                annot[i].text = `<b>${front}</b>${back}`;
+                if (i === 0) annot[i].text = countLine(annot[i].text, 20)[1];
+              }
+              else {
+                annot[i].text = countLine(annot[i].text, 70)[1];
+                if (annot[i].text === 'COMPLETE') annot[i].text = 'EDIT';
+              }
             }
+            console.log(newLayout);
             this.setState({
               layout: newLayout
             });
