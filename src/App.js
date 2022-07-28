@@ -1,26 +1,21 @@
 import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
+//컴포넌트
+import Button from './component/Button'
+import Search from './component/Search'
+//함수
 import { getInfo } from "./visualization/DataExtraction";
 import { visualization } from "./visualization/visualization";
 import { countLine } from "./visualization/drawPopulation";
+//state
 import { useState } from 'react';
+//아이콘
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
+
 
 // import $ from "jquery";
-
-function Button(props) {
-  return <input className="button" type="button" value={props.click} onClick={e => {
-    e.preventDefault();
-    props.onChangeMode();
-  }}></input>
-}
-
-function Search() {
-  return <div>
-    <input type="text" placeholder="URL 입력" name="url"></input>
-    <button type="submit">모식도 생성</button>
-  </div>
-}
 
 
 function App() {
@@ -36,13 +31,6 @@ function App() {
   let annotations = vLayout.annotations;
   let width = 800;
   let height = 800;
-
-
-  // const icon1 = {
-  //   width: 500,
-  //   height: 600,
-  //   path: 'M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z'
-  // }
 
 
   const [data, setData] = useState(vData);
@@ -76,24 +64,16 @@ function App() {
     edits: {
       annotationText: false,
     },
-    modeBarButtonsToAdd: [],
-    modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d'],
+    // modeBarButtonsToAdd: ['sendDataToCloud'],
+    modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d', 'autoScale2d',],
     displayModeBar: true,
   });
-  // var Plotly = require("plotly.js/lib/core");
-  // Plotly.setPlotConfig({
-  //   modeBarButtonsToAdd: [{
-  //     name: 'text edit',
-  //     icon: icon1,
-  //   }],
-  //   modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d'],
-  // });
-  // module.exports = Plotly;
+
   const [mode, setMode] = useState('READ');
 
   let content = '';
   if (mode === 'READ') { //READ 모드일때 edit버튼
-    content = <Button click='E' onChangeMode={() => {
+    content = <Button icon={faPenToSquare} onChangeMode={() => {
       // editable하게 바꾸기
       const newConfig = { ...config };
       newConfig.edits.annotationText = true;
@@ -106,6 +86,7 @@ function App() {
       // Layout값 바꾸기
       const newLayout = { ...layout };
       const annot = newLayout.annotations;
+      console.log(annot);
       const re1 = /<br>/g; //br태그 정규표현식
       const re2 = /<\/?b>/g; //b태그 정규표현식
       for (let i = 0; i < annot.length; i++) {
@@ -118,7 +99,7 @@ function App() {
   }
 
   else if (mode === 'EDIT') {
-    content = <Button click='S' onChangeMode={() => {
+    content = <Button icon={faFloppyDisk} onChangeMode={() => {
       // editable: false
       const newConfig = { ...config };
       newConfig.edits.annotationText = false;
@@ -127,13 +108,14 @@ function App() {
       //br태그 추가
       const newLayout = { ...layout };
       const annot = newLayout.annotations;
-      for (let i = 0; i < annot.length; i++) {
+      console.log(annot);
+      annot[0].text = countLine(annot[0].text, 20)[1];
+      for (let i = 1; i < annot.length; i++) {
         if (annot[i].name === 'population') {
           const idx = annot[i].text.indexOf(':');
           const front = annot[i].text.substring(0, idx + 1);
           const back = annot[i].text.substring(idx + 1);
           annot[i].text = `<b>${front}</b>${back}`;
-          if (i === 0) annot[i].text = countLine(annot[i].text, 20)[1];
         }
         else {
           annot[i].text = countLine(annot[i].text, 70)[1];
