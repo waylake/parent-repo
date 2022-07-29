@@ -11,10 +11,10 @@ export function drawInfoTrial(
 ) {
   const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
   const title = countLine("Title: " + infoTrial.title, 75)[1];
-  const OfficialTitle = countLine("Official Title: " + infoTrial.officialTitle, 110)[1];
+  const officialTitle = countLine("Official Title: " + infoTrial.officialTitle, 110)[1];
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
   // #objective
-  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.3);
+  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
 
   // bboxString(ax, objPoint.x, objPoint.y, "Objective: " + infoTrial.objective, 130, 15, 1)
 
@@ -59,6 +59,7 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'objective'],
           // captureevents: true,
         },
         {
@@ -73,12 +74,13 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'title'],
           // captureevents: true,
         },
         {
           x: officialPoint.x,
           y: legendPoint.y - startH / 3,
-          text: OfficialTitle,
+          text: officialTitle,
           showarrow: false,
           xanchor: 'left',
           yanchor: 'top',
@@ -87,6 +89,7 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'officialTitle'],
           // captureevents: true,
         },
         { // complete time
@@ -97,6 +100,7 @@ export function drawInfoTrial(
           font: {
             size: 8,
           },
+          name: ['infoTrial', 'completeTime'],
         }
       ]
     }

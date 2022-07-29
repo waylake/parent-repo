@@ -29,7 +29,7 @@ export function visualization(data) {
     ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
     fc: (1.0, 0.8, 0.8),
   };
-  const popDrawInfo = drawPopulation(startPoint, startW, box1, population);
+  const popDrawInfo = drawPopulation(startPoint, startW, population);
   const startH = popDrawInfo.startH
   const numberPoint = new Point(startPoint.x + startW, startPoint.y + startH / 2);
   const numberW = 2;
@@ -69,7 +69,7 @@ export function visualization(data) {
   Gdata = Gdata.concat(detailDrawInfo.data);
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
 
-  
+
   let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention);
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
