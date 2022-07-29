@@ -18,9 +18,38 @@ export function visualization(data) {
   let Glayout = {
     shapes: [],
     annotations: [],
+    yaxis: {
+      range: [],
+      showgrid: false,
+      showticklabels: false,
+    },
+    width: 800,
+    height: 800,
+    // autosize: true,
+    xaxis: {
+      range: [9, 29],
+      showgrid: false,
+      showticklabels: false,
+    },
+    // legend position
+    legend: {
+      x: 0.04, //x: -2~3
+      y: 0.44, //y: -2~3
+      font: {
+        size: 9,
+      }
+    }
   };
   let Gframes = [];
-  let Gconfig = {};
+  let Gconfig = {
+    edits: {
+      annotationText: false,
+    },
+    scrollZoom: true,
+    // modeBarButtonsToAdd: ['sendDataToCloud'],
+    modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d', 'autoScale2d',],
+    displayModeBar: true,
+  };
 
   let startPoint = new Point(10, 10);
   let startW = 5;
@@ -68,6 +97,7 @@ export function visualization(data) {
   Gdata = Gdata.concat(branchDrawInfo.branch.lineList)
   Gdata = Gdata.concat(detailDrawInfo.data);
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
+  Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange);
 
 
   let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention);

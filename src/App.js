@@ -20,48 +20,18 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 function App() {
   const dataJson = getInfo("put url in this area");
   let visualizationInfo = visualization(dataJson);
+  console.log(visualizationInfo);
   //data
   let vData = visualizationInfo.Gdata;
 
   //Layout
   let vLayout = visualizationInfo.Glayout;
+  let vConfig = visualizationInfo.Gconfig;
 
   const [data, setData] = useState(vData);
-  const [layout, setLayout] = useState({
-    width: 800,
-    height: 800,
-    // autosize: true,
-    annotations: vLayout.annotations,
-    shapes: vLayout.shapes,
-    xaxis: {
-      range: [9, 29],
-      // showgrid: false,
-      // showticklabels: false,
-    },
-    yaxis: {
-      range: [9, 11],
-      // showgrid: false,
-      // showticklabels: false,
-    },
-    // legend position
-    legend: {
-      x: 0.04, //x: -2~3
-      y: 0.44, //y: -2~3
-      font: {
-        size: 9,
-      }
-    }
-  });
+  const [layout, setLayout] = useState(vLayout);
   const [frames, setFrames] = useState([]);
-  const [config, setConfig] = useState({
-    edits: {
-      annotationText: false,
-    },
-    scrollZoom: true,
-    // modeBarButtonsToAdd: ['sendDataToCloud'],
-    modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d', 'autoScale2d',],
-    displayModeBar: true,
-  });
+  const [config, setConfig] = useState(vConfig);
 
   const [mode, setMode] = useState('READ');
 
@@ -83,6 +53,9 @@ function App() {
       for (let i = 0; i < annot.length; i++) {
         annot[i].text = annot[i].text.replace(re1, ' ');
         annot[i].text = annot[i].text.replace(re2, '');
+        if (typeof annot[i].name === 'object' && annot[i].name[1] === 'completeTime') {
+          //completeTIme 숫자만 남겨
+        }
       }
       setLayout(newLayout);
       setMode('EDIT');
@@ -97,8 +70,8 @@ function App() {
       setConfig(newConfig);
 
       //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
-      const newLayout = { ...layout };
-      const annot = newLayout.annotations;
+
+      const annot = layout.annotations;
       const populationList = [];
       const infoTrialList = [];
 
@@ -128,9 +101,7 @@ function App() {
       }
 
       const newVisualizationInfo = visualization(dataJson);
-      newLayout.annotations = newVisualizationInfo.Glayout.annotations;
-      newLayout.shapes = newVisualizationInfo.Glayout.shapes;
-      setLayout(newLayout);
+      setLayout(newVisualizationInfo.Glayout);
       setData(newVisualizationInfo.Gdata);
       setMode('READ');
     }}>
