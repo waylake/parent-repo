@@ -1,0 +1,819 @@
+{
+    "Allocation": "Randomized",
+    "CompleteTime": 13,
+    "DesignModel": "Crossover Assignment",
+    "DrugInformation": {
+        "ArmGroupList": [
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence ABC",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence BCA",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence CAB",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence ACB",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence BAC",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1A: Treatment Sequence CBA",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence DEF",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence EFD",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence FDE",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence DFE",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence EDF",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 1B: Treatment Sequence FED",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 2A: Treatment Sequence GH",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 2A: Treatment Sequence HG",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 2B: Treatment Sequence IJ",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 2B: Treatment Sequence JI",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence KLM",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence LMK",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence MKL",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence KML",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence LKM",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3A: Treatment Sequence MLK",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence NOP",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence OPN",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence PNO",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence NPO",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence ONP",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 3B: Treatment Sequence PON",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4 A: Treatment Sequence QRS",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4A: Treatment Sequence RSQ",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4A: Treatment Sequence SQR",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4A: Treatment Sequence QSR",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4A: Treatment Sequence RQS",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4A: Treatment Sequence SRQ",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4B: Treatment Sequence TU",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 4B: Treatment Sequence UT",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Subpart 4A: Treatment Sequence VW",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Subpart 4A: Treatment Sequence WV",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence XYZ",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence YZX",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence ZXY",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence XZY",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence YXZ",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            },
+            {
+                "ArmGroupDescription": "milvexian: 1 5 days , ",
+                "ArmGroupLabel": "Part 5: Treatment Sequence ZYX",
+                "ArmGroupType": "Experimental",
+                "InterventionDescription": [
+                    {
+                        "Dosage": "1",
+                        "DrugName": "milvexian",
+                        "Duration": "5 days",
+                        "HowToTake": ""
+                    }
+                ],
+                "InterventionList": {
+                    "ArmGroupInterventionName": [
+                        "Drug: Milvexian"
+                    ]
+                }
+            }
+        ]
+    },
+    "Enrollment": "115",
+    "InterventionName": "",
+    "Masking": "None (Open Label)",
+    "NCTID": "NCT04844424",
+    "Objective": "A Study of JNJ-70033093 (Milvexian) in Healthy Adult Participants",
+    "OfficialTitle": "An Open-Label, Randomized, Crossover Study to Evaluate the Relative Oral Bioavailability, Pharmacokinetics, and Food Effect After Single Dose (for Part 1, Part 3, Part 4 and Part 5) or Multiple-Dose (for Part 2) Administration of JNJ-70033093 (Milvexian) in Healthy Adult Participants Using Tablet, Capsule and Dispersed Tablet Formulations",
+    "PopulationBox": {
+        "Condition": "Healthy",
+        "Gender": "All",
+        "HealthyCondition": "Accepts Healthy Volunteers",
+        "MaxAge": "55 Years",
+        "MinAge": "18 Years",
+        "Participant": "115"
+    },
+    "PopulationRatio": "",
+    "Title": "A Study of JNJ-70033093 (Milvexian) in Healthy Adult Participants",
+    "WashoutPeriod": "5 days",
+    "_id": "NCT04844424"
+}

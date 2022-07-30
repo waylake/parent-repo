@@ -10,11 +10,11 @@ export function drawInfoTrial(
   infoTrial
 ) {
   const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
-  const title = countLine("Title: " + infoTrial.title, 75)[1];
-  const OfficialTitle = countLine("Official Title: " + infoTrial.officialTitle, 110)[1];
+  const [titleLine, title] = countLine("Title: " + infoTrial.title, 75);
+  const [officialTitleLine, officialTitle] = countLine("Official Title: " + infoTrial.officialTitle, 110);
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
   // #objective
-  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.3);
+  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
 
   // bboxString(ax, objPoint.x, objPoint.y, "Objective: " + infoTrial.objective, 130, 15, 1)
 
@@ -30,7 +30,7 @@ export function drawInfoTrial(
   // // # infoTrial.official title
   const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
   // bboxString(ax, officialPoint.x, legendPoint.y - (numArm+1)*startH/3, "Official Title: " +  info_trial.official_title, 110, 15, 1)
-
+  const yRange = [officialPoint.y - officialTitleLine / 10, titlePoint.y + titleLine / 10]
   return {
     data: [
       {
@@ -59,6 +59,7 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'objective'],
           // captureevents: true,
         },
         {
@@ -73,12 +74,13 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'title'],
           // captureevents: true,
         },
         {
           x: officialPoint.x,
-          y: legendPoint.y - startH/3,
-          text: OfficialTitle,
+          y: legendPoint.y - startH / 3,
+          text: officialTitle,
           showarrow: false,
           xanchor: 'left',
           yanchor: 'top',
@@ -87,19 +89,8 @@ export function drawInfoTrial(
           },
           bordercolor: '#c7c7c7',
           align: 'left',
+          name: ['infoTrial', 'officialTitle'],
           // captureevents: true,
-        },
-        {
-          x: officialPoint.x,
-          y: legendPoint.y - startH/2 - 0.2,
-          text: 'EDIT',
-          showarrow: false,
-          xanchor: 'left',
-          font: {
-            size: 15,
-          },
-          bordercolor: 'black',
-          captureevents: true,
         },
         { // complete time
           x: durationPoint.x,
@@ -109,8 +100,10 @@ export function drawInfoTrial(
           font: {
             size: 8,
           },
+          name: ['infoTrial', 'completeTime'],
         }
       ]
-    }
+    },
+    yRange: yRange,
   };
 }

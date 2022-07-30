@@ -1,150 +1,133 @@
 import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
-import getInfo from "./DataExtraction";
-import { visualization } from "./visualization";
-import { countLine } from "./drawPopulation";
+//컴포넌트
+import Button from './component/Button'
+import Search from './component/Search'
+//함수
+import { getInfo } from "./visualization/DataExtraction";
+import { visualization } from "./visualization/visualization";
+//state
+import { useState } from 'react';
+//아이콘
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
+
+
 // import $ from "jquery";
 
 
+function App() {
+  const dataJson = getInfo("put url in this area");
+  let visualizationInfo = visualization(dataJson);
+  console.log(visualizationInfo);
+  //data
+  let vData = visualizationInfo.Gdata;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+  //Layout
+  let vLayout = visualizationInfo.Glayout;
+  let vConfig = visualizationInfo.Gconfig;
 
-    let dataJson = getInfo("put url in this area");
-    let visualizationInfo = visualization(dataJson);
+  const [data, setData] = useState(vData);
+  const [layout, setLayout] = useState(vLayout);
+  const [frames, setFrames] = useState([]);
+  const [config, setConfig] = useState(vConfig);
 
-    //data
-    let vData = visualizationInfo.Gdata;
-
-    //Layout
-    let vLayout = visualizationInfo.Glayout;
-    let shapes = vLayout.shapes;
-    let annotations = vLayout.annotations;
-    let width = 800;
-    let height = 800;
+  const [mode, setMode] = useState('READ');
 
 
-    this.state = {
-      data: vData,
-      layout: {
-        width,
-        height,
-        annotations,
-        shapes,
-        xaxis: {
-          range: [9, 29],
-          showgrid: false,
-          showticklabels: false,
-        },
-        yaxis: {
-          range: [9, 11],
-          showgrid: false,
-          showticklabels: false,
-        },
-        // legend position
-        legend: {
-          x: 0.04, //x: -2~3
-          y: 0.44, //y: -2~3
-          font: {
-            size: 9,
+  let content = '';
+  if (mode === 'READ') { //READ 모드일때 edit버튼
+    content = <Button icon={faPenToSquare} onChangeMode={() => {
+      // editable하게 바꾸기
+      const newConfig = { ...config };
+      newConfig.edits.annotationText = true;
+      setConfig(newConfig);
+
+      // Layout값 바꾸기
+      const newLayout = { ...layout };
+      const annot = newLayout.annotations;
+
+      const re1 = /<br>/g; //br태그 정규표현식
+      const re2 = /<\/?b>/g; //b태그 정규표현식
+      for (let i = 0; i < annot.length; i++) {
+        annot[i].text = annot[i].text.replace(re1, ' ');
+        annot[i].text = annot[i].text.replace(re2, '');
+        if (typeof annot[i].name === 'object' && annot[i].name[1] === 'completeTime') {
+          //completeTIme 숫자만 남겨
+        }
+      }
+      setLayout(newLayout);
+      setMode('EDIT');
+    }} ></Button>;
+  }
+
+  else if (mode === 'EDIT') {
+    content = <Button icon={faFloppyDisk} onChangeMode={() => {
+      // editable: false
+      const newConfig = { ...config };
+      newConfig.edits.annotationText = false;
+      setConfig(newConfig);
+
+      //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+
+      const annot = layout.annotations;
+      const populationList = [];
+      const infoTrialList = [];
+
+      for (let i = 0; i < annot.length; i++) {
+        const idx = annot[i].text.indexOf(':');
+        annot[i].text = annot[i].text.substring(idx + 2);
+        if (typeof annot[i].name === 'object' && annot[i].name[0] === 'population') {
+          populationList.push(annot[i]);
+        }
+        else if (typeof annot[i].name === 'object' && annot[i].name[0] === 'infoTrial') {
+          infoTrialList.push(annot[i]);
+        }
+      }
+      for (let i = 0; i < populationList.length; i++) {
+        for (let key in dataJson.population) {
+          if (key === populationList[i].name[1]) {
+            dataJson.population[key] = populationList[i].text;
           }
         }
-      },
-      frames: [],
-      config: {
-        // staticPlot: true, 
-        edits: {
-          annotationText: false,
-        },
-        modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d'],
-      },
-
-    };
-  }
-
-  render() {
-    console.log(this.state.layout);
-    return (
-      <div>
-        <Plot
-          layout={this.state.layout}
-          data={this.state.data}
-          frames={this.state.frames}
-          config={this.state.config}
-          onInitialized={(figure) => this.setState(figure)}
-          onUpdate={(figure) => this.setState(figure)}
-          onClickAnnotation={e => {
-            if (e.annotation.text === 'EDIT') { // edit 버튼 누르면
-              // editable하게 바꾸기
-              this.setState({
-                config: {
-                  edits: {
-                    annotationText: true,
-                  },
-                }
-              });
-              // Layout값 바꾸기
-              const newLayout = { ...this.state.layout };
-              const annot = newLayout.annotations;
-              const re1 = /<br>/g; //br태그 정규표현식
-              const re2 = /<\/?b>/g; //b태그 정규표현식
-              for (let i = 0; i < annot.length; i++) {
-                annot[i].text = annot[i].text.replace(re1, ' ');
-                annot[i].text = annot[i].text.replace(re2, '');
-                if (annot[i].text === 'EDIT') annot[i].text = 'COMPLETE'
-              }
-              this.setState({
-                layout: newLayout
-              });
-              console.log(newLayout);
-            }// complete 버튼 누르면
-            else if (e.annotation.text === 'COMPLETE') {
-              this.setState({
-                config: {
-                  edits: {
-                    annotationText: false,
-                  },
-                }
-              });
-            }
-          }//click annotations event
+      }
+      for (let i = 0; i < infoTrialList.length; i++) {
+        for (let key in dataJson.infoTrial) {
+          if (key === infoTrialList[i].name[1]) {
+            dataJson.infoTrial[key] = infoTrialList[i].text;
           }
-          onClick={() => { //임시 완료 버튼
-            this.setState({
-              config: {
-                edits: {
-                  annotationText: false,
-                },
-              }
-            });
-            //br태그 추가
-            const newLayout = { ...this.state.layout };
-            const annot = newLayout.annotations;
-            for (let i = 0; i < annot.length; i++) {
-              if (annot[i].name === 'population') {
-                const idx = annot[i].text.indexOf(':');
-                const front = annot[i].text.substring(0, idx + 1);
-                const back = annot[i].text.substring(idx + 1);
+        }
+      }
 
-                annot[i].text = `<b>${front}</b>${back}`;
-                if (i === 0) annot[i].text = countLine(annot[i].text, 20)[1];
-              }
-              else {
-                annot[i].text = countLine(annot[i].text, 70)[1];
-                if (annot[i].text === 'COMPLETE') annot[i].text = 'EDIT';
-              }
-            }
-            console.log(newLayout);
-            this.setState({
-              layout: newLayout
-            });
-          }}
-        />
-      </div>
-    );
+      const newVisualizationInfo = visualization(dataJson);
+      setLayout(newVisualizationInfo.Glayout);
+      setData(newVisualizationInfo.Gdata);
+      setMode('READ');
+    }}>
+    </Button>
   }
+
+  return (
+    <div className="container">
+      <div className="url">
+        <Search className></Search>
+      </div>
+      <Plot
+        className="plot"
+        layout={layout}
+        data={data}
+        frames={frames}
+        config={config}
+      // onInitialized={(figure) => useState(figure)}
+      // onUpdate={(figure) => useState(figure)}
+      />
+
+      <div className="buttonDiv">
+        {content}
+      </div>
+    </div>
+  );
 }
 
 export default App;

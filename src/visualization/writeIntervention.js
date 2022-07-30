@@ -42,7 +42,7 @@ export function writeIntervention(
 
     let interObj = {
       x: textStartX,
-      y: startPoint.y + startH / 2 ,
+      y: startPoint.y + startH / 2,
       xanchor: "left",
       yanchor: "bottom",
       align: "left",
@@ -51,11 +51,11 @@ export function writeIntervention(
         size: 10,
       },
       showarrow: false,
-      hovertext: drugDescription+ ": " +drugHowToTake+ "<br>",
+      hovertext: drugDescription + ": " + drugHowToTake + "<br>",
       hoverlabel: {
         bgcolor: "rgba(0,0,0,0.1)",
         bordercolor: "rgba(0,0,0,0.1)",
-        font:{
+        font: {
           size: 12,
           color: 'black',
         }
@@ -78,13 +78,13 @@ export function writeIntervention(
     annotations.push(interDur);
   } else if (designModel === "Crossover Assignment") {
     for (let i = 0; i < numBranch; i++) {
-      drugDescription ="";
+      drugDescription = "";
       onlyDrug = "";
       drugInfo = armG.interventionDescription[i];
       for (let j = 0; j < drugInfo.length; j++) {
         onlyDrug += drugInfo[j]["DrugName"] + " ";
         drugDescription +=
-          drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : "+drugHowToTake + "<br>";
+          drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
       }
 
       drugDescription = countLine(drugDescription, 15)[1];
@@ -103,7 +103,7 @@ export function writeIntervention(
         hoverlabel: {
           bgcolor: "rgba(0,0,0,0.1)",
           bordercolor: "rgba(0,0,0,0.1)",
-          font:{
+          font: {
             size: 12,
             color: 'black',
           }
@@ -125,7 +125,7 @@ export function writeIntervention(
         hoverlabel: {
           bgcolor: "rgba(0,0,0,0.1)",
           bordercolor: "rgba(0,0,0,0.1)",
-          font:{
+          font: {
             size: 12,
             color: 'black',
           }
@@ -138,7 +138,7 @@ export function writeIntervention(
     //write timeline
     let bfWashPoint = armGLinePoint1.x + armGW + armGArrowW / 3;
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
-    
+
 
     let timeObjB = {
       x: (armGLinePoint1.x + bfWashPoint) / 2,
@@ -168,7 +168,7 @@ export function writeIntervention(
       y: washH,
       yanchor: "top",
       align: "left",
-      text: intervention.washout_period,
+      text: "intervention.washout_period",   //예외 처리 필요
       font: {
         size: 9,
       },
@@ -200,7 +200,7 @@ export function writeIntervention(
         for (let j = 0; j < drugInfo.length; j++) {
           onlyDrug += drugInfo[j]["DrugName"] + " ";
           drugDescription +=
-            drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : "+drugHowToTake + "<br>";
+            drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
         }
         // drugDescription = countLine(drugDescription, 45)[1];
 
@@ -219,7 +219,7 @@ export function writeIntervention(
           hoverlabel: {
             bgcolor: "rgba(0,0,0,0.1)",
             bordercolor: "rgba(0,0,0,0.1)",
-            font:{
+            font: {
               size: 12,
               color: 'black',
             }

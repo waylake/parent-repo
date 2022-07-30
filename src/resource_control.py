@@ -3,22 +3,22 @@ import requests
 import re
 import boto3
 import json
-# #pip install sumy
-# # Importing the parser and tokenizer
-# from sumy.parsers.plaintext import PlaintextParser
-# from sumy.nlp.tokenizers import Tokenizer
-# # Import the LexRank summarizer
-# from sumy.summarizers.lex_rank import LexRankSummarizer
-# #pip install nltk
-# import nltk
-# #download only once 
-# #nltk.download('punkt')
+#pip install sumy
+# Importing the parser and tokenizer
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+# Import the LexRank summarizer
+from sumy.summarizers.lex_rank import LexRankSummarizer
+#pip install nltk
+import nltk
+#download only once 
+#nltk.download('punkt')
 import math
 import sys
 #multithreading part, no need for extra pip install
 from threading import Thread
 from queue import Queue
-import os
+import os, json
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
@@ -413,24 +413,49 @@ def get_drug_time(response):
     for value in protocolsection['ArmsInterventionsModule']['InterventionList']['Intervention']:
         for i in drug_dict:
             drug_dict[i.lower()]['DrugName'] = i.lower() 
-            if i == value["InterventionName"].lower():
+            if i == value["InterventionName"].lower().replace("drug: ","") or i in value["InterventionName"].lower().replace("drug: ",""):
                 try:
-                    DetectEntitiestext = value['InterventionDescription']
+                    DetectEntitiestext = value['InterventionDescription'].lower().replace("drug: ","")
                     test = acm_Entities(DetectEntitiestext) 
-                    for i2 in range(len(test['Entities'])):
-                        try:
-                            for i3 in range(len(test['Entities'][i2]['Attributes'])):
-                                if test['Entities'][i2]['Attributes'][i3]['Type'] == "ROUTE_OR_MODE":
-                                    drug_dict[i.lower()]['HowToTake'] = test['Entities'][i2]['Attributes'][i3]['Text'] 
-                                elif test['Entities'][i2]['Attributes'][i3]['Type'] == "DURATION":
-                                    drug_dict[i.lower()]['Duration'] = test['Entities'][i2]['Attributes'][i3]['Text']
-                                elif test['Entities'][i2]['Attributes'][i3]['Type'] == "DOSAGE":
-                                    drug_dict[i.lower()]['Dosage'] = test['Entities'][i2]['Attributes'][i3]['Text']
-                        except KeyError:
-                            pass
+                    # print(json.dumps(test,sort_keys=True, indent=4))
+                    for i2 in range(len(test['Entities'])):    
+                        if test['Entities'][i2]['Text'].lower() in i:    
+                            try:
+                                for i3 in range(len(test['Entities'][i2]['Attributes'])):
+                                    if test['Entities'][i2]['Attributes'][i3]['Type'] == "ROUTE_OR_MODE":
+                                        drug_dict[i.lower()]['HowToTake'] = test['Entities'][i2]['Attributes'][i3]['Text'] 
+                                    elif test['Entities'][i2]['Attributes'][i3]['Type'] == "DURATION":
+                                        drug_dict[i.lower()]['Duration'] = test['Entities'][i2]['Attributes'][i3]['Text']
+                                    elif test['Entities'][i2]['Attributes'][i3]['Type'] == "DOSAGE" or test['Entities'][i2]['Attributes'][i3]['Type'] == "STRENGTH":
+                                        drug_dict[i.lower()]['Dosage'] = test['Entities'][i2]['Attributes'][i3]['Text']
+                            except KeyError:
+                                pass
+                    if value["InterventionName"].lower().replace("drug: ","") in i:
+                        # print("---------------")
+                        # print()
+                        # print(test['UnmappedAttributes'])
+                        for i4 in range(len(test['UnmappedAttributes'])):
+                            try:
+
+                                print(test['UnmappedAttributes'][i4]['Attributes']['Text'])
+                                if test['UnmappedAttributes'][i4]['Attributes']['Type'] == "ROUTE_OR_MODE":
+                                    drug_dict[i.lower()]['HowToTake'] = test['UnmappedAttributes'][i4]['Attributes']['Text']
+                                elif test['UnmappedAttributes'][i4]['Attributes']['Type'] == "DURATION":
+                                    drug_dict[i.lower()]['Duration'] = test['UnmappedAttributes'][i4]['Attributes']['Text']
+                                elif test['UnmappedAttributes'][i4]['Attributes']['Type'] == "DOSAGE" or test['Entities'][i2]['Attributes'][i3]['Type'] == "STRENGTH":
+                                    drug_dict[i.lower()]['Dosage'] = test['UnmappedAttributes'][i4]['Attributes']['Text']    
+                            except KeyError:
+                                pass
+                        # elif value["InterventionName"].lower().replace("drug: ","") in i:
+                        #     for i3 in range(len(test['Entities'][i2])):
+                        #         if test['Entities'][i2]['Type'] == "ROUTE_OR_MODE":
+                        #             drug_dict[i.lower()]['HowToTake'] = test['Entities'][i2]['Text'] 
+                        #         elif test['Entities'][i2]['Type'] == "DURATION":
+                        #             drug_dict[i.lower()]['Duration'] = test['Entities'][i2]['Text']
+                        #         elif test['Entities'][i2]['Type'] == "DOSAGE" or test['Entities'][i2]['Type'] == "STRENGTH":
+                        #             drug_dict[i.lower()]['Dosage'] = test['Entities'][i2]['Text']
                 except KeyError:
                     pass
-
 ########################################################################################
 #밑에 코드는 ACM써서 ArmGroupdescription 부분에서 약물 복용법, 복용 주기 관련 내용 추출#
 ########################################################################################
@@ -920,7 +945,7 @@ def request_call(url):
         response = requests.get(newURL).json()
 
         NCTId = {"NCTID" : response['FullStudiesResponse']['FullStudies'][0]['Study']['ProtocolSection']['IdentificationModule']['NCTId']}
-
+        _id = {"_id" : response['FullStudiesResponse']['FullStudies'][0]['Study']['ProtocolSection']['IdentificationModule']['NCTId']}
         washout, drug_time, population_box = Queue(), Queue(), Queue()
         Thread(target=wrapper, args=(get_washout, response, washout)).start() 
         Thread(target=wrapper, args=(get_drug_time, response, drug_time)).start() 
@@ -944,11 +969,13 @@ def request_call(url):
         request_call.update(masking)
         request_call.update(intervention_name)
         request_call.update(NCTId)
+        #request_call.update(_id)
+        request_call = {**_id, **request_call}
 
 
 
         #print(request_call['population_ratio'])
-        script_dir = os.path.dirname(__file__).parent.parent
+        script_dir = os.path.dirname(__file__)
         file_path = os.path.join(script_dir, f"NCT_ID_database/{response['FullStudiesResponse']['FullStudies'][0]['Study']['ProtocolSection']['IdentificationModule']['NCTId']}.json")
         with open(file_path, 'w') as json_file:
                 json.dump(request_call, json_file,sort_keys=True, indent=4)
@@ -956,5 +983,7 @@ def request_call(url):
         return request_call
 
 
-if __name__ == "__main__":
-  request_call(sys.argv[1])
+## example ##
+#url = input()
+url = "https://clinicaltrials.gov/ct2/show/NCT04844424"
+print(request_call(url))

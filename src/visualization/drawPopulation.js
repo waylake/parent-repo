@@ -18,8 +18,8 @@ export function countLine(inString, limit) {
   return [n, brString];
 }
 
-export function drawPopulation(startPoint, startW, box, population) {
-  const condition = population.condition;
+export function drawPopulation(startPoint, startW, population) {
+  let condition = population.condition;
   let gender = population.gender;
   let healthyCondition = population.healthyCondition;
   let maxAge = population.maxAge;
@@ -62,7 +62,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         align: 'left',
         text: conditionText,
         showarrow: false,
-        name: 'population',
+        name: ['population', 'condition'],
         font: {
           size: 11,
         }
@@ -75,7 +75,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         align: 'left',
         text: gender,
         showarrow: false,
-        name: 'population',
+        name: ['population', 'gender'],
         font: {
           size: 11,
         }
@@ -88,7 +88,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         align: 'left',
         text: healthyCondition,
         showarrow: false,
-        name: 'population',
+        name: ['population', 'healthyCondition'],
         font: {
           size: 11,
         }
@@ -101,7 +101,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         align: 'left',
         text: maxAge,
         showarrow: false,
-        name: 'population',
+        name: ['population', 'maxAge'],
         font: {
           size: 11,
         }
@@ -114,7 +114,7 @@ export function drawPopulation(startPoint, startW, box, population) {
         align: 'left',
         text: minAge,
         showarrow: false,
-        name: 'population',
+        name: ['population', 'minAge'],
         font: {
           size: 11,
         }
