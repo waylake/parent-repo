@@ -45,8 +45,6 @@ export function visualization(data) {
     edits: {
       annotationText: false,
     },
-    scrollZoom: true,
-    // modeBarButtonsToAdd: ['sendDataToCloud'],
     modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d', 'autoScale2d',],
     displayModeBar: true,
   };
