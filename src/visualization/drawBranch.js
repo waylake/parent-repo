@@ -9,16 +9,6 @@ export function drawBranch(
   designModel,
   armG
 ) {
-  const colorBranch = [
-    "lightcoral",
-    "gold",
-    "limegreen",
-    "forestgreen",
-    "cornflowerblue",
-    "royalblue",
-    "violet",
-    "pink",
-  ];
   const armColorDict = {
     Experimental: "rgba(205, 31, 72, 1)", //coral
     "Active Comparator": "rgba(255, 210, 40, 1)", //gold
@@ -47,7 +37,7 @@ export function drawBranch(
           armGLinePoint1.x + armGW,
           armGLinePoint1.x + armGW + armGArrowW / 3,
           armGLinePoint1.x + armGW + (armGArrowW / 3) * 2,
-          armGLinePoint1.x + armGW + armGArrowW+0.5,
+          armGLinePoint1.x + armGW + armGArrowW + 0.5,
         ],
         y: [
           armGLinePoint1.y,
@@ -71,7 +61,7 @@ export function drawBranch(
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
     washH = armGLinePoint1.y - startH / 4 - 0.14;
     let timeLine = {
-      x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW+0.5],
+      x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW + 0.5],
       y: [washH, washH],
       mode: "lines",
       line: {
@@ -141,6 +131,6 @@ export function drawBranch(
     branch: {
       lineList,
     },
-    washHeight: {washH},
+    washHeight: { washH },
   };
 }
