@@ -3,7 +3,7 @@ import * as data from "./Data";
 export function getInfo(url) {
   // codes to run python file in javascript
 
-  const infoDict = require("./NCT00482833.json"); // read json file by using require method
+  const infoDict = require("./NCT03507790.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 

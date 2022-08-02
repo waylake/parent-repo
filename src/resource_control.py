@@ -985,5 +985,5 @@ def request_call(url):
 
 ## example ##
 #url = input()
-url = "https://clinicaltrials.gov/ct2/show/NCT04844424"
+url = "https://www.clinicaltrials.gov/ct2/show/NCT03507790?cond=A+Study+to+Evaluate+the+Safety+and+Efficacy+of+CT1812+in+Subjects+With+Mild+to+Moderate+Alzheimer%27s+Disease.&draw=2&rank=1"
 print(request_call(url))

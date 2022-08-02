@@ -12,6 +12,8 @@ import { useState } from 'react';
 //아이콘
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
+import { faGripLines } from "@fortawesome/free-solid-svg-icons";
+import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -39,8 +41,8 @@ function App() {
 
   let content = '';
   if (mode === 'READ') { //READ 모드일때 edit버튼을 누르면
-    content = <div>
-      <Button icon={faPenToSquare} onChangeMode={() => {
+    content =
+      <Button icon={faPenToSquare} className='edit' onChangeMode={() => {
         // editable하게 바꾸기
         const newConfig = { ...config };
         newConfig.edits.annotationText = true;
@@ -64,13 +66,12 @@ function App() {
         }
         setLayout(newLayout);
         setMode('EDIT');
-      }} ></Button>
-    </div>;
+      }} ></Button>;
   }
 
   else if (mode === 'EDIT') {//여기서는 datajson을 바꿔줘야함
     content = <div>
-      <Button icon={faFloppyDisk} onChangeMode={() => {
+      <Button icon={faFloppyDisk} className='edit' onChangeMode={() => {
         // editable: false
         const newConfig = { ...config };
         newConfig.edits.annotationText = false;
@@ -123,8 +124,9 @@ function App() {
         }
       }}>
       </Button>
-
-    </div>
+      <Button icon={faGripLines} className='parallel'></Button>
+      <Button icon={faShuffle} className='crossover'></Button>
+    </div>;
   }
 
   return (
