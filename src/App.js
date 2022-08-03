@@ -12,10 +12,7 @@ import { useState } from 'react';
 //아이콘
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
-import { faGripLines } from "@fortawesome/free-solid-svg-icons";
-import { faShuffle } from "@fortawesome/free-solid-svg-icons";
-
-
+// import {PythonShell} from 'python-shell';
 
 
 // import $ from "jquery";

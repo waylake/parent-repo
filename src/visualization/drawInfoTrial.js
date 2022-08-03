@@ -47,7 +47,7 @@ export function drawInfoTrial(
     ],
     layout: {
       annotations: [
-        {
+        { //objective
           x: objPoint.x,
           y: objPoint.y,
           text: objective,
@@ -62,7 +62,7 @@ export function drawInfoTrial(
           name: ['infoTrial', 'objective'],
           // captureevents: true,
         },
-        {
+        { //title
           x: titlePoint.x,
           y: titlePoint.y,
           text: title,
@@ -77,7 +77,7 @@ export function drawInfoTrial(
           name: ['infoTrial', 'title'],
           // captureevents: true,
         },
-        {
+        { // official title
           x: officialPoint.x,
           y: legendPoint.y - startH / 3,
           text: officialTitle,
