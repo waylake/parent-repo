@@ -27,8 +27,8 @@ export function drawPopulation(startPoint, startW, population) {
 
   gender = "<b>Gender:</b> " + gender;
   healthyCondition = "<b>Healthy condition:</b> " + healthyCondition;
-  maxAge = "<b>Max age:</b> " + maxAge;
   minAge = "<b>Min age:</b> " + minAge;
+  maxAge = "<b>Max age:</b> " + maxAge;
   const dy = 0.035; //위치 조절량
 
   //높이 구하기
@@ -48,7 +48,12 @@ export function drawPopulation(startPoint, startW, population) {
 
   let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 30);
   let height = popLine / 20;
-  console.log(popLine);
+  // console.log(popLine);
+
+  let [genderLine, genderText] = countLine(gender, 30);
+  let [healthyLine, healthyText] = countLine(healthyCondition, 30);
+  let [minAgeLine, minAgeText] = countLine(minAge, 30);
+  let [maxAgeLine, maxAgeText] = countLine(maxAge, 30);
 
   return {
     layout: {
@@ -95,7 +100,7 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: gender,
+          text: genderText,
           showarrow: false,
           name: ["population", "gender"],
           font: {
@@ -104,11 +109,11 @@ export function drawPopulation(startPoint, startW, population) {
         },
         {
           x: startPoint.x,
-          y: startPoint.y + height - ++cLine * dy,
+          y: startPoint.y + height - (cLine+genderLine) * dy,
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: healthyCondition,
+          text: healthyText,
           showarrow: false,
           name: ["population", "healthyCondition"],
           font: {
@@ -117,11 +122,11 @@ export function drawPopulation(startPoint, startW, population) {
         },
         {
           x: startPoint.x,
-          y: startPoint.y + height - ++cLine * dy,
+          y: startPoint.y + height - (cLine + genderLine + healthyLine) * dy,
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: minAge,
+          text: minAgeText,
           showarrow: false,
           name: ["population", "minAge"],
           font: {
@@ -130,11 +135,11 @@ export function drawPopulation(startPoint, startW, population) {
         },
         {
           x: startPoint.x,
-          y: startPoint.y + height - ++cLine * dy,
+          y: startPoint.y + height - (cLine + genderLine + healthyLine + minAgeLine) * dy,
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: maxAge,
+          text: maxAgeText,
           showarrow: false,
           name: ["population", "maxAge"],
           font: {
