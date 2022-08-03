@@ -86,7 +86,14 @@ export function drawBranch(
     };
     lineList.push(mark);
   } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
-    for (let i = 0; i < numBranch; i++) {
+    // limit number of branch
+    let numBranchLimit = numBranch
+    if(numBranch > 6){
+      numBranchLimit = 6
+    }
+
+    // draw Branch
+    for (let i = 0; i < numBranchLimit; i++) {
       let colorB = armColorDict[armG.armGroupType[i]];
       let lineLoc = {
         name: armG.armGroupType[i],
@@ -97,8 +104,8 @@ export function drawBranch(
         ],
         y: [
           armGLinePoint1.y,
-          startPoint.y + startH - i * (startH / (numBranch - 1)),
-          startPoint.y + startH - i * (startH / (numBranch - 1)),
+          startPoint.y + startH - i * (startH / (numBranchLimit - 1)),
+          startPoint.y + startH - i * (startH / (numBranchLimit - 1)),
         ],
         mode: "lines",
         line: {
