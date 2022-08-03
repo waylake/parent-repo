@@ -34,21 +34,21 @@ export function drawPopulation(startPoint, startW, population) {
   //높이 구하기
   let [popLine, popText] = countLine(
     "<b>Condition:</b> " +
-      condition +
-      "<br>" +
-      gender +
-      "<br>" +
-      healthyCondition +
-      "<br>" +
-      maxAge +
-      "<br>" +
-      minAge,
+    condition +
+    "<br>" +
+    gender +
+    "<br>" +
+    healthyCondition +
+    "<br>" +
+    maxAge +
+    "<br>" +
+    minAge,
     30
   );
 
   let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 30);
   let height = popLine / 20;
-  console.log(popLine);
+  // console.log(popLine);
 
   return {
     layout: {
