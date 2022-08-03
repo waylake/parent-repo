@@ -78,7 +78,7 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(interDur);
-  } else if (designModel === "Crossover Assignment") {
+  } else if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch===2)) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
@@ -198,8 +198,14 @@ export function writeIntervention(
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
   } else {
+
+    // limit number of branch
+    let numBranchLimit = numBranch
+    if(numBranch > 6){
+      numBranchLimit = 6
+    }
     // parallel, sequential...
-    for (let i = 0; i < numBranch; i++) {
+    for (let i = 0; i < numBranchLimit; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
       onlyDrug = "";
@@ -216,7 +222,7 @@ export function writeIntervention(
         //make letter object
         let interObj = {
           x: textStartX,
-          y: startPoint.y + startH - i * (startH / (numBranch - 1)),
+          y: startPoint.y + startH - i * (startH / (numBranchLimit - 1)),
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
@@ -238,7 +244,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW,
-          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1] - yRange[0]) / 20,
+          y: testStartY - i * (startH / (numBranchLimit - 1)) + (yRange[1] - yRange[0]) / 20,
           xanchor: "right",
           yanchor: "bottom",
           align: "left",
@@ -267,7 +273,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW - 0.3,
-          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1] - yRange[0]) / 20,
+          y: testStartY - i * (startH / (numBranchLimit - 1)) + (yRange[1] - yRange[0]) / 20,
           xanchor: "left",
           yanchor: "bottom",
           align: "left",

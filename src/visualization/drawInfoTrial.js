@@ -1,5 +1,26 @@
-import { countLine } from "./drawPopulation";
-import { Point } from "./Point";
+// import { countLine } from "./drawPopulation";
+// import { Point } from "./Point";
+
+// 단어 break해서라도 네모박스 라인 맞추기 위한 함수
+export function lineBreak(inString, limit) {
+  let point = 0;
+  let brString = [];
+  let n = 0;
+  while (inString.length > limit) {
+    n++;
+    point = inString.slice(0, limit).lastIndexOf("");
+    if (point === -1) {
+      brString += inString.slice(0, limit) + "<br>";
+      inString = inString.slice(limit);
+    } else {
+      brString += inString.slice(0, point) + "<br>";
+      inString = inString.slice(point + 1);
+    }
+  }
+  n++;
+  brString += inString;
+  return [n, brString];
+}
 
 export function drawInfoTrial(
   durationPoint,
@@ -12,9 +33,9 @@ export function drawInfoTrial(
   numArm,
   infoTrial
 ) {
-  const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
-  const [titleLine, title] = countLine("Title: " + infoTrial.title, 75);
-  const [officialTitleLine, officialTitle] = countLine("Official Title: " + infoTrial.officialTitle, 110);
+  const [objectiveLine, objective] = lineBreak("Objective: " + infoTrial.objective, 83);
+  const [titleLine, title] = lineBreak("Title: " + infoTrial.title, 67);
+  const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 98);
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
   
   const yRange = [officialPoint.y - officialTitleLine / 10, titlePoint.y + titleLine / 10]
