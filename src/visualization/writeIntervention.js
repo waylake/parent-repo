@@ -168,7 +168,7 @@ export function writeIntervention(
       y: washH,
       yanchor: "top",
       align: "left",
-      text: "intervention.washout_period",   //예외 처리 필요
+      text: "intervention.washout_period",
       font: {
         size: 9,
       },
