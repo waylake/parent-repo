@@ -31,8 +31,7 @@ export function writeIntervention(
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
     for (let i = 0; i < drugInfo.length; i++) {
-      onlyDrug +=
-        drugInfo[i]["DrugName"] + " ";
+      onlyDrug += (i + 1) === drugInfo.length ? drugInfo[i]["DrugName"] : drugInfo[i]["DrugName"] + "+";
       drugDescription +=
         drugInfo[i]["DrugName"] + "(" + drugInfo[i]["Dosage"] + ") ";
       drugHowToTake = drugInfo[i]["HowToTake"];
@@ -47,6 +46,7 @@ export function writeIntervention(
       yanchor: "bottom",
       align: "left",
       text: onlyDrug,
+      name: ['armGroup', 'DrugName'],
       font: {
         size: 10,
       },
@@ -70,6 +70,7 @@ export function writeIntervention(
       yanchor: "top",
       align: "right",
       text: drugInfo[0]["Duration"],
+      name: ['armGroup', 'Duration'],
       font: {
         size: 9,
       },
@@ -82,7 +83,7 @@ export function writeIntervention(
       onlyDrug = "";
       drugInfo = armG.interventionDescription[i];
       for (let j = 0; j < drugInfo.length; j++) {
-        onlyDrug += drugInfo[j]["DrugName"] + " ";
+        onlyDrug += (j + 1) === drugInfo.length ? drugInfo[j]["DrugName"] : drugInfo[j]["DrugName"] + "+";
         drugDescription +=
           drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
       }
@@ -96,6 +97,7 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
+        name: ['armGroup', 'DrugName'],
         font: {
           size: 10,
         },
@@ -118,6 +120,7 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
+        name: ['armGroup', 'DrugName'],
         font: {
           size: 10,
         },
@@ -146,6 +149,7 @@ export function writeIntervention(
       yanchor: "top",
       align: "left",
       text: armG.interventionDescription[0][0]["Duration"],
+      name: ['armGroup', 'Duration'],
       font: {
         size: 9,
       },
@@ -157,6 +161,7 @@ export function writeIntervention(
       y: washH + 0.05,
       yanchor: "top",
       text: "Washout period",
+      name: ['armGroup', 'text'],
       font: {
         size: 9,
       },
@@ -173,6 +178,7 @@ export function writeIntervention(
         size: 9,
       },
       showarrow: false,
+      name: ['armGroup', 'washoutPeriod'],
     };
 
     let timeObjA = {
@@ -182,6 +188,7 @@ export function writeIntervention(
       yanchor: "top",
       align: "left",
       text: armG.interventionDescription[1][0]["Duration"],
+      name: ['armGroup', 'Duration'],
       font: {
         size: 9,
       },
@@ -198,7 +205,7 @@ export function writeIntervention(
         textStartX = armGLinePoint1.x + armGW + 0.1;
         testStartY = startPoint.y + startH - 0.1;
         for (let j = 0; j < drugInfo.length; j++) {
-          onlyDrug += drugInfo[j]["DrugName"] + " ";
+          onlyDrug += (j + 1) === drugInfo.length ? drugInfo[j]["DrugName"] : drugInfo[j]["DrugName"] + "+";
           drugDescription +=
             drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
         }
@@ -212,6 +219,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: onlyDrug,
+          name: ['armGroup', 'DrugName'],
           font: {
             size: 10,
           },
@@ -233,6 +241,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
+          name: ['armGroup', 'Duration'],
           font: {
             size: 9,
           },
@@ -248,6 +257,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: drugDescription,
+          name: ['armGroup', 'drug'],
           font: {
             size: 9,
           },
@@ -260,6 +270,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
+          name: ['armGroup', 'Duration'],
           font: {
             size: 9,
           },
