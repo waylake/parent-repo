@@ -108,7 +108,7 @@ export function visualization(data) {
   let yRange = detailDrawInfo.yRange
 
 
-  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, yRange);
+  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention, yRange);
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) /1.1

@@ -43,11 +43,11 @@ export function drawPopulation(startPoint, startW, population) {
       maxAge +
       "<br>" +
       minAge,
-    20
+    30
   );
 
-  let [cLine, conditionText] = countLine("<b>Condition:</b>" + condition, 20);
-  let height = popLine / 30;
+  let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 30);
+  let height = popLine / 20;
   console.log(popLine);
 
   return {
@@ -55,9 +55,6 @@ export function drawPopulation(startPoint, startW, population) {
       shapes: [
         {
           type: "rect",
-          // xref: "x",
-          // yref: "y",
-          // fillcolor: "rgba(50, 171, 96, 0.7)",
           x0: startPoint.x,
           y0: startPoint.y,
           x1: startPoint.x + startW,
