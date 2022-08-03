@@ -15,7 +15,6 @@ export function visualization(data) {
   let armGroup = data.armGroup;
   let intervention = data.intervention;
 
-  
   // gather altogether
   let Gdata = [];
   let Glayout = {
@@ -39,15 +38,15 @@ export function visualization(data) {
       y: 0.18, //y: -2~3 /////////// how to control the position without using absolute position
       font: {
         size: 9,
-      }
-    }
+      },
+    },
   };
   let Gframes = [];
   let Gconfig = {
     edits: {
       annotationText: false,
     },
-    modeBarButtonsToRemove: ['zoomIn2d', 'zoomOut2d', 'zoom2d', 'autoScale2d',],
+    modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d"],
     displayModeBar: true,
   };
 
@@ -59,18 +58,37 @@ export function visualization(data) {
     fc: (1.0, 0.8, 0.8),
   };
   const popDrawInfo = drawPopulation(startPoint, startW, population);
-  const startH = popDrawInfo.startH
-  const numberPoint = new Point(startPoint.x + startW, startPoint.y + startH / 2);
+  const startH = popDrawInfo.startH;
+  const numberPoint = new Point(
+    startPoint.x + startW,
+    startPoint.y + startH / 2
+  );
   const numberW = 2;
   // # allocation
   const radius = 0.6;
-  const allocationPoint = new Point(numberPoint.x + numberW + radius, numberPoint.y);
-  const preInterDrawInfo = drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention);
+  const allocationPoint = new Point(
+    numberPoint.x + numberW + radius,
+    numberPoint.y
+  );
+  const preInterDrawInfo = drawPreIntervention(
+    numberPoint,
+    numberW,
+    allocationPoint,
+    radius,
+    intervention
+  );
 
   // 합치기 수정 필요
-  Glayout.shapes = Glayout.shapes.concat(popDrawInfo.layout.shapes, preInterDrawInfo.layout.shapes);
-  Glayout.annotations = Glayout.annotations.concat(popDrawInfo.layout.annotations)
-  Glayout.annotations = Glayout.annotations.concat(preInterDrawInfo.layout.annotations);
+  Glayout.shapes = Glayout.shapes.concat(
+    popDrawInfo.layout.shapes,
+    preInterDrawInfo.layout.shapes
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    popDrawInfo.layout.annotations
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    preInterDrawInfo.layout.annotations
+  );
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
@@ -91,34 +109,61 @@ export function visualization(data) {
   );
 
   //drawInfoTrial
-  let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1.5, allocationPoint.y - startH * 2 / 3);
+  let durationPoint = new Point(
+    armGLinePoint1.x + armGW + armGArrowW,
+    allocationPoint.y - (startH * 2) / 3
+  );
   let numArm = armGroup.armGroupLabel.length;
 
   // objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
-  const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
+  const [objectiveLine, objective] = countLine(
+    "Objective: " + infoTrial.objective,
+    87
+  );
   // title
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
   // official title
   const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
   // entity
-  let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, objPoint, titlePoint, officialPoint, numArm, infoTrial);
-
+  let detailDrawInfo = drawInfoTrial(
+    durationPoint,
+    startPoint,
+    startH,
+    legendPoint,
+    objPoint,
+    titlePoint,
+    officialPoint,
+    numArm,
+    infoTrial
+  );
 
   //push info into G Lists
-  Gdata = Gdata.concat(branchDrawInfo.data.lineList)
+  Gdata = Gdata.concat(branchDrawInfo.data.lineList);
   Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList);
   Gdata = Gdata.concat(detailDrawInfo.data);
-  Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
+  Glayout.annotations = Glayout.annotations.concat(
+    detailDrawInfo.layout.annotations
+  );
   Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange);
 
-  let yRange = detailDrawInfo.yRange
+  let yRange = detailDrawInfo.yRange;
 
-
-  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention, yRange);
+  let intervenWrite = writeIntervention(
+    startPoint,
+    startH,
+    armGLinePoint1,
+    armGW,
+    armGArrowW,
+    branchDrawInfo.washHeight.washH,
+    designModel,
+    armGroup,
+    intervention,
+    yRange
+  );
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
-  let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) /1.1
+  let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) / 1.1;
 
   Glayout.legend.y = legendPosition;
   // gather altogether
