@@ -99,22 +99,21 @@ export function drawPopulation(startPoint, startW, population) {
         xanchor: 'left',
         yanchor: 'top',
         align: 'left',
-        text: maxAge,
+        text: minAge,
         showarrow: false,
-        name: ['population', 'maxAge'],
+        name: ['population', 'minAge'],
         font: {
           size: 11,
         }
-      },
-      {
+      },{
         x: startPoint.x,
         y: startPoint.y + height - ++cLine * dy,
         xanchor: 'left',
         yanchor: 'top',
         align: 'left',
-        text: minAge,
+        text: maxAge,
         showarrow: false,
-        name: ['population', 'minAge'],
+        name: ['population', 'maxAge'],
         font: {
           size: 11,
         }
