@@ -110,7 +110,7 @@ export function visualization(data) {
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) /1.1
-  console.log(legendPosition)
+  console.log(armGLinePoint1, startPoint)
   Glayout.legend.y = legendPosition;
   // gather altogether
   return {

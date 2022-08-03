@@ -24,7 +24,7 @@ export function getInfo(url) {
   // const {spawn} = require('child_process');
   // const newjson = spawn('/home/jun/anaconda3/bin/python', 
   // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
-  const infoDict = require("../NCT_ID_database/NCT04844424.json"); // read json file by using require method
+  const infoDict = require("../NCT_ID_database/NCT04450953.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 

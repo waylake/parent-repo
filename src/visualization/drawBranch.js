@@ -11,7 +11,8 @@ export function drawBranch(
 ) {
   const armColorDict = {
     Experimental: "rgba(205, 31, 72, 1)", //coral
-    "Active Comparator": "rgba(255, 210, 40, 1)", //gold
+    OtherS: "rgba(255, 210, 40, 1)", //gold
+    "Active Comparator": "rgba(172, 243, 255, 1)", //white blue
     "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
     "No Intervention": "rgba(0, 100, 0, 1)", // forest green
     Other: "rgba(50, 190, 190, 1)", // light blue
@@ -24,7 +25,6 @@ export function drawBranch(
   const numBranch = armG.interventionDescription.length;
   let lineList = [];
   let washH;
-
 
   //draw branch
   if (designModel === "Crossover Assignment") {
@@ -51,7 +51,7 @@ export function drawBranch(
           color: colorB,
           width: 2,
         },
-        hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+        hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
     }
@@ -59,7 +59,7 @@ export function drawBranch(
     // ##crossover 약 먹는 기간 화살표
     let bfWashPoint = armGLinePoint1.x + armGW + armGArrowW / 3;
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
-    washH = armGLinePoint1.y - startH / 4 - 0.14;
+    washH = startPoint.y - startH / 10;
     let timeLine = {
       x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW + 0.5],
       y: [washH, washH],
@@ -69,7 +69,7 @@ export function drawBranch(
         width: 2,
       },
       showlegend: false,
-      hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+      hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
     };
     lineList.push(timeLine);
 
@@ -82,7 +82,7 @@ export function drawBranch(
         color: "rgba(255, 120, 120, 1)",
       },
       showlegend: false,
-      hoverinfo: 'skip', // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+      hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
     };
     lineList.push(mark);
   } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
@@ -110,6 +110,9 @@ export function drawBranch(
     }
   } else if (designModel === "Single Group Assignment" || numBranch === 1) {
     let colorB = armColorDict[armG.armGroupType[0]];
+    if (armG.armGroupType[0] === "Other") {
+      colorB = armColorDict["OtherS"];
+    }
     let lineLoc = {
       name: armG.armGroupType[0],
       x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW],
