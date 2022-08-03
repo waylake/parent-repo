@@ -77,6 +77,7 @@ export function visualization(data) {
   let armGArrowW = 7;
   let legendPoint = new Point(startPoint.x, startPoint.y - startH / 6);
 
+  // draw branch
   let branchDrawInfo = drawBranch(
     armGLinePoint1,
     armGW,
@@ -88,19 +89,25 @@ export function visualization(data) {
     designModel,
     armGroup
   );
+
   //drawInfoTrial
   let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1.5, allocationPoint.y - startH * 2 / 3);
   let numArm = armGroup.armGroupLabel.length;
 
+  // objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
   const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
+  // title
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
+  // official title
   const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
+  // entity
   let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, objPoint, titlePoint, officialPoint, numArm, infoTrial);
 
 
   //push info into G Lists
-  Gdata = Gdata.concat(branchDrawInfo.branch.lineList)
+  Gdata = Gdata.concat(branchDrawInfo.data.lineList)
+  Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList);
   Gdata = Gdata.concat(detailDrawInfo.data);
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
   Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange);

@@ -23,13 +23,20 @@ export function drawBranch(
   let setArmGroup = new Set(armG.armGroupType);
   let setArmGroupToLst = Array.from(setArmGroup);
   const numBranch = armG.interventionDescription.length;
+
+  const widthTriangle = 0.005
+  const heightTriangle = 0.2
+
   let lineList = [];
+  let arrowList = [];
   let washH;
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
     for (let i = 0; i < numBranch; i++) {
       let colorB = armColorDict[armG.armGroupType[i]];
+      let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
+      let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
       let lineLoc = {
         name: armG.armGroupType[i],
         x: [
@@ -37,14 +44,14 @@ export function drawBranch(
           armGLinePoint1.x + armGW,
           armGLinePoint1.x + armGW + armGArrowW / 3,
           armGLinePoint1.x + armGW + (armGArrowW / 3) * 2,
-          armGLinePoint1.x + armGW + armGArrowW + 0.5,
+          arrowEndX,
         ],
         y: [
           armGLinePoint1.y,
           startPoint.y + startH - i * (startH / (numBranch - 1)),
           startPoint.y + startH - i * (startH / (numBranch - 1)),
-          startPoint.y + i * (startH / (numBranch - 1)),
-          startPoint.y + i * (startH / (numBranch - 1)),
+          arrowEndY,
+          arrowEndY,
         ],
         mode: "lines",
         line: {
@@ -54,6 +61,15 @@ export function drawBranch(
         hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
+      let lineArrow = {
+        type: 'path',
+        // 0.2는 삼각형 높이
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
+        fillcolor: colorB, // 채우기 색깔
+        line: {color: colorB}, // 테두리 색깔
+      };
+      arrowList.push(lineArrow);
     }
 
     // ##crossover 약 먹는 기간 화살표
@@ -95,36 +111,50 @@ export function drawBranch(
     // draw Branch
     for (let i = 0; i < numBranchLimit; i++) {
       let colorB = armColorDict[armG.armGroupType[i]];
+      let arrowEndY = startPoint.y + startH - i * (startH / (numBranchLimit - 1))
+      let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
       let lineLoc = {
         name: armG.armGroupType[i],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
-          armGLinePoint1.x + armGW + armGArrowW,
+          arrowEndX,
         ],
         y: [
           armGLinePoint1.y,
-          startPoint.y + startH - i * (startH / (numBranchLimit - 1)),
-          startPoint.y + startH - i * (startH / (numBranchLimit - 1)),
+          arrowEndY,
+          arrowEndY,
         ],
         mode: "lines",
         line: {
           color: colorB,
           width: 2,
         },
-        hoverinfo: "skip",
+        hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
       };
       lineList.push(lineLoc);
+
+      let lineArrow = {
+        type: 'path',
+        // 0.2는 삼각형 높이
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
+        fillcolor: colorB, // 채우기 색깔
+        line: {color: colorB}, // 테두리 색깔
+      };
+      arrowList.push(lineArrow);
     }
   } else if (designModel === "Single Group Assignment" || numBranch === 1) {
     let colorB = armColorDict[armG.armGroupType[0]];
+    let arrowEndX = armGLinePoint1.x + armGW + armGArrowW;
+    let arrowEndY = armGLinePoint1.y
     if (armG.armGroupType[0] === "Other") {
       colorB = armColorDict["OtherS"];
     }
     let lineLoc = {
       name: armG.armGroupType[0],
-      x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW],
-      y: [armGLinePoint1.y, armGLinePoint1.y],
+      x: [armGLinePoint1.x, arrowEndX],
+      y: [arrowEndY, arrowEndY],
       mode: "lines",
       line: {
         color: colorB,
@@ -132,6 +162,15 @@ export function drawBranch(
       },
     };
     lineList.push(lineLoc);
+    let lineArrow = {
+      type: 'path',
+      // 0.2는 삼각형 높이
+      path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
+            L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
+      fillcolor: colorB, // 채우기 색깔
+      line: {color: colorB}, // 테두리 색깔
+    };
+    arrowList.push(lineArrow);
   } else {
     console.log(
       "we only consider single, parallel, crossover or may be sequential!"
@@ -139,8 +178,11 @@ export function drawBranch(
   }
 
   return {
-    branch: {
+    data: {
       lineList,
+    },
+    layout:{
+      arrowList
     },
     washHeight: { washH },
   };
