@@ -46,14 +46,14 @@ export function drawPopulation(startPoint, startW, population) {
     30
   );
 
-  let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 30);
+  let [cLine, conditionText] = countLine("<b>Condition:</b> " + condition, 25);
   let height = popLine / 20;
   // console.log(popLine);
-
-  let [genderLine, genderText] = countLine(gender, 30);
-  let [healthyLine, healthyText] = countLine(healthyCondition, 30);
-  let [minAgeLine, minAgeText] = countLine(minAge, 30);
-  let [maxAgeLine, maxAgeText] = countLine(maxAge, 30);
+  const popContentLimit = 28;
+  let [genderLine, genderText] = countLine(gender, popContentLimit);
+  let [healthyLine, healthyText] = countLine(healthyCondition, popContentLimit);
+  let [minAgeLine, minAgeText] = countLine(minAge, popContentLimit);
+  let [maxAgeLine, maxAgeText] = countLine(maxAge, popContentLimit);
 
   return {
     layout: {
@@ -109,7 +109,7 @@ export function drawPopulation(startPoint, startW, population) {
         },
         {
           x: startPoint.x,
-          y: startPoint.y + height - (cLine+genderLine) * dy,
+          y: startPoint.y + height - (cLine + genderLine) * dy,
           xanchor: "left",
           yanchor: "top",
           align: "left",
@@ -135,7 +135,10 @@ export function drawPopulation(startPoint, startW, population) {
         },
         {
           x: startPoint.x,
-          y: startPoint.y + height - (cLine + genderLine + healthyLine + minAgeLine) * dy,
+          y:
+            startPoint.y +
+            height -
+            (cLine + genderLine + healthyLine + minAgeLine) * dy,
           xanchor: "left",
           yanchor: "top",
           align: "left",

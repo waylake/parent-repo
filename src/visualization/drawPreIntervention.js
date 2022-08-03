@@ -17,7 +17,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           type: "line",
           x0: numberPoint.x,
           y0: numberPoint.y,
-          x1: numberPoint.x + numberW-(heightTriangle+0.1), //끝에 화살표 만들려고 길이 살짝 뺌
+          x1: numberPoint.x + numberW-(heightTriangle-0.1), //끝에 화살표 만들려고 길이 살짝 뺌
           y1: numberPoint.y,
           line: {
             width: 5
