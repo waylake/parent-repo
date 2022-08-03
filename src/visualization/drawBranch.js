@@ -27,7 +27,7 @@ export function drawBranch(
   let washH;
 
   //draw branch
-  if (designModel === "Crossover Assignment") {
+  if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
     for (let i = 0; i < numBranch; i++) {
       let colorB = armColorDict[armG.armGroupType[i]];
       let lineLoc = {
@@ -105,6 +105,7 @@ export function drawBranch(
           color: colorB,
           width: 2,
         },
+        hoverinfo: "skip",
       };
       lineList.push(lineLoc);
     }

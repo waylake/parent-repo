@@ -78,7 +78,7 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(interDur);
-  } else if (designModel === "Crossover Assignment") {
+  } else if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch===2)) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
