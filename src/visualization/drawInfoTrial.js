@@ -6,6 +6,9 @@ export function drawInfoTrial(
   startPoint,
   startH,
   legendPoint,
+  objPoint,
+  titlePoint,
+  officialPoint,
   numArm,
   infoTrial
 ) {
@@ -13,23 +16,7 @@ export function drawInfoTrial(
   const [titleLine, title] = countLine("Title: " + infoTrial.title, 75);
   const [officialTitleLine, officialTitle] = countLine("Official Title: " + infoTrial.officialTitle, 110);
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
-  // #objective
-  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
-
-  // bboxString(ax, objPoint.x, objPoint.y, "Objective: " + infoTrial.objective, 130, 15, 1)
-
-
-
-  // // # infoTrial.title
-  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
-  // bboxString(ax, titlePoint.x, titlePoint.y, "Title: "+ infoTrial.title, 100, 20, 1)
-
-  // #complete_time
-
-
-  // // # infoTrial.official title
-  const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
-  // bboxString(ax, officialPoint.x, legendPoint.y - (numArm+1)*startH/3, "Official Title: " +  info_trial.official_title, 110, 15, 1)
+  
   const yRange = [officialPoint.y - officialTitleLine / 10, titlePoint.y + titleLine / 10]
   return {
     data: [
@@ -47,7 +34,7 @@ export function drawInfoTrial(
     ],
     layout: {
       annotations: [
-        {
+        { //objective
           x: objPoint.x,
           y: objPoint.y,
           text: objective,
@@ -62,7 +49,7 @@ export function drawInfoTrial(
           name: ['infoTrial', 'objective'],
           // captureevents: true,
         },
-        {
+        { //title
           x: titlePoint.x,
           y: titlePoint.y,
           text: title,
@@ -77,7 +64,7 @@ export function drawInfoTrial(
           name: ['infoTrial', 'title'],
           // captureevents: true,
         },
-        {
+        { // official title
           x: officialPoint.x,
           y: legendPoint.y - startH / 3,
           text: officialTitle,

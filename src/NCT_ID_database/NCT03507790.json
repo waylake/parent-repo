@@ -5,14 +5,14 @@
     "DrugInformation": {
         "ArmGroupList": [
             {
-                "ArmGroupDescription": "ct1812: 300 mg 6 months , ",
+                "ArmGroupDescription": "ct1812: 300 mg 6 months(once daily) , ",
                 "ArmGroupLabel": "Active Treatment- CT1812 100 mg",
                 "ArmGroupType": "Active Comparator",
                 "InterventionDescription": [
                     {
                         "Dosage": "100 mg",
                         "DrugName": "ct1812",
-                        "Duration": "6 months",
+                        "Duration": "6 months(once daily)",
                         "HowToTake": ""
                     }
                 ],
@@ -23,14 +23,14 @@
                 }
             },
             {
-                "ArmGroupDescription": "ct1812: 300 mg 6 months , ",
+                "ArmGroupDescription": "ct1812: 300 mg 6 months(once daily) , ",
                 "ArmGroupLabel": "Active Treatment- CT1812 300 mg",
                 "ArmGroupType": "Active Comparator",
                 "InterventionDescription": [
                     {
                         "Dosage": "300 mg",
                         "DrugName": "ct1812",
-                        "Duration": "6 months",
+                        "Duration": "6 months(once daily)",
                         "HowToTake": ""
                     }
                 ],
@@ -76,6 +76,5 @@
     },
     "PopulationRatio": "1.0 : 1.0 : 1.0",
     "Title": "A Study to Evaluate the Safety and Efficacy of CT1812 in Subjects With Mild to Moderate Alzheimer's Disease.",
-    "WashoutPeriod": "",
-    "_id": "NCT03507790"
+    "WashoutPeriod": ""
 }

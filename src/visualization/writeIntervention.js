@@ -9,7 +9,8 @@ export function writeIntervention(
   washH,
   designModel,
   armG,
-  intervention
+  intervention,
+  yRange
 ) {
   let numBranch = armG.interventionDescription.length;
   let annotations = [];
@@ -143,12 +144,12 @@ export function writeIntervention(
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
 
 
-    let timeObjB = {
+    let timeObjBf = {
       x: (armGLinePoint1.x + bfWashPoint) / 2,
       y: washH,
       yanchor: "top",
-      align: "left",
-      text: armG.interventionDescription[0][0]["Duration"],
+      align: "middle",
+      text: countLine(armG.interventionDescription[0][0]["Duration"], 15)[1],
       name: ['armGroup', 'Duration'],
       font: {
         size: 9,
@@ -168,12 +169,17 @@ export function writeIntervention(
       showarrow: false,
     };
 
+    let washoutPeriod = intervention.washout_period;
+    if (typeof washoutPeriod != "String") {
+      washoutPeriod = "write";
+    }
+
     let timeObjM2 = {
       x: (bfWashPoint + afWashPoint) / 2,
       y: washH,
       yanchor: "top",
       align: "left",
-      text: "intervention.washout_period",
+      text: countLine(washoutPeriod, 15)[1],
       font: {
         size: 9,
       },
@@ -181,20 +187,19 @@ export function writeIntervention(
       name: ['armGroup', 'washoutPeriod'],
     };
 
-    let timeObjA = {
+    let timeObjAf = {
       x: (afWashPoint + armGLinePoint1.x + armGW + armGArrowW) / 2,
-      y: washH - 0.1,
-      xanchor: "left",
+      y: washH,
       yanchor: "top",
-      align: "left",
-      text: armG.interventionDescription[1][0]["Duration"],
+      align: "middle",
+      text: countLine(armG.interventionDescription[1][0]["Duration"], 15)[1],
       name: ['armGroup', 'Duration'],
       font: {
         size: 9,
       },
       showarrow: false,
     };
-    annotations.push(timeObjB, timeObjM, timeObjM2, timeObjA);
+    annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
   } else {
     // parallel, sequential...
     for (let i = 0; i < numBranch; i++) {
@@ -236,7 +241,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW,
-          y: testStartY - i * (startH / (numBranch - 1)) + 0.03,
+          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1] - yRange[0]) / 20,
           xanchor: "right",
           yanchor: "bottom",
           align: "left",
@@ -265,7 +270,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW - 0.3,
-          y: testStartY - i * (startH / (numBranch - 1)) - 0.01,
+          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1] - yRange[0]) / 20,
           xanchor: "left",
           yanchor: "bottom",
           align: "left",

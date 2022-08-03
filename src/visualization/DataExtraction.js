@@ -1,9 +1,30 @@
 import * as data from "./Data";
+// import {request_call} from "../resource_control.py";
+// import $ from "jquery";
+// import {PythonShell} from 'python-shell';
 
 export function getInfo(url) {
   // codes to run python file in javascript
+  // const pyodide = window.pyodide;
+  // pyodide.runPython(request_call(url));
+  // const infoDict = pyodide.runPython(request_call(url));
+  // console.log(infoDict);
+  ////////////////////////////////////////////////////
+  // var options = {
+  //   mode: 'text',
+  //   args: ['https://www.clinicaltrials.gov/ct2/show/NCT04050098?term=mg&draw=3&rank=51', 'My Second Argument', '--option=123']
+  // };
 
-  const infoDict = require("./NCT00482833.json"); // read json file by using require method
+  // PythonShell.run('../test.py', options, function (err, results) {
+  //     if (err) throw err;
+  //     // results is an array consisting of messages collected during execution
+  //     console.log('results: %j', results);
+  // });
+
+  // const {spawn} = require('child_process');
+  // const newjson = spawn('/home/jun/anaconda3/bin/python', 
+  // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
+  const infoDict = require("../NCT_ID_database/NCT03580707.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 
