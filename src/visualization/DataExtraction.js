@@ -21,10 +21,10 @@ export function getInfo(url) {
   //     console.log('results: %j', results);
   // });
 
-  const {spawn} = require('child_process');
-  const newjson = spawn('/home/jun/anaconda3/bin/python', 
-  ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
-  const infoDict = require(newjson); // read json file by using require method
+  // const {spawn} = require('child_process');
+  // const newjson = spawn('/home/jun/anaconda3/bin/python', 
+  // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
+  const infoDict = require("../NCT_ID_database/NCT03507790.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 

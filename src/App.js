@@ -13,6 +13,8 @@ import { useState } from 'react';
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 // import {PythonShell} from 'python-shell';
+import { faGripLines } from "@fortawesome/free-solid-svg-icons";
+import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 
 // import $ from "jquery";
