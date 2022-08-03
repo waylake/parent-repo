@@ -9,7 +9,7 @@ export function getInfo(url) {
   // pyodide.runPython(request_call(url));
   // const infoDict = pyodide.runPython(request_call(url));
   // console.log(infoDict);
- ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   // var options = {
   //   mode: 'text',
   //   args: ['https://www.clinicaltrials.gov/ct2/show/NCT04050098?term=mg&draw=3&rank=51', 'My Second Argument', '--option=123']

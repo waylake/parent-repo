@@ -87,7 +87,7 @@ export function drawInfoTrial(
           font: {
             size: 8,
           },
-          name: 'completeTime',
+          name: ['infoTrial', 'completeTime'],
         }
       ]
     },

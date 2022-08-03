@@ -42,6 +42,8 @@ function App() {
   if (mode === 'READ') { //READ 모드일때 edit버튼을 누르면
     content =
       <Button icon={faPenToSquare} className='edit' onChangeMode={() => {
+
+
         // editable하게 바꾸기
         const newConfig = { ...config };
         newConfig.edits.annotationText = true;
@@ -79,43 +81,59 @@ function App() {
         //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
 
         const annot = layout.annotations;
-        // const populationList = [];
-        // const infoTrialList = [];
-
+        let k = 0; //drugname세기
+        let j = 0; //duration세기
         for (let i = 0; i < annot.length; i++) { // text 정제 작업
-          if (typeof annot[i].name === 'object' && annot[i].name[0] === 'population') { //population
+          if (annot[i].name[0] === 'population') { //population
             const idx = annot[i].text.indexOf(':');
             annot[i].text = annot[i].text.substring(idx + 2);
-            for (let key in dataJson.population) {
-              if (key === annot[i].name[1]) {
-                dataJson.population[key] = annot[i].text;
-              }
-            }
+            dataJson.population[annot[i].name[1]] = annot[i].text;
           }
-          else if (typeof annot[i].name === 'object' && annot[i].name[0] === 'infoTrial') {
+          else if (annot[i].name[0] === 'infoTrial') {
+            const completeTimeIdx = annot[i].text.indexOf(' ');
             const idx = annot[i].text.indexOf(':');
-            annot[i].text = annot[i].text.substring(idx + 2);
-            for (let key in dataJson.infoTrial) {
-              if (key === annot[i].name[1]) {
-                dataJson.infoTrial[key] = annot[i].text;
-              }
-            }
+            annot[i].text = annot[i].name[1] === 'completeTime' ? annot[i].text.substring(0, completeTimeIdx + 1) : annot[i].text.substring(idx + 2);
+            dataJson.infoTrial[annot[i].name[1]] = annot[i].text;
           }
-          else if (annot[i].name === 'completeTime') { // completeTime 개월수 추출 및 초기화
-            const idx = annot[i].text.indexOf(' ');
-            dataJson.CompleteTime = annot[i].text.substring(idx + 1);
-          } // intervention
-          else if (typeof annot[i].name === 'object' && annot[i].name[0] === 'intervention') {
+          // intervention
+          else if (annot[i].name[0] === 'intervention') {
             if (annot[i].name[1] === 'masking') annot[i].text = annot[i].text.replace('M=', '');
             else if (annot[i].name[1] === 'enrollment') annot[i].text = annot[i].text.replace('N=', '');
             if (annot[i].text === 'write text') annot[i].text = '';
-            for (let key in dataJson.intervention) {
-              if (key === annot[i].name[1]) {
-                dataJson.intervention[key] = annot[i].text;
+            dataJson.intervention[annot[i].name[1]] = annot[i].text;
+          }
+          // armGroup
+          else if (annot[i].name[0] === 'armGroup') {
+            if (annot[i].name[1] === 'Duration') {
+              dataJson.armGroup.interventionDescription[j++][0]['Duration'] = annot[i].text;
+            }
+            else if (annot[i].name[1] === 'DrugName') {
+              if (dataJson.designModel === 'Crossover Assignment') {
+                let t = 0;
+                while (annot[i].text.includes('+')) {
+                  let idx = annot[i].text.indexOf('+');
+                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);
+                  t++
+                  annot[i].text = annot[i].text.substring(idx + 1);
+                }
+                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text;
+                i++;
+                k++;
               }
+              else {
+                let t = 0;
+                while (annot[i].text.includes('+')) {
+                  let idx = annot[i].text.indexOf('+');
+                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);
+                  t++
+                  annot[i].text = annot[i].text.substring(idx + 1);
+                }
+                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text;
+                k++;
+              }
+
             }
           }
-
           const newVisualizationInfo = visualization(dataJson);
           setLayout(newVisualizationInfo.Glayout);
           setData(newVisualizationInfo.Gdata);
@@ -139,6 +157,9 @@ function App() {
         data={data}
         frames={frames}
         config={config}
+        onSelected={() => {
+          console.log('hi');
+        }}
       // onInitialized={(figure) => useState(figure)}
       // onUpdate={(figure) => useState(figure)}
       />
