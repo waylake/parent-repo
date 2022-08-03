@@ -169,10 +169,7 @@ export function writeIntervention(
       showarrow: false,
     };
 
-    let washoutPeriod = intervention.washout_period;
-    if (typeof washoutPeriod != "String") {
-      washoutPeriod = "write";
-    }
+    let washoutPeriod = intervention.washoutPeriod;
 
     let timeObjM2 = {
       x: (bfWashPoint + afWashPoint) / 2,
@@ -184,7 +181,7 @@ export function writeIntervention(
         size: 9,
       },
       showarrow: false,
-      name: ['armGroup', 'washoutPeriod'],
+      name: ['intervention', 'washoutPeriod'],
     };
 
     let timeObjAf = {
