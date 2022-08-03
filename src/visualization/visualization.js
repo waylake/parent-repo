@@ -1,6 +1,7 @@
 import { Point } from "./Point";
 import { drawPopulation } from "./drawPopulation";
 import { drawPreIntervention } from "./drawPreIntervention";
+import { countLine } from "./drawPopulation";
 
 import { drawBranch } from "./drawBranch";
 import { drawInfoTrial } from "./drawInfoTrial";
@@ -13,6 +14,8 @@ export function visualization(data) {
   let infoTrial = data.infoTrial;
   let armGroup = data.armGroup;
   let intervention = data.intervention;
+
+  
   // gather altogether
   let Gdata = [];
   let Glayout = {
@@ -31,10 +34,9 @@ export function visualization(data) {
       showgrid: false,
       showticklabels: false,
     },
-    // legend position
     legend: {
       x: 0.04, //x: -2~3
-      y: 0.44, //y: -2~3
+      y: 0.18, //y: -2~3 /////////// how to control the position without using absolute position
       font: {
         size: 9,
       }
@@ -89,7 +91,13 @@ export function visualization(data) {
   //drawInfoTrial
   let durationPoint = new Point(armGLinePoint1.x + armGW + armGArrowW + 1.5, allocationPoint.y - startH * 2 / 3);
   let numArm = armGroup.armGroupLabel.length;
-  let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, numArm, infoTrial);
+
+  const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
+  const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 87);
+  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
+  const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
+  let detailDrawInfo = drawInfoTrial(durationPoint, startPoint, startH, legendPoint, objPoint, titlePoint, officialPoint, numArm, infoTrial);
+
 
   //push info into G Lists
   Gdata = Gdata.concat(branchDrawInfo.branch.lineList)
@@ -101,6 +109,9 @@ export function visualization(data) {
   let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention);
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
+  let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) /1.1
+  console.log(legendPosition)
+  Glayout.legend.y = legendPosition;
   // gather altogether
   return {
     Gdata,
