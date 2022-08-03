@@ -9,7 +9,7 @@ export function writeIntervention(
   washH,
   designModel,
   armG,
-  intervention
+  yRange
 ) {
   let numBranch = armG.interventionDescription.length;
   let annotations = [];
@@ -228,7 +228,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW,
-          y: testStartY - i * (startH / (numBranch - 1)) + 0.03,
+          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1]- yRange[0])/15,
           xanchor: "right",
           yanchor: "bottom",
           align: "left",
@@ -255,7 +255,7 @@ export function writeIntervention(
         };
         let interDur = {
           x: textStartX + armGArrowW - 0.3,
-          y: testStartY - i * (startH / (numBranch - 1)) - 0.01,
+          y: testStartY - i * (startH / (numBranch - 1)) + (yRange[1]- yRange[0])/15,
           xanchor: "left",
           yanchor: "bottom",
           align: "left",

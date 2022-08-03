@@ -105,11 +105,14 @@ export function visualization(data) {
   Glayout.annotations = Glayout.annotations.concat(detailDrawInfo.layout.annotations);
   Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange);
 
+  let yRange = detailDrawInfo.yRange
 
-  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, intervention);
+
+  let intervenWrite = writeIntervention(startPoint, startH, armGLinePoint1, armGW, armGArrowW, branchDrawInfo.washHeight.washH, designModel, armGroup, yRange);
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) /1.1
+
   Glayout.legend.y = legendPosition;
   // gather altogether
   return {
