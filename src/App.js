@@ -22,7 +22,10 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const dataJson = getInfo("put url in this area");
+
   let visualizationInfo = visualization(dataJson);
+  console.log(dataJson);
+  console.log(visualizationInfo);
   //data
   let vData = visualizationInfo.Gdata;
 
@@ -99,11 +102,12 @@ function App() {
           else if (annot[i].name[0] === 'intervention') {
             if (annot[i].name[1] === 'masking') annot[i].text = annot[i].text.replace('M=', '');
             else if (annot[i].name[1] === 'enrollment') annot[i].text = annot[i].text.replace('N=', '');
-            if (annot[i].text === 'write text') annot[i].text = '';
+            if (annot[i].text === 'write text') annot[i].text = '';// write text라 써져있으면 다시 지우기
             dataJson.intervention[annot[i].name[1]] = annot[i].text;
           }
           // armGroup
           else if (annot[i].name[0] === 'armGroup') {
+            if (annot[i].text === 'write text') annot[i].text = ''; // write text라 써져있으면 지우기
             if (annot[i].name[1] === 'Duration') {
               dataJson.armGroup.interventionDescription[j++][0]['Duration'] = annot[i].text;
             }
@@ -122,18 +126,20 @@ function App() {
               }
               else {
                 let t = 0;
-                while (annot[i].text.includes('+')) {
+                while (annot[i].text.includes('+')) { // + 로 찾아
                   let idx = annot[i].text.indexOf('+');
-                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);
+                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
                   t++
-                  annot[i].text = annot[i].text.substring(idx + 1);
+                  annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
                 }
-                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text;
+                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text; // 맨 마지막 것 추가
                 k++;
               }
-
             }
           }
+          console.log(dataJson.intervention);
+          const obj = { age: 10, a: 30, b: 50 };
+          console.log(obj);
           const newVisualizationInfo = visualization(dataJson);
           setLayout(newVisualizationInfo.Glayout);
           setData(newVisualizationInfo.Gdata);
