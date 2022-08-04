@@ -23,7 +23,7 @@ export function writeIntervention(
 
   const intervenFontSize = 12;
   const intervenDurFontSize = 9;
-  const intervenHoverFontSize = 14;
+  const intervenHoverFontSize = 13;
 
   let res;
 

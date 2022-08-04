@@ -70,25 +70,6 @@ export function visualization(data) {
     numberPoint.x + numberW + radius,
     numberPoint.y
   );
-  const preInterDrawInfo = drawPreIntervention(
-    numberPoint,
-    numberW,
-    allocationPoint,
-    radius,
-    intervention
-  );
-
-  // 합치기 수정 필요
-  Glayout.shapes = Glayout.shapes.concat(
-    popDrawInfo.layout.shapes,
-    preInterDrawInfo.layout.shapes
-  );
-  Glayout.annotations = Glayout.annotations.concat(
-    popDrawInfo.layout.annotations
-  );
-  Glayout.annotations = Glayout.annotations.concat(
-    preInterDrawInfo.layout.annotations
-  );
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
@@ -138,6 +119,28 @@ export function visualization(data) {
     infoTrial
   );
 
+  const moseekH = detailDrawInfo.yRange[1] - detailDrawInfo.yRange[0];
+  console.log(moseekH);
+  const preInterDrawInfo = drawPreIntervention(
+    numberPoint,
+    numberW,
+    allocationPoint,
+    radius,
+    moseekH,
+    intervention
+  );
+
+  // 합치기 수정 필요
+  Glayout.shapes = Glayout.shapes.concat(
+    popDrawInfo.layout.shapes,
+    preInterDrawInfo.layout.shapes
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    popDrawInfo.layout.annotations
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    preInterDrawInfo.layout.annotations
+  );
   //push info into G Lists
   Gdata = Gdata.concat(branchDrawInfo.data.lineList);
   Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList);

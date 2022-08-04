@@ -1,10 +1,10 @@
-export function drawPreIntervention(numberPoint, numberW, allocationPoint, radius, intervention) {
+export function drawPreIntervention(numberPoint, numberW, allocationPoint, radius, moseekH, intervention) {
   const masking = intervention.masking
   const enrollment = intervention.enrollment
   const allocation = intervention.allocation
   const ratio = intervention.ratio
 
-  const deltaRadius = 12;
+  const deltaRadius = 15/moseekH; // 그림 비율에 맞춰 자동으로 찌그러짐정도 정해지도록
   const delta = 0.1/2;
   const widthTrianlge = 0.02;
   const heightTriangle = 0.5
