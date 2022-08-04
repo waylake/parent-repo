@@ -147,13 +147,50 @@ function App() {
           }
 
           const newVisualizationInfo = visualization(dataJson);
+          for (let i = 3; i < layout.shapes.length; i++) {
+            newVisualizationInfo.Glayout.shapes[i] = layout.shapes[i];
+          }
           setLayout(newVisualizationInfo.Glayout);
-          setData(newVisualizationInfo.Gdata);
           setMode('READ');
         }
       }}>
       </Button>
-      <Button icon={faGripLines} className='parallel' ></Button>
+      <Button icon={faGripLines} className='parallel' onChangeMode={() => {
+        // crossover -> parallel 로 바꾸기
+        const newData = [...data];
+        const newLayout = { ...layout };
+        const clickedBranchIdx = []; // 선택된 branch 담기
+        for (let i = 0; i < newData.length; i++) {
+          if (newData[i].opacity === 0.3) clickedBranchIdx.push(i);
+        }
+        const startX = newData[0].x[1]; // 시작점
+        const armGArrowW = newData[0].x[4] - newData[0].x[1]; // 화살표 전체 x증가량
+        const x = [newData[0].x[0], startX, startX + armGArrowW];
+        const startY1 = newData[clickedBranchIdx[0]].y[1];
+        const startY2 = newData[clickedBranchIdx[1]].y[1];
+        const y1 = [newData[0].y[0], startY1, startY1];
+        const y2 = [newData[0].y[0], startY2, startY2,];
+        const y = [y1, y2];
+
+        //좌표 설정
+        for (let i = 0; i < clickedBranchIdx.length; i++) {
+          newData[clickedBranchIdx[i]].x = x;
+          newData[clickedBranchIdx[i]].y = y[i];
+          newData[clickedBranchIdx[i]].opacity = 1;
+        }
+
+        //화살표촉 색깔 바꾸기
+        for (let i = 0; i < 2; i++) {
+          for (let value of newLayout.shapes) {
+            if (value.name && value.name[0] === 'arrow' && value.name[1] === clickedBranchIdx[i]) {
+              value.fillcolor = armColorDict[newData[clickedBranchIdx[i]].name]; // 채우기 색깔
+              value.line.color = armColorDict[newData[clickedBranchIdx[i]].name]; // 테두리 색깔
+            }
+          }
+        }
+        setData(newData);
+        setLayout(newLayout);
+      }}></Button>
 
       <Button icon={faShuffle} className='crossover' onChangeMode={() => {
         // parallel -> cross over로 바꾸기
@@ -161,7 +198,7 @@ function App() {
         const newLayout = { ...layout };
         const clickedBranchIdx = []; // 선택된 branch 담기
         for (let i = 0; i < newData.length; i++) {
-          if (newData[i].opacity === 0.5) clickedBranchIdx.push(i);
+          if (newData[i].opacity === 0.3) clickedBranchIdx.push(i);
         }
         //branch가 붙어있지 않다면 붙어있도록 순서 변경
 
@@ -182,7 +219,7 @@ function App() {
           newData[clickedBranchIdx[i]].opacity = 1;
         }
 
-        //화살표 색깔 바꾸기
+        //화살표촉 색깔 바꾸기
         for (let i = 0; i < 2; i++) {
           for (let value of newLayout.shapes) {
             if (value.name && value.name[0] === 'arrow' && value.name[1] === clickedBranchIdx[i]) {
@@ -191,8 +228,6 @@ function App() {
             }
           }
         }
-
-        console.log(newLayout);
         setData(newData);
         setLayout(newLayout);
       }}></Button>
@@ -212,7 +247,7 @@ function App() {
         config={config}
 
         onClick={(e) => {
-          e.points[0].data.opacity = 0.5;
+          e.points[0].data.opacity = 0.3;
           const newData = [...data];
           setData(newData);
         }}
