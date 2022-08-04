@@ -30,8 +30,39 @@ export function drawBranch(
 
   let lineList = [];
   let arrowList = [];
+  let annotations = [];
   let washH;
   let arrowIdx = 0;
+
+  //draw&write legend
+  for (let i=0; i<setArmGroupToLst.length; i++){
+    let colorB = armColorDict[setArmGroupToLst[i]];
+    let legendLine = {
+      x: [legendPoint.x, legendPoint.x + 1],
+      y: [legendPoint.y -i*startH/8, legendPoint.y -i*startH/8],
+      mode: 'lines',
+      line: {
+        color: colorB,
+        width: lineWidth,
+      },
+      hoverinfo: "skip",
+    }
+    lineList.push(legendLine);
+
+    let legendText = {
+      x: legendPoint.x + 1 + 0.1,
+      y: legendPoint.y -i*startH/8,
+      xanchor: "left",
+      // yanchor: "bottom",
+      align: "left",
+      text: setArmGroupToLst[i],
+      font: {
+        size: 8,
+      },
+      showarrow: false,
+    };
+    annotations.push(legendText);
+  }
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
@@ -133,7 +164,7 @@ export function drawBranch(
           color: colorB,
           width: lineWidth,
         },
-        // hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+        hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
       };
       lineList.push(lineLoc);
 
@@ -162,7 +193,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: colorB,
-        width: 4,
+        width: lineWidth,
       },
     };
     lineList.push(lineLoc);
@@ -187,7 +218,8 @@ export function drawBranch(
       lineList,
     },
     layout: {
-      arrowList
+      arrowList,
+      annotations
     },
     washHeight: { washH },
   };

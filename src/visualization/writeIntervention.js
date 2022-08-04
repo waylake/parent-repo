@@ -28,6 +28,7 @@ export function writeIntervention(
 
   let res;
 
+  // write intervention
   if (
     (designModel === "Single Group Assignment" && numBranch === 1) ||
     numBranch === 1
