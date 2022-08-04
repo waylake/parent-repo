@@ -30,6 +30,7 @@ export function writeIntervention(
   let drugNameIdx = 0;
   let durationIdx = 0;
 
+  // write intervention
   if (
     (designModel === "Single Group Assignment" && numBranch === 1) ||
     numBranch === 1

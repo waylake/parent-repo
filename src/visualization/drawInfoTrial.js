@@ -38,8 +38,8 @@ export function drawInfoTrial(
 ) {
   const [titleLine, title] = countLine("<b>Title:</b> " + infoTrial.title, 70);
   const [objectiveLine, objective] = countLine("Objective: " + infoTrial.objective, 82);
-  // const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 98);
-  const [officialTitleLine, officialTitle] = countLine("Official Title: " + infoTrial.officialTitle, 78);
+  const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 98);
+  // const [officialTitleLine, officialTitle] = countLine("Official Title: " + infoTrial.officialTitle, 78);
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
   
   const yRange = [officialPoint.y - officialTitleLine / 10, titlePoint.y + titleLine / 10]
