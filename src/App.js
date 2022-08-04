@@ -7,6 +7,8 @@ import Search from './component/Search'
 //함수
 import { getInfo } from "./visualization/DataExtraction";
 import { visualization } from "./visualization/visualization";
+import { armGArrowW } from "./visualization/visualization";
+import { armColorDict } from "./visualization/drawBranch";
 //state
 import { useState } from 'react';
 //아이콘
@@ -18,17 +20,6 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 
 // import $ from "jquery";
-
-const armColorDict = {
-  Experimental: "rgba(205, 31, 72, 1)", //coral
-  OtherS: "rgba(255, 210, 40, 1)", //gold
-  "Active Comparator": "rgba(172, 243, 255, 1)", //white blue
-  "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
-  "No Intervention": "rgba(0, 100, 0, 1)", // forest green
-  Other: "rgba(50, 190, 190, 1)", // light blue
-  "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
-  None: "rgba(148, 20, 148, 1)", // violet
-};
 
 function App() {
   const dataJson = getInfo("put url in this area");
@@ -47,8 +38,6 @@ function App() {
   const [config, setConfig] = useState(vConfig);
 
   const [mode, setMode] = useState('READ');
-
-
   let content = '';
   if (mode === 'READ') { //READ 모드일때 edit버튼을 누르면
     content =
@@ -155,6 +144,7 @@ function App() {
         }
       }}>
       </Button>
+
       <Button icon={faGripLines} className='parallel' onChangeMode={() => {
         // crossover -> parallel 로 바꾸기
         const newData = [...data];
@@ -164,7 +154,6 @@ function App() {
           if (newData[i].opacity === 0.3) clickedBranchIdx.push(i);
         }
         const startX = newData[0].x[1]; // 시작점
-        const armGArrowW = newData[0].x[4] - newData[0].x[1]; // 화살표 전체 x증가량
         const x = [newData[0].x[0], startX, startX + armGArrowW];
         const startY1 = newData[clickedBranchIdx[0]].y[1];
         const startY2 = newData[clickedBranchIdx[1]].y[1];

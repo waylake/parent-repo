@@ -1,3 +1,15 @@
+
+export const armColorDict = {
+  Experimental: "rgba(205, 31, 72, 1)", //coral
+  OtherS: "rgba(255, 210, 40, 1)", //gold
+  "Active Comparator": "rgb(10, 138, 138)", //진한 에메랄드
+  "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
+  "No Intervention": "rgba(0, 100, 0, 1)", // forest green
+  Other: "rgb(102, 205, 170)", // 살짝 밝은 에메랄드
+  "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
+  None: "rgba(148, 20, 148, 1)", // violet
+};
+
 export function drawBranch(
   armGLinePoint1,
   armGW,
@@ -9,16 +21,7 @@ export function drawBranch(
   designModel,
   armG
 ) {
-  const armColorDict = {
-    Experimental: "rgba(205, 31, 72, 1)", //coral
-    OtherS: "rgba(255, 210, 40, 1)", //gold
-    "Active Comparator": "rgb(10, 138, 138)", //진한 에메랄드
-    "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
-    "No Intervention": "rgba(0, 100, 0, 1)", // forest green
-    Other: "rgb(102, 205, 170)", // 살짝 밝은 에메랄드
-    "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
-    None: "rgba(148, 20, 148, 1)", // violet
-  };
+
 
   let setArmGroup = new Set(armG.armGroupType);
   let setArmGroupToLst = Array.from(setArmGroup);
@@ -31,7 +34,7 @@ export function drawBranch(
   let lineList = [];
   let arrowList = [];
   let washH;
-  let arrowIdx = 0;
+  let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
