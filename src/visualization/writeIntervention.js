@@ -1,5 +1,5 @@
 import { countLine } from "./drawPopulation";
-import {lineBreak} from "./drawInfoTrial"
+import { lineBreak } from "./drawInfoTrial"
 
 export function writeIntervention(
   startPoint,
@@ -27,6 +27,8 @@ export function writeIntervention(
   const intervenHoverFontSize = 13;
 
   let res;
+  let drugNameIdx = 0;
+  let durationIdx = 0;
 
   if (
     (designModel === "Single Group Assignment" && numBranch === 1) ||
@@ -56,7 +58,7 @@ export function writeIntervention(
       yanchor: "bottom",
       align: "left",
       text: onlyDrug,
-      name: ["armGroup", "DrugName"],
+      name: ["armGroup", "DrugName", drugNameIdx++],
       font: {
         size: intervenFontSize,
       },
@@ -80,7 +82,7 @@ export function writeIntervention(
       yanchor: "top",
       align: "right",
       text: drugInfo[0]["Duration"],
-      name: ["armGroup", "Duration"],
+      name: ["armGroup", "Duration", durationIdx++],
       font: {
         size: intervenDurFontSize,
       },
@@ -120,7 +122,7 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
-        name: ["armGroup", "DrugName"],
+        name: ["armGroup", "DrugName", drugNameIdx],
         font: {
           size: intervenFontSize,
         },
@@ -143,7 +145,7 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
-        name: ["armGroup", "DrugName"],
+        name: ["armGroup", "DrugName", drugNameIdx++],
         font: {
           size: intervenFontSize,
         },
@@ -258,7 +260,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: onlyDrug,
-          name: ["armGroup", "DrugName"],
+          name: ["armGroup", "DrugName", drugNameIdx++],
           font: {
             size: intervenFontSize,
           },
@@ -283,7 +285,7 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
-          name: ["armGroup", "Duration"],
+          name: ["armGroup", "Duration", durationIdx++],
           font: {
             size: intervenDurFontSize,
           },

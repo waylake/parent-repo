@@ -21,6 +21,8 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 // import $ from "jquery";
 
+
+
 function App() {
   const dataJson = getInfo("put url in this area");
 
@@ -185,15 +187,58 @@ function App() {
         // parallel -> cross over로 바꾸기
         const newData = [...data];
         const newLayout = { ...layout };
-        const clickedBranchIdx = []; // 선택된 branch 담기
+        let clickedBranchIdx = []; // 선택된 branch 담기
         for (let i = 0; i < newData.length; i++) {
           if (newData[i].opacity === 0.3) clickedBranchIdx.push(i);
         }
         //branch가 붙어있지 않다면 붙어있도록 순서 변경
+        if (clickedBranchIdx[1] - clickedBranchIdx[0] !== Math.abs(1)) {
+          const [smallIdx, bigIdx] = clickedBranchIdx[1] > clickedBranchIdx[0] ? clickedBranchIdx : [...clickedBranchIdx].reverse();
+          const movingBranchIdx = smallIdx + 1; // 모양이 바뀌지 않지만 순서가 교체당할 branch idx
+          //bigIdx와 movingBranchIdx 위치 바꿔주기
+          const bigIdxY = newData[bigIdx].y;
+          const movingBranchIdxY = newData[movingBranchIdx].y;
+          newData[bigIdx].y = movingBranchIdxY;
+          newData[movingBranchIdx].y = bigIdxY;
+          //bigIdx와 movingBranchIdx에 해당하는 intervention text값(drugname) 만 바꾸기 ##duration 어떻게 처리할지
+
+          let bigIdxDrugNameIdx = 0;
+          let movingBranchIdxDrugNameIdx = 0;
+          for (let i = 0; i < newLayout.annotations.length; i++) {
+            if (newLayout.annotations[i].name[1] === 'DrugName') {
+              if (newLayout.annotations[i].name[2] === bigIdx) {
+                bigIdxDrugNameIdx = i;
+              }
+              if (newLayout.annotations[i].name[2] === movingBranchIdx) {
+                movingBranchIdxDrugNameIdx = i;
+              }
+            }
+          }
+          const tempDrugName = newLayout.annotations[bigIdxDrugNameIdx].text;
+          newLayout.annotations[bigIdxDrugNameIdx].text = newLayout.annotations[movingBranchIdxDrugNameIdx].text;
+          newLayout.annotations[movingBranchIdxDrugNameIdx].text = tempDrugName;
+
+          //data배열 내에서 idx값도 바꿔주기
+          const tempIdx = newData[bigIdx];
+          newData[bigIdx] = newData[movingBranchIdx];
+          newData[movingBranchIdx] = tempIdx;
+
+          //data배열 내에서 바뀐 idx값에 따라 화살표 촉 색깔 바꾸기
+          const ary = [movingBranchIdx, bigIdx];
+          for (let i = 0; i < ary.length; i++) {
+            for (let value of newLayout.shapes) {
+              if (value.name && value.name[0] === 'arrow' && value.name[1] === ary[i]) {
+                value.fillcolor = armColorDict[newData[ary[i]].name]; // 채우기 색깔
+                value.line.color = armColorDict[newData[ary[i]].name]; // 테두리 색깔
+              }
+            }
+          }
+          //clickedBranchIdx 초기화
+          clickedBranchIdx = [smallIdx, movingBranchIdx];
+        }
 
         //branch 꼬기
         const startX = newData[0].x[1]; // 시작점
-        const armGArrowW = newData[0].x[2] - newData[0].x[1]; // 화살표 전체 x증가량
         const x = [newData[0].x[0], startX, startX + armGArrowW / 3, startX + armGArrowW / 3 * 2, startX + armGArrowW];
         const startY1 = newData[clickedBranchIdx[0]].y[1];
         const startY2 = newData[clickedBranchIdx[1]].y[1];
@@ -217,6 +262,7 @@ function App() {
             }
           }
         }
+
         setData(newData);
         setLayout(newLayout);
       }}></Button>
