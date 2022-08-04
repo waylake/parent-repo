@@ -30,6 +30,7 @@ export function drawBranch(
   let lineList = [];
   let arrowList = [];
   let washH;
+  let arrowIdx = 0;
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
@@ -56,9 +57,9 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 2,
+          width: 4,
         },
-        hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+        // hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
       let lineArrow = {
@@ -67,7 +68,8 @@ export function drawBranch(
         path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
               L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
         fillcolor: colorB, // 채우기 색깔
-        line: {color: colorB}, // 테두리 색깔
+        line: { color: colorB }, // 테두리 색깔
+        name: ['arrow', arrowIdx++]
       };
       arrowList.push(lineArrow);
     }
@@ -82,7 +84,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: "rgba(1,1,1,1)",
-        width: 2,
+        width: 4,
       },
       showlegend: false,
       hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
@@ -104,7 +106,7 @@ export function drawBranch(
   } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
     // limit number of branch
     let numBranchLimit = numBranch
-    if(numBranch > 6){
+    if (numBranch > 6) {
       numBranchLimit = 6
     }
 
@@ -128,9 +130,9 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 2,
+          width: 4,
         },
-        hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+        // hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
       };
       lineList.push(lineLoc);
 
@@ -140,7 +142,8 @@ export function drawBranch(
         path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
               L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
         fillcolor: colorB, // 채우기 색깔
-        line: {color: colorB}, // 테두리 색깔
+        line: { color: colorB }, // 테두리 색깔
+        name: ['arrow', arrowIdx++]
       };
       arrowList.push(lineArrow);
     }
@@ -158,7 +161,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: colorB,
-        width: 2,
+        width: 4,
       },
     };
     lineList.push(lineLoc);
@@ -168,7 +171,8 @@ export function drawBranch(
       path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
             L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
       fillcolor: colorB, // 채우기 색깔
-      line: {color: colorB}, // 테두리 색깔
+      line: { color: colorB }, // 테두리 색깔
+      name: ['arrow', arrowIdx++]
     };
     arrowList.push(lineArrow);
   } else {
@@ -181,7 +185,7 @@ export function drawBranch(
     data: {
       lineList,
     },
-    layout:{
+    layout: {
       arrowList
     },
     washHeight: { washH },
