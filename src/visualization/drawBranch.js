@@ -31,10 +31,12 @@ export function drawBranch(
   const heightTriangle = 0.2;
   const lineWidth = 3.5;
 
+
   let lineList = [];
   let arrowList = [];
   let washH;
   let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
+  let branchIdx = 0;
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
@@ -43,7 +45,7 @@ export function drawBranch(
       let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
       let lineLoc = {
-        name: armG.armGroupType[i],
+        name: [armG.armGroupType[i], branchIdx++],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -63,7 +65,7 @@ export function drawBranch(
           color: colorB,
           width: lineWidth,
         },
-        // hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+        hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
       let lineArrow = {
@@ -120,7 +122,7 @@ export function drawBranch(
       let arrowEndY = startPoint.y + startH - i * (startH / (numBranchLimit - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
       let lineLoc = {
-        name: armG.armGroupType[i],
+        name: [armG.armGroupType[i], branchIdx++],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -136,7 +138,7 @@ export function drawBranch(
           color: colorB,
           width: lineWidth,
         },
-        // hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+        hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
       };
       lineList.push(lineLoc);
 
@@ -159,7 +161,7 @@ export function drawBranch(
       colorB = armColorDict["OtherS"];
     }
     let lineLoc = {
-      name: armG.armGroupType[0],
+      name: [armG.armGroupType[0], branchIdx++],
       x: [armGLinePoint1.x, arrowEndX],
       y: [arrowEndY, arrowEndY],
       mode: "lines",

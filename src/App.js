@@ -26,6 +26,7 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 function App() {
   const dataJson = getInfo("put url in this area");
 
+
   let visualizationInfo = visualization(dataJson);
   //data
   let vData = visualizationInfo.Gdata;
@@ -67,6 +68,12 @@ function App() {
             annot[i].text = annot[i].text.replace(re2, '');
           }
         }
+        // data 클릭 되게 바꾸기
+        const newData = [...data];
+        for (let value of newData) {
+          if (value.name) value.hoverinfo = 'name';
+        }
+        setData(newData);
         setLayout(newLayout);
         setMode('EDIT');
       }} ></Button>;
@@ -142,6 +149,12 @@ function App() {
             newVisualizationInfo.Glayout.shapes[i] = layout.shapes[i];
           }
           setLayout(newVisualizationInfo.Glayout);
+          // data 클릭 안되게 바꾸기
+          const newData = [...data];
+          for (let value of newData) {
+            if (value.name) value.hoverinfo = 'skip';
+          }
+          setData(newData);
           setMode('READ');
         }
       }}>
@@ -200,7 +213,8 @@ function App() {
           const movingBranchIdxY = newData[movingBranchIdx].y;
           newData[bigIdx].y = movingBranchIdxY;
           newData[movingBranchIdx].y = bigIdxY;
-          //bigIdx와 movingBranchIdx에 해당하는 intervention text값(drugname) 만 바꾸기 ##duration 어떻게 처리할지
+
+          //bigIdx와 movingBranchIdx에 해당하는 intervention 위치안바꾸고 text값(drugname) 만 바꾸기 ##duration 어떻게 처리할지
 
           let bigIdxDrugNameIdx = 0;
           let movingBranchIdxDrugNameIdx = 0;
@@ -223,7 +237,7 @@ function App() {
           newData[bigIdx] = newData[movingBranchIdx];
           newData[movingBranchIdx] = tempIdx;
 
-          //data배열 내에서 바뀐 idx값에 따라 화살표 촉 색깔 바꾸기
+          //data배열 내에서 바뀐 idx값에 따라 화살표 촉 위치 안바꾸고 색깔만 바꾸기
           const ary = [movingBranchIdx, bigIdx];
           for (let i = 0; i < ary.length; i++) {
             for (let value of newLayout.shapes) {
@@ -282,9 +296,36 @@ function App() {
         config={config}
 
         onClick={(e) => {
-          e.points[0].data.opacity = 0.3;
+
+          const newLayout = { ...layout };
+          let selectedBranch = 0;
+          //branch 투명도
+          e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
+          //화살표 촉 투명도
+          for (let value of newLayout.shapes) {
+            if (value.name && value.name[0] === 'arrow' && value.name[1] === e.points[0].data.name[1]) {
+              value.opacity = value.opacity === 1 ? 0.3 : 1;
+            }
+          }
+
+          for (let value of data) { //클릭된 개수 세기
+            selectedBranch = value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+          }
+          if (selectedBranch >= 3) {
+            //branch 투명도
+            alert('두개 까지만 선택 가능합니다.');
+            e.points[0].data.opacity = 1;
+            //화살표 촉 투명도
+            for (let value of newLayout.shapes) {
+              if (value.name && value.name[0] === 'arrow' && value.name[1] === e.points[0].data.name[1]) {
+                value.opacity = 1;
+              }
+            }
+          }
           const newData = [...data];
           setData(newData);
+          setLayout(newLayout);
+
         }}
       // onInitialized={(figure) => useState(figure)}
       // onUpdate={(figure) => useState(figure)}
