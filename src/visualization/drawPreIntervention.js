@@ -4,8 +4,8 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
   const allocation = intervention.allocation
   const ratio = intervention.ratio
 
-  const deltaRadius = 9;
-  const delta = 0.1;
+  const deltaRadius = 12;
+  const delta = 0.1/2;
   const widthTrianlge = 0.02;
   const heightTriangle = 0.5
 

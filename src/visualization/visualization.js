@@ -4,7 +4,7 @@ import { drawPreIntervention } from "./drawPreIntervention";
 import { countLine } from "./drawPopulation";
 
 import { drawBranch } from "./drawBranch";
-import { drawInfoTrial } from "./drawInfoTrial";
+import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
 import { writeIntervention } from "./writeIntervention";
 
 export function visualization(data) {
@@ -117,12 +117,12 @@ export function visualization(data) {
 
   // objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
-  const [objectiveLine, objective] = countLine(
+  const [objectiveLine, objective] = lineBreak(
     "Objective: " + infoTrial.objective,
-    87
+    83
   );
   // title
-  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
+  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
   const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
   // entity
