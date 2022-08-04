@@ -39,35 +39,7 @@ export function drawBranch(
   let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
   let branchIdx = 0;
 
-  //draw&write legend
-  for (let i=0; i<setArmGroupToLst.length; i++){
-    let colorB = armColorDict[setArmGroupToLst[i]];
-    let legendLine = {
-      x: [legendPoint.x, legendPoint.x + 1],
-      y: [legendPoint.y -i*startH/8, legendPoint.y -i*startH/8],
-      mode: 'lines',
-      line: {
-        color: colorB,
-        width: lineWidth,
-      },
-      hoverinfo: "skip",
-    }
-    lineList.push(legendLine);
 
-    let legendText = {
-      x: legendPoint.x + 1 + 0.1,
-      y: legendPoint.y -i*startH/8,
-      xanchor: "left",
-      // yanchor: "bottom",
-      align: "left",
-      text: setArmGroupToLst[i],
-      font: {
-        size: 8,
-      },
-      showarrow: false,
-    };
-    annotations.push(legendText);
-  }
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
@@ -216,6 +188,38 @@ export function drawBranch(
     console.log(
       "we only consider single, parallel, crossover or may be sequential!"
     );
+  }
+
+  //draw&write legend
+  for (let i = 0; i < setArmGroupToLst.length; i++) {
+    let colorB = armColorDict[setArmGroupToLst[i]];
+    let legendLine = {
+      x: [legendPoint.x, legendPoint.x + 1],
+      y: [legendPoint.y - i * startH / 8, legendPoint.y - i * startH / 8],
+      mode: 'lines',
+      line: {
+        color: colorB,
+        width: lineWidth,
+      },
+      hoverinfo: "skip",
+      name: ['legend'],
+    }
+    lineList.push(legendLine);
+
+    let legendText = {
+      x: legendPoint.x + 1 + 0.1,
+      y: legendPoint.y - i * startH / 8,
+      xanchor: "left",
+      // yanchor: "bottom",
+      align: "left",
+      text: setArmGroupToLst[i],
+      font: {
+        size: 8,
+      },
+      showarrow: false,
+      name: ['legend'],
+    };
+    annotations.push(legendText);
   }
 
   return {

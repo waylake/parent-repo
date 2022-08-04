@@ -21,6 +21,11 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 // import $ from "jquery";
 
+function makeObvious(ary) {
+  for (let value of ary) {
+    value.opacity = 1;
+  }
+}
 
 
 function App() {
@@ -71,7 +76,7 @@ function App() {
         // data 클릭 되게 바꾸기
         const newData = [...data];
         for (let value of newData) {
-          if (value.name) value.hoverinfo = 'name';
+          if (value.name) value.hoverinfo = 'none';
         }
         setData(newData);
         setLayout(newLayout);
@@ -183,12 +188,13 @@ function App() {
           newData[clickedBranchIdx[i]].opacity = 1;
         }
 
-        //화살표촉 색깔 바꾸기
+        //화살표촉 색깔 및 투명도 바꾸기
         for (let i = 0; i < 2; i++) {
           for (let value of newLayout.shapes) {
             if (value.name && value.name[0] === 'arrow' && value.name[1] === clickedBranchIdx[i]) {
-              value.fillcolor = armColorDict[newData[clickedBranchIdx[i]].name]; // 채우기 색깔
-              value.line.color = armColorDict[newData[clickedBranchIdx[i]].name]; // 테두리 색깔
+              value.fillcolor = armColorDict[newData[clickedBranchIdx[i]].name[0]]; // 채우기 색깔
+              value.line.color = armColorDict[newData[clickedBranchIdx[i]].name[0]]; // 테두리 색깔
+              value.opacity = 1;
             }
           }
         }
@@ -219,7 +225,7 @@ function App() {
           let bigIdxDrugNameIdx = 0;
           let movingBranchIdxDrugNameIdx = 0;
           for (let i = 0; i < newLayout.annotations.length; i++) {
-            if (newLayout.annotations[i].name[1] === 'DrugName') {
+            if (newLayout.annotations[i].name && newLayout.annotations[i].name[1] === 'DrugName') {
               if (newLayout.annotations[i].name[2] === bigIdx) {
                 bigIdxDrugNameIdx = i;
               }
@@ -242,8 +248,8 @@ function App() {
           for (let i = 0; i < ary.length; i++) {
             for (let value of newLayout.shapes) {
               if (value.name && value.name[0] === 'arrow' && value.name[1] === ary[i]) {
-                value.fillcolor = armColorDict[newData[ary[i]].name]; // 채우기 색깔
-                value.line.color = armColorDict[newData[ary[i]].name]; // 테두리 색깔
+                value.fillcolor = armColorDict[newData[ary[i]].name[0]]; // 채우기 색깔
+                value.line.color = armColorDict[newData[ary[i]].name[0]]; // 테두리 색깔
               }
             }
           }
@@ -260,7 +266,7 @@ function App() {
         const y2 = [newData[0].y[0], startY2, startY2, startY1, startY1];
         const y = [y1, y2];
 
-        //좌표 설정
+        //좌표 설정 및 opacity
         for (let i = 0; i < clickedBranchIdx.length; i++) {
           newData[clickedBranchIdx[i]].x = x;
           newData[clickedBranchIdx[i]].y = y[i];
@@ -271,9 +277,14 @@ function App() {
         for (let i = 0; i < 2; i++) {
           for (let value of newLayout.shapes) {
             if (value.name && value.name[0] === 'arrow' && value.name[1] === clickedBranchIdx[i]) {
-              value.fillcolor = armColorDict[newData[clickedBranchIdx[1 - i]].name]; // 채우기 색깔
-              value.line.color = armColorDict[newData[clickedBranchIdx[1 - i]].name]; // 테두리 색깔
+              value.fillcolor = armColorDict[newData[clickedBranchIdx[1 - i]].name[0]]; // 채우기 색깔
+              value.line.color = armColorDict[newData[clickedBranchIdx[1 - i]].name[0]]; // 테두리 색깔
             }
+          }
+        }
+        for (let value of newLayout.shapes) {
+          if (value.name && value.name[0] === 'arrow') {
+            value.opacity = 1;
           }
         }
 
