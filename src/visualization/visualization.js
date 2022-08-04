@@ -45,6 +45,7 @@ export function visualization(data) {
       itemwidth: 25, // 범례 그래프의 길이
       bordercolor: "black",
       // bgcolor: 'rgb(255, 235, 240)', 밑에서 작업.
+      showlegend: false,
     },
   };
   let Gframes = [];
@@ -107,7 +108,7 @@ export function visualization(data) {
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
   const officialPoint = new Point(
-    startPoint.x + (startW / 8) * 7,
+    startPoint.x ,
     startPoint.y - startH / 2
   );
   // entity
@@ -146,13 +147,14 @@ export function visualization(data) {
     preInterDrawInfo.layout.annotations
   );
   //push info into G Lists
-  Gdata = Gdata.concat(branchDrawInfo.data.lineList);
-  Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList);
-  Gdata = Gdata.concat(detailDrawInfo.data);
+  Gdata = Gdata.concat(branchDrawInfo.data.lineList); // branch lines
+  Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList); // branch arrow point
+  Gdata = Gdata.concat(detailDrawInfo.data); // comeplete time
   Glayout.annotations = Glayout.annotations.concat(
     detailDrawInfo.layout.annotations
-  );
-  Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange);
+  ); // title, official title, objective
+  Glayout.annotations = Glayout.annotations.concat(branchDrawInfo.layout.annotations); // legend
+  Glayout.yaxis.range = Glayout.yaxis.range.concat(detailDrawInfo.yRange); // 모식도 전체 크기
 
   let yRange = detailDrawInfo.yRange;
 
@@ -195,6 +197,8 @@ export function visualization(data) {
   } else {
     Glayout.legend.bgcolor = "rgb(232, 245, 255)";
   }
+
+  Glayout.showlegend = false; // legend보여주지 않기
 
   // gather altogether
   return {
