@@ -13,19 +13,27 @@ import { useState } from 'react';
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 // import {PythonShell} from 'python-shell';
-import { faGripLines } from "@fortawesome/free-solid-svg-icons";
+import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 
 // import $ from "jquery";
 
+const armColorDict = {
+  Experimental: "rgba(205, 31, 72, 1)", //coral
+  OtherS: "rgba(255, 210, 40, 1)", //gold
+  "Active Comparator": "rgba(172, 243, 255, 1)", //white blue
+  "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
+  "No Intervention": "rgba(0, 100, 0, 1)", // forest green
+  Other: "rgba(50, 190, 190, 1)", // light blue
+  "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
+  None: "rgba(148, 20, 148, 1)", // violet
+};
 
 function App() {
   const dataJson = getInfo("put url in this area");
 
   let visualizationInfo = visualization(dataJson);
-  console.log(dataJson);
-  console.log(visualizationInfo);
   //data
   let vData = visualizationInfo.Gdata;
 
@@ -74,7 +82,7 @@ function App() {
   }
 
   else if (mode === 'EDIT') {//여기서는 datajson을 바꿔줘야함
-    content = <div>
+    content = <>
       <Button icon={faFloppyDisk} className='edit' onChangeMode={() => {
         // editable: false
         const newConfig = { ...config };
@@ -137,9 +145,7 @@ function App() {
               }
             }
           }
-          console.log(dataJson.intervention);
-          const obj = { age: 10, a: 30, b: 50 };
-          console.log(obj);
+
           const newVisualizationInfo = visualization(dataJson);
           setLayout(newVisualizationInfo.Glayout);
           setData(newVisualizationInfo.Gdata);
@@ -147,9 +153,50 @@ function App() {
         }
       }}>
       </Button>
-      <Button icon={faGripLines} className='parallel'></Button>
-      <Button icon={faShuffle} className='crossover'></Button>
-    </div>;
+      <Button icon={faGripLines} className='parallel' ></Button>
+
+      <Button icon={faShuffle} className='crossover' onChangeMode={() => {
+        // parallel -> cross over로 바꾸기
+        const newData = [...data];
+        const newLayout = { ...layout };
+        const clickedBranchIdx = []; // 선택된 branch 담기
+        for (let i = 0; i < newData.length; i++) {
+          if (newData[i].opacity === 0.5) clickedBranchIdx.push(i);
+        }
+        //branch가 붙어있지 않다면 붙어있도록 순서 변경
+
+        //branch 꼬기
+        const startX = newData[0].x[1]; // 시작점
+        const armGArrowW = newData[0].x[2] - newData[0].x[1]; // 화살표 전체 x증가량
+        const x = [newData[0].x[0], startX, startX + armGArrowW / 3, startX + armGArrowW / 3 * 2, startX + armGArrowW];
+        const startY1 = newData[clickedBranchIdx[0]].y[1];
+        const startY2 = newData[clickedBranchIdx[1]].y[1];
+        const y1 = [newData[0].y[0], startY1, startY1, startY2, startY2];
+        const y2 = [newData[0].y[0], startY2, startY2, startY1, startY1];
+        const y = [y1, y2];
+
+        //좌표 설정
+        for (let i = 0; i < clickedBranchIdx.length; i++) {
+          newData[clickedBranchIdx[i]].x = x;
+          newData[clickedBranchIdx[i]].y = y[i];
+          newData[clickedBranchIdx[i]].opacity = 1;
+        }
+
+        //화살표 색깔 바꾸기
+        for (let i = 0; i < 2; i++) {
+          for (let value of newLayout.shapes) {
+            if (value.name && value.name[0] === 'arrow' && value.name[1] === clickedBranchIdx[i]) {
+              value.fillcolor = armColorDict[newData[clickedBranchIdx[1 - i]].name]; // 채우기 색깔
+              value.line.color = armColorDict[newData[clickedBranchIdx[1 - i]].name]; // 테두리 색깔
+            }
+          }
+        }
+
+        console.log(newLayout);
+        setData(newData);
+        setLayout(newLayout);
+      }}></Button>
+    </>;
   }
 
   return (
@@ -163,8 +210,11 @@ function App() {
         data={data}
         frames={frames}
         config={config}
-        onSelected={() => {
-          console.log('hi');
+
+        onClick={(e) => {
+          e.points[0].data.opacity = 0.5;
+          const newData = [...data];
+          setData(newData);
         }}
       // onInitialized={(figure) => useState(figure)}
       // onUpdate={(figure) => useState(figure)}
