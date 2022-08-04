@@ -7,6 +7,8 @@ import { drawBranch } from "./drawBranch";
 import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
 import { writeIntervention } from "./writeIntervention";
 
+
+export let armGArrowW = 7;
 export function visualization(data) {
   // data from extraction
   let designModel = data.designModel;
@@ -75,7 +77,6 @@ export function visualization(data) {
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
   let armGW = 1;
-  let armGArrowW = 7;
   let legendPoint = new Point(startPoint.x, startPoint.y - startH / 6);
 
   // draw branch
@@ -125,7 +126,6 @@ export function visualization(data) {
   );
 
   const moseekH = detailDrawInfo.yRange[1] - detailDrawInfo.yRange[0];
-  console.log(moseekH);
   const preInterDrawInfo = drawPreIntervention(
     numberPoint,
     numberW,
@@ -174,8 +174,8 @@ export function visualization(data) {
 
   // legend y 재설정
   let legendPosition =
-    (officialPoint.y - detailDrawInfo.yRange[0]) / (moseekH*1.3);
-    // /(moseekH * (2.2 + numArm*0.1)) + (numArm * 0.1);
+    (officialPoint.y - detailDrawInfo.yRange[0]) / (moseekH * 1.3);
+  // /(moseekH * (2.2 + numArm*0.1)) + (numArm * 0.1);
   // if (numArm > 2) {
   //   legendPosition =
   //     (startPoint.y + officialPoint.y - detailDrawInfo.yRange[0] * 2) /2
