@@ -24,8 +24,9 @@ export function drawBranch(
   let setArmGroupToLst = Array.from(setArmGroup);
   const numBranch = armG.interventionDescription.length;
 
-  const widthTriangle = 0.005
-  const heightTriangle = 0.2
+  const widthTriangle = 0.005;
+  const heightTriangle = 0.2;
+  const lineWidth = 3.5;
 
   let lineList = [];
   let arrowList = [];
@@ -57,7 +58,7 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 4,
+          width: lineWidth,
         },
         // hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
@@ -84,7 +85,7 @@ export function drawBranch(
       mode: "lines",
       line: {
         color: "rgba(1,1,1,1)",
-        width: 4,
+        width: 2,
       },
       showlegend: false,
       hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
@@ -130,7 +131,7 @@ export function drawBranch(
         mode: "lines",
         line: {
           color: colorB,
-          width: 4,
+          width: lineWidth,
         },
         // hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
       };
