@@ -34,11 +34,17 @@ export function visualization(data) {
       showticklabels: false,
     },
     legend: {
-      x: 0.04, //x: -2~3
+      x: 0.05, //x: -2~3
       y: 0.18, //y: -2~3 /////////// how to control the position without using absolute position
       font: {
         size: 9,
       },
+      tracegroupgap : 10,
+      itemclick : false, // 클릭했을 때 아무일도 일어나지 않게
+      itemdoubleclick : false,// 더블 클릭했을 때 아무일도 일어나지 않게
+      itemwidth: 25, // 범례 그래프의 길이
+      bordercolor: 'black',
+      bgcolor: 'rgb(255, 235, 240)',
     },
   };
   let Gframes = [];
@@ -105,7 +111,7 @@ export function visualization(data) {
   // title
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
-  const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
+  const officialPoint = new Point(startPoint.x+startW/4*3, startPoint.y - startH / 2);
   // entity
   let detailDrawInfo = drawInfoTrial(
     durationPoint,
@@ -166,9 +172,20 @@ export function visualization(data) {
   );
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
-  let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) / 1.1;
+  // legend y 재설정
+  let legendPosition = (startPoint.y + officialPoint.y - 
+    detailDrawInfo.yRange[0]*2) / (moseekH*2.2);
+  if(numArm>2){
+    legendPosition = (startPoint.y + officialPoint.y - 
+    detailDrawInfo.yRange[0]*2) / (moseekH*(2.2+ (numArm)*0.1/(numArm-2)));
+  }
+  // Glayout.legend.y = legendPosition;
+  Glayout.legend.y = 0.24;
+  // legend gap 재설정
+  Glayout.legend.tracegroupgap =['reversed', 'grouped', 'normal', 'normal','normal','normal', ]
+  Glayout.legend.traceorder = 100
 
-  Glayout.legend.y = legendPosition;
+  
   // gather altogether
   return {
     Gdata,

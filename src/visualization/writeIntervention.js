@@ -1,4 +1,5 @@
 import { countLine } from "./drawPopulation";
+import {lineBreak} from "./drawInfoTrial"
 
 export function writeIntervention(
   startPoint,
@@ -46,6 +47,7 @@ export function writeIntervention(
     }
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
+    onlyDrug = lineBreak(onlyDrug, 32)[1];
 
     let interObj = {
       x: textStartX,
@@ -109,6 +111,7 @@ export function writeIntervention(
       }
 
       drugDescription = countLine(drugDescription, 15)[1];
+      onlyDrug = lineBreak(onlyDrug, 32)[1];
       // 꼬기 전
       let interObjB = {
         x: armGLinePoint1.x + armGW + 0.1,
@@ -245,7 +248,7 @@ export function writeIntervention(
             drugHowToTake +
             "<br>";
         }
-        // drugDescription = countLine(drugDescription, 45)[1];
+        onlyDrug = lineBreak(onlyDrug, 32)[1];
 
         //make letter object
         let interObj = {

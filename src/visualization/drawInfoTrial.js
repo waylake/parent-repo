@@ -5,7 +5,7 @@
 export function lineBreak(inString, limit) {
   let point = 0;
   let brString = [];
-  let n = 0;
+  let n = 1;
   while (inString.length > limit) {
     n++;
     point = inString.slice(0, limit).lastIndexOf("");
@@ -17,7 +17,8 @@ export function lineBreak(inString, limit) {
       inString = inString.slice(point + 1);
     }
   }
-  n++;
+  // console.log("dif: "+(limit - inString.length));
+  inString = inString + (" ").repeat((limit - inString.length)*1.6);
   brString += inString;
   return [n, brString];
 }
@@ -33,9 +34,10 @@ export function drawInfoTrial(
   numArm,
   infoTrial
 ) {
-  const [objectiveLine, objective] = lineBreak("Objective: " + infoTrial.objective, 83);
-  const [titleLine, title] = lineBreak("Title: " + infoTrial.title, 67);
-  const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 98);
+  const [titleLine, title] = lineBreak("Title: " + infoTrial.title, 66);
+  const [objectiveLine, objective] = lineBreak("Objective: " + infoTrial.objective, 82);
+  // const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 98);
+  const [officialTitleLine, officialTitle] = lineBreak("Official Title: " + infoTrial.officialTitle, 78);
   const completeTime = infoTrial.completeTime + " months<br>required to complete";
   
   const yRange = [officialPoint.y - officialTitleLine / 10, titlePoint.y + titleLine / 10]
