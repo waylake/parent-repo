@@ -4,7 +4,7 @@ import { drawPreIntervention } from "./drawPreIntervention";
 import { countLine } from "./drawPopulation";
 
 import { drawBranch } from "./drawBranch";
-import { drawInfoTrial } from "./drawInfoTrial";
+import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
 import { writeIntervention } from "./writeIntervention";
 
 export function visualization(data) {
@@ -34,11 +34,17 @@ export function visualization(data) {
       showticklabels: false,
     },
     legend: {
-      x: 0.04, //x: -2~3
+      x: 0.05, //x: -2~3
       y: 0.18, //y: -2~3 /////////// how to control the position without using absolute position
       font: {
         size: 9,
       },
+      tracegroupgap: 10,
+      itemclick: false, // 클릭했을 때 아무일도 일어나지 않게
+      itemdoubleclick: false, // 더블 클릭했을 때 아무일도 일어나지 않게
+      itemwidth: 25, // 범례 그래프의 길이
+      bordercolor: "black",
+      // bgcolor: 'rgb(255, 235, 240)', 밑에서 작업.
     },
   };
   let Gframes = [];
@@ -52,11 +58,6 @@ export function visualization(data) {
 
   let startPoint = new Point(10, 10);
   let startW = 5;
-  let box1 = {
-    boxstyle: "round",
-    ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
-    fc: (1.0, 0.8, 0.8),
-  };
   const popDrawInfo = drawPopulation(startPoint, startW, population);
   const startH = popDrawInfo.startH;
   const numberPoint = new Point(
@@ -69,25 +70,6 @@ export function visualization(data) {
   const allocationPoint = new Point(
     numberPoint.x + numberW + radius,
     numberPoint.y
-  );
-  const preInterDrawInfo = drawPreIntervention(
-    numberPoint,
-    numberW,
-    allocationPoint,
-    radius,
-    intervention
-  );
-
-  // 합치기 수정 필요
-  Glayout.shapes = Glayout.shapes.concat(
-    popDrawInfo.layout.shapes,
-    preInterDrawInfo.layout.shapes
-  );
-  Glayout.annotations = Glayout.annotations.concat(
-    popDrawInfo.layout.annotations
-  );
-  Glayout.annotations = Glayout.annotations.concat(
-    preInterDrawInfo.layout.annotations
   );
 
   let armGLinePoint1 = new Point(allocationPoint.x + radius, allocationPoint.y);
@@ -117,14 +99,17 @@ export function visualization(data) {
 
   // objective
   const objPoint = new Point(startPoint.x, startPoint.y + startH + 0.1);
-  const [objectiveLine, objective] = countLine(
+  const [objectiveLine, objective] = lineBreak(
     "Objective: " + infoTrial.objective,
-    87
+    83
   );
   // title
-  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 10);
+  const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
-  const officialPoint = new Point(startPoint.x, startPoint.y - startH / 2);
+  const officialPoint = new Point(
+    startPoint.x + (startW / 8) * 7,
+    startPoint.y - startH / 2
+  );
   // entity
   let detailDrawInfo = drawInfoTrial(
     durationPoint,
@@ -138,6 +123,28 @@ export function visualization(data) {
     infoTrial
   );
 
+  const moseekH = detailDrawInfo.yRange[1] - detailDrawInfo.yRange[0];
+  console.log(moseekH);
+  const preInterDrawInfo = drawPreIntervention(
+    numberPoint,
+    numberW,
+    allocationPoint,
+    radius,
+    moseekH,
+    intervention
+  );
+
+  // 합치기 수정 필요
+  Glayout.shapes = Glayout.shapes.concat(
+    popDrawInfo.layout.shapes,
+    preInterDrawInfo.layout.shapes
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    popDrawInfo.layout.annotations
+  );
+  Glayout.annotations = Glayout.annotations.concat(
+    preInterDrawInfo.layout.annotations
+  );
   //push info into G Lists
   Gdata = Gdata.concat(branchDrawInfo.data.lineList);
   Glayout.shapes = Glayout.shapes.concat(branchDrawInfo.layout.arrowList);
@@ -163,9 +170,32 @@ export function visualization(data) {
   );
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
-  let legendPosition = (officialPoint.y - detailDrawInfo.yRange[0]) / 1.1;
-
+  // legend y 재설정
+  let legendPosition =
+    (officialPoint.y - detailDrawInfo.yRange[0]) / (moseekH*1.3);
+    // /(moseekH * (2.2 + numArm*0.1)) + (numArm * 0.1);
+  // if (numArm > 2) {
+  //   legendPosition =
+  //     (startPoint.y + officialPoint.y - detailDrawInfo.yRange[0] * 2) /2
+  //     /(moseekH * (2.5 - numArm * 0.01));
+  // }
+  // Glayout.legend.y = legendPosition;
   Glayout.legend.y = legendPosition;
+  // legend gap 재설정 : 적용 안됨...
+  //// Glayout.legend.tracegroupgap =['reversed', 'grouped', 'normal', 'normal','normal','normal', ]
+  //// Glayout.legend.traceorder = 100
+
+  // legend bg color
+  if (
+    ((designModel === "Single Group Assignment") &
+      ("Other" in armGroup.armGroupType)) |
+    ("Experimental" in armGroup.armGroupType)
+  ) {
+    Glayout.legend.bgcolor = "rgb(255, 235, 240)";
+  } else {
+    Glayout.legend.bgcolor = "rgb(232, 245, 255)";
+  }
+
   // gather altogether
   return {
     Gdata,

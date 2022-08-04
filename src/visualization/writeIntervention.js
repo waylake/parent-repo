@@ -1,4 +1,5 @@
 import { countLine } from "./drawPopulation";
+import {lineBreak} from "./drawInfoTrial"
 
 export function writeIntervention(
   startPoint,
@@ -21,6 +22,10 @@ export function writeIntervention(
   let testStartY;
   let drugInfo;
 
+  const intervenFontSize = 12;
+  const intervenDurFontSize = 9;
+  const intervenHoverFontSize = 13;
+
   let res;
 
   if (
@@ -32,13 +37,17 @@ export function writeIntervention(
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
     for (let i = 0; i < drugInfo.length; i++) {
-      onlyDrug += (i + 1) === drugInfo.length ? drugInfo[i]["DrugName"] : drugInfo[i]["DrugName"] + "+";
+      onlyDrug +=
+        i + 1 === drugInfo.length
+          ? drugInfo[i]["DrugName"]
+          : drugInfo[i]["DrugName"] + "+";
       drugDescription +=
         drugInfo[i]["DrugName"] + "(" + drugInfo[i]["Dosage"] + ") ";
       drugHowToTake = drugInfo[i]["HowToTake"];
     }
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
+    onlyDrug = lineBreak(onlyDrug, 32)[1];
 
     let interObj = {
       x: textStartX,
@@ -47,9 +56,9 @@ export function writeIntervention(
       yanchor: "bottom",
       align: "left",
       text: onlyDrug,
-      name: ['armGroup', 'DrugName'],
+      name: ["armGroup", "DrugName"],
       font: {
-        size: 10,
+        size: intervenFontSize,
       },
       showarrow: false,
       hovertext: drugDescription + ": " + drugHowToTake + "<br>",
@@ -57,10 +66,10 @@ export function writeIntervention(
         bgcolor: "rgba(0,0,0,0.1)",
         bordercolor: "rgba(0,0,0,0.1)",
         font: {
-          size: 12,
-          color: 'black',
-        }
-      }
+          size: intervenHoverFontSize,
+          color: "black",
+        },
+      },
     };
     annotations.push(interObj);
 
@@ -71,25 +80,38 @@ export function writeIntervention(
       yanchor: "top",
       align: "right",
       text: drugInfo[0]["Duration"],
-      name: ['armGroup', 'Duration'],
+      name: ["armGroup", "Duration"],
       font: {
-        size: 9,
+        size: intervenDurFontSize,
       },
       showarrow: false,
     };
     annotations.push(interDur);
-  } else if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch===2)) {
+  } else if (
+    (designModel === "Crossover Assignment") &
+    (typeof intervention.washoutPeriod == "String") &
+    (numBranch === 2)
+  ) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
       drugInfo = armG.interventionDescription[i];
       for (let j = 0; j < drugInfo.length; j++) {
-        onlyDrug += (j + 1) === drugInfo.length ? drugInfo[j]["DrugName"] : drugInfo[j]["DrugName"] + "+";
+        onlyDrug +=
+          j + 1 === drugInfo.length
+            ? drugInfo[j]["DrugName"]
+            : drugInfo[j]["DrugName"] + "+";
         drugDescription +=
-          drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
+          drugInfo[j]["DrugName"] +
+          "(" +
+          drugInfo[j]["Dosage"] +
+          ") : " +
+          drugHowToTake +
+          "<br>";
       }
 
       drugDescription = countLine(drugDescription, 15)[1];
+      onlyDrug = lineBreak(onlyDrug, 32)[1];
       // 꼬기 전
       let interObjB = {
         x: armGLinePoint1.x + armGW + 0.1,
@@ -98,18 +120,18 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
-        name: ['armGroup', 'DrugName'],
+        name: ["armGroup", "DrugName"],
         font: {
-          size: 10,
+          size: intervenFontSize,
         },
         hovertext: drugDescription,
         hoverlabel: {
           bgcolor: "rgba(0,0,0,0.1)",
           bordercolor: "rgba(0,0,0,0.1)",
           font: {
-            size: 12,
-            color: 'black',
-          }
+            size: intervenHoverFontSize,
+            color: "black",
+          },
         },
         showarrow: false,
       };
@@ -121,18 +143,18 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
-        name: ['armGroup', 'DrugName'],
+        name: ["armGroup", "DrugName"],
         font: {
-          size: 10,
+          size: intervenFontSize,
         },
         hovertext: drugDescription,
         hoverlabel: {
           bgcolor: "rgba(0,0,0,0.1)",
           bordercolor: "rgba(0,0,0,0.1)",
           font: {
-            size: 12,
-            color: 'black',
-          }
+            size: intervenHoverFontSize,
+            color: "black",
+          },
         },
         showarrow: false,
       };
@@ -143,6 +165,8 @@ export function writeIntervention(
     let bfWashPoint = armGLinePoint1.x + armGW + armGArrowW / 3;
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
 
+    // crossover timeline: font size
+    const timeObjFontSize = 9;
 
     let timeObjBf = {
       x: (armGLinePoint1.x + bfWashPoint) / 2,
@@ -150,9 +174,9 @@ export function writeIntervention(
       yanchor: "top",
       align: "middle",
       text: countLine(armG.interventionDescription[0][0]["Duration"], 15)[1],
-      name: ['armGroup', 'Duration'],
+      name: ["armGroup", "Duration"],
       font: {
-        size: 9,
+        size: timeObjFontSize,
       },
       showarrow: false,
     };
@@ -162,9 +186,9 @@ export function writeIntervention(
       y: washH + 0.05,
       yanchor: "top",
       text: "Washout period",
-      name: ['armGroup', 'text'],
+      name: ["armGroup", "text"],
       font: {
-        size: 9,
+        size: timeObjFontSize,
       },
       showarrow: false,
     };
@@ -178,10 +202,10 @@ export function writeIntervention(
       align: "left",
       text: countLine(washoutPeriod, 15)[1],
       font: {
-        size: 9,
+        size: timeObjFontSize,
       },
       showarrow: false,
-      name: ['intervention', 'washoutPeriod'],
+      name: ["intervention", "washoutPeriod"],
     };
 
     let timeObjAf = {
@@ -190,19 +214,18 @@ export function writeIntervention(
       yanchor: "top",
       align: "middle",
       text: countLine(armG.interventionDescription[1][0]["Duration"], 15)[1],
-      name: ['armGroup', 'Duration'],
+      name: ["armGroup", "Duration"],
       font: {
-        size: 9,
+        size: timeObjFontSize,
       },
       showarrow: false,
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
   } else {
-
     // limit number of branch
-    let numBranchLimit = numBranch
-    if(numBranch > 6){
-      numBranchLimit = 6
+    let numBranchLimit = numBranch;
+    if (numBranch > 6) {
+      numBranchLimit = 6;
     }
     // parallel, sequential...
     for (let i = 0; i < numBranchLimit; i++) {
@@ -213,11 +236,19 @@ export function writeIntervention(
         textStartX = armGLinePoint1.x + armGW + 0.1;
         testStartY = startPoint.y + startH - 0.1;
         for (let j = 0; j < drugInfo.length; j++) {
-          onlyDrug += (j + 1) === drugInfo.length ? drugInfo[j]["DrugName"] : drugInfo[j]["DrugName"] + "+";
+          onlyDrug +=
+            j + 1 === drugInfo.length
+              ? drugInfo[j]["DrugName"]
+              : drugInfo[j]["DrugName"] + "+";
           drugDescription +=
-            drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") : " + drugHowToTake + "<br>";
+            drugInfo[j]["DrugName"] +
+            "(" +
+            drugInfo[j]["Dosage"] +
+            ") : " +
+            drugHowToTake +
+            "<br>";
         }
-        // drugDescription = countLine(drugDescription, 45)[1];
+        onlyDrug = lineBreak(onlyDrug, 32)[1];
 
         //make letter object
         let interObj = {
@@ -227,31 +258,34 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: onlyDrug,
-          name: ['armGroup', 'DrugName'],
+          name: ["armGroup", "DrugName"],
           font: {
-            size: 10,
+            size: intervenFontSize,
           },
           hovertext: drugDescription,
           hoverlabel: {
             bgcolor: "rgba(0,0,0,0.1)",
             bordercolor: "rgba(0,0,0,0.1)",
             font: {
-              size: 12,
-              color: 'black',
-            }
+              size: intervenHoverFontSize,
+              color: "black",
+            },
           },
           showarrow: false,
         };
         let interDur = {
           x: textStartX + armGArrowW,
-          y: testStartY - i * (startH / (numBranchLimit - 1)) + (yRange[1] - yRange[0]) / 20,
+          y:
+            testStartY -
+            i * (startH / (numBranchLimit - 1)) +
+            (yRange[1] - yRange[0]) / 20,
           xanchor: "right",
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
-          name: ['armGroup', 'Duration'],
+          name: ["armGroup", "Duration"],
           font: {
-            size: 9,
+            size: intervenDurFontSize,
           },
           showarrow: false,
         };
@@ -265,22 +299,25 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: drugDescription,
-          name: ['armGroup', 'drug'],
+          name: ["armGroup", "drug"],
           font: {
-            size: 9,
+            size: intervenFontSize,
           },
           showarrow: false,
         };
         let interDur = {
           x: textStartX + armGArrowW - 0.3,
-          y: testStartY - i * (startH / (numBranchLimit - 1)) + (yRange[1] - yRange[0]) / 20,
+          y:
+            testStartY -
+            i * (startH / (numBranchLimit - 1)) +
+            (yRange[1] - yRange[0]) / 20,
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
-          name: ['armGroup', 'Duration'],
+          name: ["armGroup", "Duration"],
           font: {
-            size: 9,
+            size: intervenDurFontSize,
           },
           showarrow: false,
         };

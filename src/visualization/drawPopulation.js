@@ -72,9 +72,10 @@ export function drawPopulation(startPoint, startW, population) {
       annotations: [
         {
           x: startPoint.x + startW / 2,
-          y: startPoint.y + height * 1.04,
+          y: startPoint.y + height * 1.06,
           align: "middle",
           text: "<b>Population</b>",
+          // bordercolor: "gray",
           showarrow: false,
           name: "Population",
           font: {
