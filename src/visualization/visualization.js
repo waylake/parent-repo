@@ -39,12 +39,12 @@ export function visualization(data) {
       font: {
         size: 9,
       },
-      tracegroupgap : 10,
-      itemclick : false, // 클릭했을 때 아무일도 일어나지 않게
-      itemdoubleclick : false,// 더블 클릭했을 때 아무일도 일어나지 않게
+      tracegroupgap: 10,
+      itemclick: false, // 클릭했을 때 아무일도 일어나지 않게
+      itemdoubleclick: false, // 더블 클릭했을 때 아무일도 일어나지 않게
       itemwidth: 25, // 범례 그래프의 길이
-      bordercolor: 'black',
-      bgcolor: 'rgb(255, 235, 240)',
+      bordercolor: "black",
+      // bgcolor: 'rgb(255, 235, 240)', 밑에서 작업.
     },
   };
   let Gframes = [];
@@ -58,11 +58,6 @@ export function visualization(data) {
 
   let startPoint = new Point(10, 10);
   let startW = 5;
-  let box1 = {
-    boxstyle: "round",
-    ec: (1.0, 0.5, 0.5), // ec: edgeColor, fc: faceColor
-    fc: (1.0, 0.8, 0.8),
-  };
   const popDrawInfo = drawPopulation(startPoint, startW, population);
   const startH = popDrawInfo.startH;
   const numberPoint = new Point(
@@ -111,7 +106,10 @@ export function visualization(data) {
   // title
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
-  const officialPoint = new Point(startPoint.x+startW/4*3, startPoint.y - startH / 2);
+  const officialPoint = new Point(
+    startPoint.x + (startW / 8) * 7,
+    startPoint.y - startH / 2
+  );
   // entity
   let detailDrawInfo = drawInfoTrial(
     durationPoint,
@@ -173,19 +171,31 @@ export function visualization(data) {
   Glayout.annotations = Glayout.annotations.concat(intervenWrite.layout);
 
   // legend y 재설정
-  let legendPosition = (startPoint.y + officialPoint.y - 
-    detailDrawInfo.yRange[0]*2) / (moseekH*2.2);
-  if(numArm>2){
-    legendPosition = (startPoint.y + officialPoint.y - 
-    detailDrawInfo.yRange[0]*2) / (moseekH*(2.2+ (numArm)*0.1/(numArm-2)));
-  }
+  let legendPosition =
+    (officialPoint.y - detailDrawInfo.yRange[0]) / (moseekH*1.3);
+    // /(moseekH * (2.2 + numArm*0.1)) + (numArm * 0.1);
+  // if (numArm > 2) {
+  //   legendPosition =
+  //     (startPoint.y + officialPoint.y - detailDrawInfo.yRange[0] * 2) /2
+  //     /(moseekH * (2.5 - numArm * 0.01));
+  // }
   // Glayout.legend.y = legendPosition;
-  Glayout.legend.y = 0.24;
-  // legend gap 재설정
-  Glayout.legend.tracegroupgap =['reversed', 'grouped', 'normal', 'normal','normal','normal', ]
-  Glayout.legend.traceorder = 100
+  Glayout.legend.y = legendPosition;
+  // legend gap 재설정 : 적용 안됨...
+  //// Glayout.legend.tracegroupgap =['reversed', 'grouped', 'normal', 'normal','normal','normal', ]
+  //// Glayout.legend.traceorder = 100
 
-  
+  // legend bg color
+  if (
+    ((designModel === "Single Group Assignment") &
+      ("Other" in armGroup.armGroupType)) |
+    ("Experimental" in armGroup.armGroupType)
+  ) {
+    Glayout.legend.bgcolor = "rgb(255, 235, 240)";
+  } else {
+    Glayout.legend.bgcolor = "rgb(232, 245, 255)";
+  }
+
   // gather altogether
   return {
     Gdata,
