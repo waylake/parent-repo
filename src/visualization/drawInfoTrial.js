@@ -72,6 +72,7 @@ export function drawInfoTrial(
           bordercolor: '#c7c7c7',
           align: 'left',
           name: ['infoTrial', 'objective'],
+          bgcolor: 'rgba(253, 235, 200, 0.5)',
           // captureevents: true,
         },
         { //title
@@ -102,6 +103,7 @@ export function drawInfoTrial(
           bordercolor: '#c7c7c7',
           align: 'left',
           name: ['infoTrial', 'officialTitle'],
+          bgcolor: 'rgba(253, 235, 200, 0.5)',
           // captureevents: true,
         },
         { // complete time

@@ -1,5 +1,6 @@
 import { countLine } from "./drawPopulation";
-import { lineBreak } from "./drawInfoTrial"
+import {lineBreak} from "./drawInfoTrial"
+import { faTable } from "@fortawesome/free-solid-svg-icons";
 
 export function writeIntervention(
   startPoint,
@@ -92,7 +93,7 @@ export function writeIntervention(
     annotations.push(interDur);
   } else if (
     (designModel === "Crossover Assignment") &
-    (typeof intervention.washoutPeriod == "String") &
+    (typeof (intervention.washoutPeriod) == "string") &
     (numBranch === 2)
   ) {
     for (let i = 0; i < numBranch; i++) {
@@ -224,13 +225,13 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
-  } else {
+  } else { // parallel, sequential...
     // limit number of branch
     let numBranchLimit = numBranch;
     if (numBranch > 6) {
       numBranchLimit = 6;
     }
-    // parallel, sequential...
+    
     for (let i = 0; i < numBranchLimit; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
@@ -266,6 +267,7 @@ export function writeIntervention(
             size: intervenFontSize,
           },
           hovertext: drugDescription,
+          // hovertemplate: drugDescription,
           hoverlabel: {
             bgcolor: "rgba(0,0,0,0.1)",
             bordercolor: "rgba(0,0,0,0.1)",

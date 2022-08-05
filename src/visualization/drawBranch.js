@@ -27,8 +27,8 @@ export function drawBranch(
   let setArmGroupToLst = Array.from(setArmGroup);
   const numBranch = armG.interventionDescription.length;
 
-  const widthTriangle = 0.005;
-  const heightTriangle = 0.2;
+  const widthTriangle = 0.01;
+  const heightTriangle = 0.25;
   const lineWidth = 3.5;
 
 
@@ -39,7 +39,37 @@ export function drawBranch(
   let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
   let branchIdx = 0;
 
+  const gapLegend = 10 // 숫자 커질 수록 간격 작아짐
 
+  //draw&write legend
+  for (let i=0; i<setArmGroupToLst.length; i++){
+    let colorB = armColorDict[setArmGroupToLst[i]];
+    let legendLine = {
+      x: [legendPoint.x, legendPoint.x + 1],
+      y: [legendPoint.y -i*startH/gapLegend, legendPoint.y -i*startH/gapLegend],
+      mode: 'lines',
+      line: {
+        color: colorB,
+        width: lineWidth,
+      },
+      hoverinfo: "skip",
+    }
+    lineList.push(legendLine);
+
+    let legendText = {
+      x: legendPoint.x + 1 + 0.1,
+      y: legendPoint.y -i*startH/gapLegend,
+      xanchor: "left",
+      // yanchor: "bottom",
+      align: "left",
+      text: setArmGroupToLst[i],
+      font: {
+        size: 8,
+      },
+      showarrow: false,
+    };
+    annotations.push(legendText);
+  }
 
   //draw branch
   if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
