@@ -1,3 +1,15 @@
+
+export const armColorDict = {
+  Experimental: "rgba(205, 31, 72, 1)", //coral
+  OtherS: "rgba(255, 210, 40, 1)", //gold
+  "Active Comparator": "rgb(10, 138, 138)", //진한 에메랄드
+  "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
+  "No Intervention": "rgba(0, 100, 0, 1)", // forest green
+  Other: "rgb(102, 205, 170)", // 살짝 밝은 에메랄드
+  "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
+  None: "rgba(148, 20, 148, 1)", // violet
+};
+
 export function drawBranch(
   armGLinePoint1,
   armGW,
@@ -9,16 +21,7 @@ export function drawBranch(
   designModel,
   armG
 ) {
-  const armColorDict = {
-    Experimental: "rgba(205, 31, 72, 1)", //coral
-    OtherS: "rgba(255, 210, 40, 1)", //gold
-    "Active Comparator": "rgb(10, 138, 138)", //진한 에메랄드
-    "Placebo Comparator": "rgba(70, 189, 123, 1)", //lime green
-    "No Intervention": "rgba(0, 100, 0, 1)", // forest green
-    Other: "rgb(102, 205, 170)", // 살짝 밝은 에메랄드
-    "Sham Comparator": "rgba(70, 70, 205, 1)", //blue
-    None: "rgba(148, 20, 148, 1)", // violet
-  };
+
 
   let setArmGroup = new Set(armG.armGroupType);
   let setArmGroupToLst = Array.from(setArmGroup);
@@ -28,11 +31,13 @@ export function drawBranch(
   const heightTriangle = 0.25;
   const lineWidth = 3.5;
 
+
   let lineList = [];
   let arrowList = [];
   let annotations = [];
   let washH;
-  let arrowIdx = 0;
+  let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
+  let branchIdx = 0;
 
   const gapLegend = 10 // 숫자 커질 수록 간격 작아짐
 
@@ -73,7 +78,7 @@ export function drawBranch(
       let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
       let lineLoc = {
-        name: armG.armGroupType[i],
+        name: [armG.armGroupType[i], branchIdx++],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -93,7 +98,7 @@ export function drawBranch(
           color: colorB,
           width: lineWidth,
         },
-        // hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+        hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
       };
       lineList.push(lineLoc);
       let lineArrow = {
@@ -150,7 +155,7 @@ export function drawBranch(
       let arrowEndY = startPoint.y + startH - i * (startH / (numBranchLimit - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
       let lineLoc = {
-        name: armG.armGroupType[i],
+        name: [armG.armGroupType[i], branchIdx++],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -189,7 +194,7 @@ export function drawBranch(
       colorB = armColorDict["OtherS"];
     }
     let lineLoc = {
-      name: armG.armGroupType[0],
+      name: [armG.armGroupType[0], branchIdx++],
       x: [armGLinePoint1.x, arrowEndX],
       y: [arrowEndY, arrowEndY],
       mode: "lines",
@@ -213,6 +218,38 @@ export function drawBranch(
     console.log(
       "we only consider single, parallel, crossover or may be sequential!"
     );
+  }
+
+  //draw&write legend
+  for (let i = 0; i < setArmGroupToLst.length; i++) {
+    let colorB = armColorDict[setArmGroupToLst[i]];
+    let legendLine = {
+      x: [legendPoint.x, legendPoint.x + 1],
+      y: [legendPoint.y - i * startH / 8, legendPoint.y - i * startH / 8],
+      mode: 'lines',
+      line: {
+        color: colorB,
+        width: lineWidth,
+      },
+      hoverinfo: "skip",
+      name: ['legend'],
+    }
+    lineList.push(legendLine);
+
+    let legendText = {
+      x: legendPoint.x + 1 + 0.1,
+      y: legendPoint.y - i * startH / 8,
+      xanchor: "left",
+      // yanchor: "bottom",
+      align: "left",
+      text: setArmGroupToLst[i],
+      font: {
+        size: 8,
+      },
+      showarrow: false,
+      name: ['legend'],
+    };
+    annotations.push(legendText);
   }
 
   return {
