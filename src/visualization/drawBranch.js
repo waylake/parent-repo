@@ -24,8 +24,8 @@ export function drawBranch(
   let setArmGroupToLst = Array.from(setArmGroup);
   const numBranch = armG.interventionDescription.length;
 
-  const widthTriangle = 0.005;
-  const heightTriangle = 0.2;
+  const widthTriangle = 0.01;
+  const heightTriangle = 0.25;
   const lineWidth = 3.5;
 
   let lineList = [];
@@ -34,12 +34,14 @@ export function drawBranch(
   let washH;
   let arrowIdx = 0;
 
+  const gapLegend = 10 // 숫자 커질 수록 간격 작아짐
+
   //draw&write legend
   for (let i=0; i<setArmGroupToLst.length; i++){
     let colorB = armColorDict[setArmGroupToLst[i]];
     let legendLine = {
       x: [legendPoint.x, legendPoint.x + 1],
-      y: [legendPoint.y -i*startH/8, legendPoint.y -i*startH/8],
+      y: [legendPoint.y -i*startH/gapLegend, legendPoint.y -i*startH/gapLegend],
       mode: 'lines',
       line: {
         color: colorB,
@@ -51,7 +53,7 @@ export function drawBranch(
 
     let legendText = {
       x: legendPoint.x + 1 + 0.1,
-      y: legendPoint.y -i*startH/8,
+      y: legendPoint.y -i*startH/gapLegend,
       xanchor: "left",
       // yanchor: "bottom",
       align: "left",
