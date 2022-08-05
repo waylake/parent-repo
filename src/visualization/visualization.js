@@ -7,7 +7,12 @@ import { drawBranch } from "./drawBranch";
 import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
 import { writeIntervention } from "./writeIntervention";
 
-
+let lockIcon = {
+  'width': 1000,
+  'height': 1000,
+  'path': "M320 768h512v192q0 106 -75 181t-181 75t-181 -75t-75 -181v-192zM1152 672v-576q0 -40 -28 -68t-68 -28h-960q-40 0 -68 28t-28 68v576q0 40 28 68t68 28h32v192q0 184 132 316t316 132t316 -132t132 -316v-192h32q40 0 68 -28t28 -68z",
+  'transform': 'matrix(0.75 0 0 -0.75 0 1000)'
+}
 export let armGArrowW = 7;
 export function visualization(data) {
   // data from extraction
@@ -49,14 +54,21 @@ export function visualization(data) {
       // bgcolor: 'rgb(255, 235, 240)', 밑에서 작업.
       showlegend: false,
     },
+    dragmode: false,
   };
   let Gframes = [];
   let Gconfig = {
     edits: {
       annotationText: false,
     },
-    modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d"],
+    // modeBarButtons: [["zoom2d", "pan2d"],],
+    // modeBarButtonsToAdd: ['drawrect'],
+    modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d", 'lasso2d', 'select2d'],
     displayModeBar: true,
+    displaylogo: false,
+    // fillFrame: true,
+    // frameMargins: 800,
+    // autosizable: true,
   };
 
   let startPoint = new Point(10, 10);
@@ -109,7 +121,7 @@ export function visualization(data) {
   const titlePoint = new Point(objPoint.x, objPoint.y + objectiveLine / 20);
   // official title
   const officialPoint = new Point(
-    startPoint.x ,
+    startPoint.x,
     startPoint.y - startH / 2
   );
   // entity

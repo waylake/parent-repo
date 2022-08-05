@@ -21,11 +21,6 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 // import $ from "jquery";
 
-function makeObvious(ary) {
-  for (let value of ary) {
-    value.opacity = 1;
-  }
-}
 
 
 function App() {
@@ -49,7 +44,7 @@ function App() {
   let content = '';
   if (mode === 'READ') { //READ 모드일때 edit버튼을 누르면
     content =
-      <Button icon={faPenToSquare} className='edit' onChangeMode={() => {
+      <Button icon={faPenToSquare} onChangeMode={() => {
 
 
         // editable하게 바꾸기
@@ -86,86 +81,9 @@ function App() {
 
   else if (mode === 'EDIT') {//여기서는 datajson을 바꿔줘야함
     content = <>
-      <Button icon={faFloppyDisk} className='edit' onChangeMode={() => {
-        // editable: false
-        const newConfig = { ...config };
-        newConfig.edits.annotationText = false;
-        setConfig(newConfig);
 
-        //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
 
-        const annot = layout.annotations;
-        let k = 0; //drugname세기
-        let j = 0; //duration세기
-        for (let i = 0; i < annot.length; i++) { // text 정제 작업
-          if (annot[i].name[0] === 'population') { //population
-            const idx = annot[i].text.indexOf(':');
-            annot[i].text = annot[i].text.substring(idx + 2);
-            dataJson.population[annot[i].name[1]] = annot[i].text;
-          }
-          else if (annot[i].name[0] === 'infoTrial') {
-            const completeTimeIdx = annot[i].text.indexOf(' ');
-            const idx = annot[i].text.indexOf(':');
-            annot[i].text = annot[i].name[1] === 'completeTime' ? annot[i].text.substring(0, completeTimeIdx + 1) : annot[i].text.substring(idx + 2);
-            dataJson.infoTrial[annot[i].name[1]] = annot[i].text;
-          }
-          // intervention
-          else if (annot[i].name[0] === 'intervention') {
-            if (annot[i].name[1] === 'masking') annot[i].text = annot[i].text.replace('M=', '');
-            else if (annot[i].name[1] === 'enrollment') annot[i].text = annot[i].text.replace('N=', '');
-            if (annot[i].text === 'write text') annot[i].text = '';// write text라 써져있으면 다시 지우기
-            dataJson.intervention[annot[i].name[1]] = annot[i].text;
-          }
-          // armGroup
-          else if (annot[i].name[0] === 'armGroup') {
-            if (annot[i].text === 'write text') annot[i].text = ''; // write text라 써져있으면 지우기
-            if (annot[i].name[1] === 'Duration') {
-              dataJson.armGroup.interventionDescription[j++][0]['Duration'] = annot[i].text;
-            }
-            else if (annot[i].name[1] === 'DrugName') {
-              if (dataJson.designModel === 'Crossover Assignment') {
-                let t = 0;
-                while (annot[i].text.includes('+')) {
-                  let idx = annot[i].text.indexOf('+');
-                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);
-                  t++
-                  annot[i].text = annot[i].text.substring(idx + 1);
-                }
-                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text;
-                i++;
-                k++;
-              }
-              else {
-                let t = 0;
-                while (annot[i].text.includes('+')) { // + 로 찾아
-                  let idx = annot[i].text.indexOf('+');
-                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
-                  t++
-                  annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
-                }
-                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text; // 맨 마지막 것 추가
-                k++;
-              }
-            }
-          }
-
-          const newVisualizationInfo = visualization(dataJson);
-          for (let i = 3; i < layout.shapes.length; i++) {
-            newVisualizationInfo.Glayout.shapes[i] = layout.shapes[i];
-          }
-          setLayout(newVisualizationInfo.Glayout);
-          // data 클릭 안되게 바꾸기
-          const newData = [...data];
-          for (let value of newData) {
-            if (value.name) value.hoverinfo = 'skip';
-          }
-          setData(newData);
-          setMode('READ');
-        }
-      }}>
-      </Button>
-
-      <Button icon={faGripLines} className='parallel' onChangeMode={() => {
+      <Button icon={faGripLines} onChangeMode={() => {
         // crossover -> parallel 로 바꾸기
         const newData = [...data];
         const newLayout = { ...layout };
@@ -202,7 +120,7 @@ function App() {
         setLayout(newLayout);
       }}></Button>
 
-      <Button icon={faShuffle} className='crossover' onChangeMode={() => {
+      <Button icon={faShuffle} onChangeMode={() => {
         // parallel -> cross over로 바꾸기
         const newData = [...data];
         const newLayout = { ...layout };
@@ -291,6 +209,85 @@ function App() {
         setData(newData);
         setLayout(newLayout);
       }}></Button>
+
+      <Button icon={faFloppyDisk} onChangeMode={() => {
+        // editable: false
+        const newConfig = { ...config };
+        newConfig.edits.annotationText = false;
+        setConfig(newConfig);
+
+        //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+
+        const annot = layout.annotations;
+        let k = 0; //drugname세기
+        let j = 0; //duration세기
+        for (let i = 0; i < annot.length; i++) { // text 정제 작업
+          if (annot[i].name[0] === 'population') { //population
+            const idx = annot[i].text.indexOf(':');
+            annot[i].text = annot[i].text.substring(idx + 2);
+            dataJson.population[annot[i].name[1]] = annot[i].text;
+          }
+          else if (annot[i].name[0] === 'infoTrial') {
+            const completeTimeIdx = annot[i].text.indexOf(' ');
+            const idx = annot[i].text.indexOf(':');
+            annot[i].text = annot[i].name[1] === 'completeTime' ? annot[i].text.substring(0, completeTimeIdx + 1) : annot[i].text.substring(idx + 2);
+            dataJson.infoTrial[annot[i].name[1]] = annot[i].text;
+          }
+          // intervention
+          else if (annot[i].name[0] === 'intervention') {
+            if (annot[i].name[1] === 'masking') annot[i].text = annot[i].text.replace('M=', '');
+            else if (annot[i].name[1] === 'enrollment') annot[i].text = annot[i].text.replace('N=', '');
+            if (annot[i].text === 'write text') annot[i].text = '';// write text라 써져있으면 다시 지우기
+            dataJson.intervention[annot[i].name[1]] = annot[i].text;
+          }
+          // armGroup
+          else if (annot[i].name[0] === 'armGroup') {
+            if (annot[i].text === 'write text') annot[i].text = ''; // write text라 써져있으면 지우기
+            if (annot[i].name[1] === 'Duration') {
+              dataJson.armGroup.interventionDescription[j++][0]['Duration'] = annot[i].text;
+            }
+            else if (annot[i].name[1] === 'DrugName') {
+              if (dataJson.designModel === 'Crossover Assignment') {
+                let t = 0;
+                while (annot[i].text.includes('+')) {
+                  let idx = annot[i].text.indexOf('+');
+                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);
+                  t++
+                  annot[i].text = annot[i].text.substring(idx + 1);
+                }
+                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text;
+                i++;
+                k++;
+              }
+              else {
+                let t = 0;
+                while (annot[i].text.includes('+')) { // + 로 찾아
+                  let idx = annot[i].text.indexOf('+');
+                  dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
+                  t++
+                  annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
+                }
+                dataJson.armGroup.interventionDescription[k][t]['DrugName'] = annot[i].text; // 맨 마지막 것 추가
+                k++;
+              }
+            }
+          }
+
+          const newVisualizationInfo = visualization(dataJson);
+          for (let i = 3; i < layout.shapes.length; i++) {
+            newVisualizationInfo.Glayout.shapes[i] = layout.shapes[i];
+          }
+          setLayout(newVisualizationInfo.Glayout);
+          // data 클릭 안되게 바꾸기
+          const newData = [...data];
+          for (let value of newData) {
+            if (value.name) value.hoverinfo = 'skip';
+          }
+          setData(newData);
+          setMode('READ');
+        }
+      }}>
+      </Button>
     </>;
   }
 
@@ -299,51 +296,53 @@ function App() {
       <div className="url">
         <Search className></Search>
       </div>
-      <Plot
-        className="plot"
-        layout={layout}
-        data={data}
-        frames={frames}
-        config={config}
+      <div className="plot">
+        <Plot
 
-        onClick={(e) => {
+          layout={layout}
+          data={data}
+          frames={frames}
+          config={config}
 
-          const newLayout = { ...layout };
-          let selectedBranch = 0;
-          //branch 투명도
-          e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
-          //화살표 촉 투명도
-          for (let value of newLayout.shapes) {
-            if (value.name && value.name[0] === 'arrow' && value.name[1] === e.points[0].data.name[1]) {
-              value.opacity = value.opacity === 1 ? 0.3 : 1;
-            }
-          }
+          onClick={(e) => {
 
-          for (let value of data) { //클릭된 개수 세기
-            selectedBranch = value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
-          }
-          if (selectedBranch >= 3) {
+            const newLayout = { ...layout };
+            let selectedBranch = 0;
             //branch 투명도
-            alert('두개 까지만 선택 가능합니다.');
-            e.points[0].data.opacity = 1;
+            e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
             //화살표 촉 투명도
             for (let value of newLayout.shapes) {
               if (value.name && value.name[0] === 'arrow' && value.name[1] === e.points[0].data.name[1]) {
-                value.opacity = 1;
+                value.opacity = value.opacity === 1 ? 0.3 : 1;
               }
             }
-          }
-          const newData = [...data];
-          setData(newData);
-          setLayout(newLayout);
 
-        }}
-      // onInitialized={(figure) => useState(figure)}
-      // onUpdate={(figure) => useState(figure)}
-      />
+            for (let value of data) { //클릭된 개수 세기
+              selectedBranch = value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+            }
+            if (selectedBranch >= 3) {
+              //branch 투명도
+              alert('두개 까지만 선택 가능합니다.');
+              e.points[0].data.opacity = 1;
+              //화살표 촉 투명도
+              for (let value of newLayout.shapes) {
+                if (value.name && value.name[0] === 'arrow' && value.name[1] === e.points[0].data.name[1]) {
+                  value.opacity = 1;
+                }
+              }
+            }
+            const newData = [...data];
+            setData(newData);
+            setLayout(newLayout);
 
-      <div className="buttonDiv">
-        {content}
+          }}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
+        >
+        </Plot>
+        <div className="buttonDiv">
+          {content}
+        </div>
       </div>
     </div>
   );
