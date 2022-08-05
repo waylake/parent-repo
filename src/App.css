@@ -13,14 +13,16 @@
   border: 3px gray solid;
   width: 100%;
   height: 90%;
+  position: relative;
 }
 
 .buttonDiv {
-  grid-column-start: 1;
-  grid-row-start: 2;
+  position: absolute;
+  right: 3px;
+  top: 770px;
   display: flex;
   justify-content: right;
-  align-items: flex-start;
+  /* align-items: flex-start; */
 }
 
 .url {

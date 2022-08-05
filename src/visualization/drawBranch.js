@@ -45,7 +45,7 @@ export function drawBranch(
       let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
       let lineLoc = {
-        name: [armG.armGroupType[i], branchIdx++],
+        name: [armG.armGroupType[i], branchIdx++,],
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
