@@ -3,7 +3,7 @@ import * as data from "./Data";
 // import $ from "jquery";
 // import {PythonShell} from 'python-shell';
 
-export function getInfo(url) {
+export function getInfo(infoDict) {
   // codes to run python file in javascript
   // const pyodide = window.pyodide;
   // pyodide.runPython(request_call(url));
@@ -26,7 +26,7 @@ export function getInfo(url) {
   // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
   // NCT00482833.json: title, objective 공백 넣기
   // NCT04844424.json: 군 엄청 많음
-  const infoDict = require("../NCT_ID_database/NCT03507790.json"); // read json file by using require method
+  // const infoDict = require("../NCT_ID_database/NCT03507790.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 

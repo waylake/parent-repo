@@ -1,5 +1,5 @@
 import { countLine } from "./drawPopulation";
-import {lineBreak} from "./drawInfoTrial"
+import { lineBreak } from "./drawInfoTrial"
 import { faTable } from "@fortawesome/free-solid-svg-icons";
 
 export function writeIntervention(
@@ -60,7 +60,11 @@ export function writeIntervention(
       yanchor: "bottom",
       align: "left",
       text: onlyDrug,
-      name: ["armGroup", "DrugName", drugNameIdx++],
+      name: {
+        type: "armGroup",
+        inJson: "DrugName",
+        idx: drugNameIdx++
+      },
       font: {
         size: intervenFontSize,
       },
@@ -84,7 +88,11 @@ export function writeIntervention(
       yanchor: "top",
       align: "right",
       text: drugInfo[0]["Duration"],
-      name: ["armGroup", "Duration", durationIdx++],
+      name: {
+        type: "armGroup",
+        inJson: "Duration",
+        idx: durationIdx++
+      },
       font: {
         size: intervenDurFontSize,
       },
@@ -124,7 +132,11 @@ export function writeIntervention(
         yanchor: "bottom",
         align: "left",
         text: onlyDrug,
-        name: ["armGroup", "DrugName", drugNameIdx],
+        name: {
+          type: "armGroup",
+          inJson: "DrugName",
+          idx: drugNameIdx++
+        },
         font: {
           size: intervenFontSize,
         },
@@ -140,29 +152,34 @@ export function writeIntervention(
         showarrow: false,
       };
       // 꼰 후
-      let interObjA = {
-        x: armGLinePoint1.x + (armGArrowW / 3) * 2 + 1,
-        y: startPoint.y + i * (startH / (numBranch - 1)),
-        xanchor: "left",
-        yanchor: "bottom",
-        align: "left",
-        text: onlyDrug,
-        name: ["armGroup", "DrugName", drugNameIdx++],
-        font: {
-          size: intervenFontSize,
-        },
-        hovertext: drugDescription,
-        hoverlabel: {
-          bgcolor: "rgba(0,0,0,0.1)",
-          bordercolor: "rgba(0,0,0,0.1)",
-          font: {
-            size: intervenHoverFontSize,
-            color: "black",
-          },
-        },
-        showarrow: false,
-      };
-      annotations.push(interObjB, interObjA);
+      // let interObjA = {
+      //   x: armGLinePoint1.x + (armGArrowW / 3) * 2 + 1,
+      //   y: startPoint.y + i * (startH / (numBranch - 1)),
+      //   xanchor: "left",
+      //   yanchor: "bottom",
+      //   align: "left",
+      //   text: onlyDrug,
+      //   name: {
+      //     class: "armGroup",
+      //     prop: "drugName",
+      //     drugNameIdx: drugNameIdx++
+      //   },
+      //   font: {
+      //     size: intervenFontSize,
+      //   },
+      //   hovertext: drugDescription,
+      //   hoverlabel: {
+      //     bgcolor: "rgba(0,0,0,0.1)",
+      //     bordercolor: "rgba(0,0,0,0.1)",
+      //     font: {
+      //       size: intervenHoverFontSize,
+      //       color: "black",
+      //     },
+      //   },
+      //   showarrow: false,
+      // };
+      // annotations.push(interObjB, interObjA);
+      annotations.push(interObjB);
     }
 
     //write timeline
@@ -178,7 +195,11 @@ export function writeIntervention(
       yanchor: "top",
       align: "middle",
       text: countLine(armG.interventionDescription[0][0]["Duration"], 15)[1],
-      name: ["armGroup", "Duration"],
+      name: {
+        type: "armGroup",
+        inJson: "Duration",
+        idx: durationIdx++
+      },
       font: {
         size: timeObjFontSize,
       },
@@ -190,7 +211,6 @@ export function writeIntervention(
       y: washH + 0.05,
       yanchor: "top",
       text: "Washout period",
-      name: ["armGroup", "text"],
       font: {
         size: timeObjFontSize,
       },
@@ -209,7 +229,10 @@ export function writeIntervention(
         size: timeObjFontSize,
       },
       showarrow: false,
-      name: ["intervention", "washoutPeriod"],
+      name: {
+        type: "intervention",
+        inJson: "WashoutPeriod",
+      },
     };
 
     let timeObjAf = {
@@ -218,7 +241,11 @@ export function writeIntervention(
       yanchor: "top",
       align: "middle",
       text: countLine(armG.interventionDescription[1][0]["Duration"], 15)[1],
-      name: ["armGroup", "Duration"],
+      name: {
+        type: "armGroup",
+        inJson: "Duration",
+        idx: durationIdx++
+      },
       font: {
         size: timeObjFontSize,
       },
@@ -231,7 +258,7 @@ export function writeIntervention(
     if (numBranch > 6) {
       numBranchLimit = 6;
     }
-    
+
     for (let i = 0; i < numBranchLimit; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
@@ -262,7 +289,11 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: onlyDrug,
-          name: ["armGroup", "DrugName", drugNameIdx++],
+          name: {
+            type: "armGroup",
+            inJson: "DrugName",
+            idx: drugNameIdx++
+          },
           font: {
             size: intervenFontSize,
           },
@@ -288,7 +319,11 @@ export function writeIntervention(
           yanchor: "bottom",
           align: "left",
           text: armG.interventionDescription[1][0]["Duration"],
-          name: ["armGroup", "Duration", durationIdx++],
+          name: {
+            type: "armGroup",
+            inJson: "Duration",
+            idx: durationIdx++
+          },
           font: {
             size: intervenDurFontSize,
           },
