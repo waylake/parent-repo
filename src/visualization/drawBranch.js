@@ -45,7 +45,10 @@ export function drawBranch(
       let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
       let lineLoc = {
-        name: [armG.armGroupType[i], branchIdx++,],
+        name: {
+          armGroupType: armG.armGroupType[i],
+          idx: branchIdx++
+        },
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -75,7 +78,10 @@ export function drawBranch(
               L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
         fillcolor: colorB, // 채우기 색깔
         line: { color: colorB }, // 테두리 색깔
-        name: ['arrow', arrowIdx++]
+        name: {
+          shape: 'arrow',
+          idx: arrowIdx++,
+        }
       };
       arrowList.push(lineArrow);
     }
@@ -122,7 +128,10 @@ export function drawBranch(
       let arrowEndY = startPoint.y + startH - i * (startH / (numBranchLimit - 1))
       let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
       let lineLoc = {
-        name: [armG.armGroupType[i], branchIdx++],
+        name: {
+          armGroupType: armG.armGroupType[i],
+          idx: branchIdx++
+        },
         x: [
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
@@ -139,6 +148,7 @@ export function drawBranch(
           width: lineWidth,
         },
         hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+
       };
       lineList.push(lineLoc);
 
@@ -149,7 +159,10 @@ export function drawBranch(
               L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
         fillcolor: colorB, // 채우기 색깔
         line: { color: colorB }, // 테두리 색깔
-        name: ['arrow', arrowIdx++]
+        name: {
+          shape: 'arrow',
+          idx: arrowIdx++,
+        }
       };
       arrowList.push(lineArrow);
     }
@@ -161,7 +174,10 @@ export function drawBranch(
       colorB = armColorDict["OtherS"];
     }
     let lineLoc = {
-      name: [armG.armGroupType[0], branchIdx++],
+      name: {
+        armGroupType: armG.armGroupType[0],
+        idx: branchIdx++
+      },
       x: [armGLinePoint1.x, arrowEndX],
       y: [arrowEndY, arrowEndY],
       mode: "lines",
@@ -178,7 +194,10 @@ export function drawBranch(
             L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
       fillcolor: colorB, // 채우기 색깔
       line: { color: colorB }, // 테두리 색깔
-      name: ['arrow', arrowIdx++]
+      name: {
+        shape: 'arrow',
+        idx: arrowIdx++,
+      }
     };
     arrowList.push(lineArrow);
   } else {
@@ -190,11 +209,11 @@ export function drawBranch(
   //draw&write legend
   const gapLegend = 10 // 숫자 커질 수록 간격 작아짐
 
-  for (let i=0; i<setArmGroupToLst.length; i++){
+  for (let i = 0; i < setArmGroupToLst.length; i++) {
     let colorB = armColorDict[setArmGroupToLst[i]];
     let legendLine = {
       x: [legendPoint.x, legendPoint.x + 1],
-      y: [legendPoint.y -i*startH/gapLegend, legendPoint.y -i*startH/gapLegend],
+      y: [legendPoint.y - i * startH / gapLegend, legendPoint.y - i * startH / gapLegend],
       mode: 'lines',
       line: {
         color: colorB,
@@ -206,7 +225,7 @@ export function drawBranch(
 
     let legendText = {
       x: legendPoint.x + 1 + 0.1,
-      y: legendPoint.y -i*startH/gapLegend,
+      y: legendPoint.y - i * startH / gapLegend,
       xanchor: "left",
       // yanchor: "bottom",
       align: "left",

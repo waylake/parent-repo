@@ -4,8 +4,8 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
   const allocation = intervention.allocation
   const ratio = intervention.ratio
 
-  const deltaRadius = 15/moseekH; // 그림 비율에 맞춰 자동으로 찌그러짐정도 정해지도록
-  const delta = 0.1/2;
+  const deltaRadius = 15 / moseekH; // 그림 비율에 맞춰 자동으로 찌그러짐정도 정해지도록
+  const delta = 0.1 / 2;
   const widthTrianlge = 0.02;
   const heightTriangle = 0.5
 
@@ -17,7 +17,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           type: "line",
           x0: numberPoint.x,
           y0: numberPoint.y,
-          x1: numberPoint.x + numberW-(heightTriangle-0.1), //끝에 화살표 만들려고 길이 살짝 뺌
+          x1: numberPoint.x + numberW - (heightTriangle - 0.1), //끝에 화살표 만들려고 길이 살짝 뺌
           y1: numberPoint.y,
           line: {
             width: 5
@@ -49,7 +49,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           font: {
             size: 10
           },
-          name: ['intervention', 'masking'],
+
         },
         { //enrollment
           x: numberPoint.x + numberW / 2,
@@ -59,14 +59,14 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           font: {
             size: 10
           },
-          name: ['intervention', 'enrollment'],
+
         },
         { //allocation
           x: allocationPoint.x,
           y: allocationPoint.y,
           text: allocation[0],
           showarrow: false,
-          name: ['intervention', 'allocation'],
+
         },
         {// ratio
           x: allocationPoint.x,
@@ -77,7 +77,10 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
             size: 7
           },
           showarrow: false,
-          name: ['intervention', 'ratio'],
+          name: {
+            type: 'intervention',
+            inJson: 'PopulationRatio',
+          }
         },
 
       ]
