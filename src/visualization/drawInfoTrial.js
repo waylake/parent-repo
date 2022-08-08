@@ -78,7 +78,7 @@ export function drawInfoTrial(
         { //title
           x: titlePoint.x,
           y: titlePoint.y,
-          text: title,
+          text: "<a href=\'https://www.clinicaltrials.gov/ct2/show/"+infoTrial.NCTID+"\'>"+title+"</a>",
           showarrow: false,
           xanchor: 'left',
           yanchor: "bottom",
