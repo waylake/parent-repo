@@ -1,0 +1,146 @@
+{
+  "Allocation": "Randomized",
+  "CompleteTime": 36,
+  "DesignModel": "Parallel Assignment",
+  "DrugInformation": {
+    "ArmGroupList": [
+      {
+        "ArmGroupDescription": "lbp-ec01:   , tmp/smx: 800 mg (BID) , ",
+        "ArmGroupLabel": "Part 1- Arm 1",
+        "ArmGroupType": "Experimental",
+        "InterventionDescription": [
+          {
+            "Dosage": "",
+            "DrugName": "lbp-ec01",
+            "Duration": "",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "800 mg",
+            "DrugName": "tmp/smx",
+            "Duration": "(BID)",
+            "HowToTake": ""
+          }
+        ],
+        "InterventionList": {
+          "ArmGroupInterventionName": ["drug: lbp-ec01", "drug: tmp/smx"]
+        }
+      },
+      {
+        "ArmGroupDescription": "lbp-ec01:   , tmp/smx: 800 mg (BID) , ",
+        "ArmGroupLabel": "Part 1- Arm 2",
+        "ArmGroupType": "Experimental",
+        "InterventionDescription": [
+          {
+            "Dosage": "",
+            "DrugName": "lbp-ec01",
+            "Duration": "",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "800 mg",
+            "DrugName": "tmp/smx",
+            "Duration": "(BID)",
+            "HowToTake": ""
+          }
+        ],
+        "InterventionList": {
+          "ArmGroupInterventionName": ["drug: lbp-ec01", "drug: tmp/smx"]
+        }
+      },
+      {
+        "ArmGroupDescription": "lbp-ec01:   , tmp/smx: 800 mg (BID) , calcium carbonate: 1000 mg  , ",
+        "ArmGroupLabel": "Part 1- Arm 3",
+        "ArmGroupType": "Experimental",
+        "InterventionDescription": [
+          {
+            "Dosage": "",
+            "DrugName": "lbp-ec01",
+            "Duration": "",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "800 mg",
+            "DrugName": "tmp/smx",
+            "Duration": "(BID)",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "1000 mg",
+            "DrugName": "calcium carbonate",
+            "Duration": "",
+            "HowToTake": ""
+          }
+        ],
+        "InterventionList": {
+          "ArmGroupInterventionName": [
+            "drug: lbp-ec01",
+            "drug: tmp/smx",
+            "drug: calcium carbonate"
+          ]
+        }
+      },
+      {
+        "ArmGroupDescription": "lbp-ec01:   , tmp/smx: 800 mg (BID) , ",
+        "ArmGroupLabel": "Part 2: LBP-EC01",
+        "ArmGroupType": "Experimental",
+        "InterventionDescription": [
+          {
+            "Dosage": "",
+            "DrugName": "lbp-ec01",
+            "Duration": "",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "800 mg",
+            "DrugName": "tmp/smx",
+            "Duration": "(BID)",
+            "HowToTake": ""
+          }
+        ],
+        "InterventionList": {
+          "ArmGroupInterventionName": ["drug: lbp-ec01", "drug: tmp/smx"]
+        }
+      },
+      {
+        "ArmGroupDescription": "placebo: 160  mg on days , tmp/smx: 800 mg (BID) , ",
+        "ArmGroupLabel": "Part 2: Placebo",
+        "ArmGroupType": "Placebo Comparator",
+        "InterventionDescription": [
+          {
+            "Dosage": "160  mg",
+            "DrugName": "placebo",
+            "Duration": "on days",
+            "HowToTake": ""
+          },
+          {
+            "Dosage": "800 mg",
+            "DrugName": "tmp/smx",
+            "Duration": "(BID)",
+            "HowToTake": ""
+          }
+        ],
+        "InterventionList": {
+          "ArmGroupInterventionName": ["drug: placebo", "drug: tmp/smx"]
+        }
+      }
+    ]
+  },
+  "Enrollment": "580",
+  "InterventionName": "Placebo, Calcium carbonate",
+  "Masking": "Quadruple",
+  "NCTID": "NCT05488340",
+  "Objective": "A Study of LBP-EC01 in the Treatment of Acute Uncomplicated Urinary Tract Infection Caused by Multi-drug Resistant Escherichia Coli (E. Coli)",
+  "OfficialTitle": "A Two-Part, Phase 2/3, Double-blind, Randomized, Active-controlled, Parallel-group, Multicenter Study to Evaluate the Safety, Tolerability, Pharmacokinetics, and Efficacy of LBP-EC01 in the Treatment of Acute Uncomplicated Urinary Tract Infection Caused by Multi-drug Resistant Escherichia Coli (a.k.a. ELIMINATE Trial)",
+  "PopulationBox": {
+    "Condition": "Urinary Tract Infection E. Coli",
+    "Gender": "Female",
+    "HealthyCondition": "No",
+    "MaxAge": "65 Years",
+    "MinAge": "18 Years",
+    "Participant": "580"
+  },
+  "PopulationRatio": "",
+  "Title": "A Study of LBP-EC01 in the Treatment of Acute Uncomplicated Urinary Tract Infection Caused by Multi-drug Resistant Escherichia Coli (E. Coli)",
+  "WashoutPeriod": ""
+}
