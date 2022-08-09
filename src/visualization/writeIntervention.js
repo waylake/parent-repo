@@ -99,11 +99,15 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(interDur);
-  } else if (
-    (designModel === "Crossover Assignment") &
-    (typeof (intervention.washoutPeriod) == "string") &
-    (numBranch === 2)
+  } 
+  else if (
+    (designModel === "Crossover Assignment")
   ) {
+  // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
+    // else if (
+  //   (designModel === "Crossover Assignment") &
+  //   ((typeof intervention.washoutPeriod == "String") & (numBranch === 2))
+  // ) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
@@ -208,8 +212,8 @@ export function writeIntervention(
 
     let timeObjM = {
       x: (bfWashPoint + afWashPoint) / 2,
-      y: washH + 0.05,
-      yanchor: "top",
+      y: washH,
+      yanchor: "bottom",
       text: "Washout period",
       font: {
         size: timeObjFontSize,
@@ -252,13 +256,15 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
-  } else { // parallel, sequential...
+  } else {
+    // parallel, sequential...
     // limit number of branch
     let numBranchLimit = numBranch;
     if (numBranch > 6) {
       numBranchLimit = 6;
     }
 
+    const columData = [];
     for (let i = 0; i < numBranchLimit; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
@@ -267,6 +273,7 @@ export function writeIntervention(
         textStartX = armGLinePoint1.x + armGW + 0.1;
         testStartY = startPoint.y + startH - 0.1;
         for (let j = 0; j < drugInfo.length; j++) {
+          // 브랜치 위에 있는 글자
           onlyDrug +=
             j + 1 === drugInfo.length
               ? drugInfo[j]["DrugName"]
@@ -278,6 +285,14 @@ export function writeIntervention(
             ") : " +
             drugHowToTake +
             "<br>";
+
+          // 오버 이벤트 안에 있는 글자
+          columData.push({
+            DrugName: drugInfo[j]["DrugName"],
+            Dosage: drugInfo[j]["Dosage"],
+            HowToTake: drugInfo[j]["HowToTake"],
+            Duration: drugInfo[j]["Duration"],
+          });
         }
         onlyDrug = lineBreak(onlyDrug, 32)[1];
 
@@ -298,7 +313,6 @@ export function writeIntervention(
             size: intervenFontSize,
           },
           hovertext: drugDescription,
-          // hovertemplate: drugDescription,
           hoverlabel: {
             bgcolor: "rgba(0,0,0,0.1)",
             bordercolor: "rgba(0,0,0,0.1)",
@@ -308,6 +322,7 @@ export function writeIntervention(
             },
           },
           showarrow: false,
+          captureevents: true,
         };
         let interDur = {
           x: textStartX + armGArrowW,
@@ -344,6 +359,7 @@ export function writeIntervention(
             size: intervenFontSize,
           },
           showarrow: false,
+          captureevents: true,
         };
         let interDur = {
           x: textStartX + armGArrowW - 0.3,
