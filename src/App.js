@@ -25,26 +25,26 @@ import axios from 'axios';
 
 // import $ from "jquery";
 
-async function componentDidMount () {
-  try {
-      const res = await fetch('http://127.0.0.1:8000/api/');
-      const posts = await res.json();
-      this.setState({
-          posts
-      });
-  } catch (e) {
-      console.log(e);
-  }
-}
+// async function componentDidMount () {
+//   try {
+//       const res = await fetch('http://127.0.0.1:8000/api/');
+//       const posts = await res.json();
+//       this.setState({
+//           posts
+//       });
+//   } catch (e) {
+//       console.log(e);
+//   }
+// }
 
 function App() {
-  const [post, setPost] = useState();
+  // const [post, setPost] = useState();
 
-  const Dda = useAsync({
-    promiseFn: componentDidMount,
-    id: 1,
-  })
-  console.log(Dda);
+  // const Dda = useAsync({
+  //   promiseFn: componentDidMount,
+  //   id: 1,
+  // })
+  // console.log(Dda);
 
   const dataJson = getInfo("put url in this area");
 
