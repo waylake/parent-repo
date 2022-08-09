@@ -292,7 +292,7 @@ export function writeIntervention(
           name: {
             type: "armGroup",
             inJson: "DrugName",
-            idx: drugNameIdx++
+            idx: drugNameIdx++,
           },
           font: {
             size: intervenFontSize,
@@ -318,7 +318,7 @@ export function writeIntervention(
           xanchor: "right",
           yanchor: "bottom",
           align: "left",
-          text: armG.interventionDescription[1][0]["Duration"],
+          text: armG.interventionDescription[i][0]["Duration"],
           name: {
             type: "armGroup",
             inJson: "Duration",

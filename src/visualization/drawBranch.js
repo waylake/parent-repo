@@ -39,11 +39,11 @@ export function drawBranch(
   let arrowIdx = 0; //몇 번째 arrow인지 idx, data의 branch idx와 맞추기위함 
   let branchIdx = 0;
   //draw branch
-  if ((designModel === "Crossover Assignment" & typeof intervention.washoutPeriod == "String" & numBranch === 2)) {
+  if ((designModel === "Crossover Assignment" && numBranch === 2)) {
     for (let i = 0; i < numBranch; i++) {
       let colorB = armColorDict[armG.armGroupType[i]];
-      let arrowEndY = startPoint.y + i * (startH / (numBranch - 1))
-      let arrowEndX = armGLinePoint1.x + armGW + armGArrowW + 0.5
+      let arrowEndY = startPoint.y + i * (startH / (numBranch - 1));
+      let arrowEndX = armGLinePoint1.x + armGW + armGArrowW;
       let lineLoc = {
         name: {
           armGroupType: armG.armGroupType[i],
@@ -69,6 +69,7 @@ export function drawBranch(
           width: lineWidth,
         },
         hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
+        opacity: 1,
       };
       lineList.push(lineLoc);
       let lineArrow = {
@@ -115,6 +116,105 @@ export function drawBranch(
       hoverinfo: "skip", // branch 라인 위에 마우스 올렸을 때 데이터 보이지 않도록 설정
     };
     lineList.push(mark);
+  } else if (designModel[0] === 'c' && designModel[2] === 'p') {
+    // limit number of branch
+    const crossover = Number(designModel[1]);
+
+    // draw Branch
+    for (let i = 1; i < crossover; i += 2) {
+      for (let j = 0; j < 2; j++) {
+        let colorB = armColorDict[armG.armGroupType[j]];
+        let arrowEndY = startPoint.y + startH - startH / (numBranch - 1) * i + j * startH / (numBranch - 1);
+        let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
+        let lineLoc = {
+          name: {
+            armGroupType: armG.armGroupType[j],
+            idx: branchIdx++
+          },
+          x: [
+            armGLinePoint1.x,
+            armGLinePoint1.x + armGW,
+            armGLinePoint1.x + armGW + armGArrowW / 3,
+            armGLinePoint1.x + armGW + (armGArrowW / 3) * 2,
+            arrowEndX,
+          ],
+          y: [
+            armGLinePoint1.y,
+            startPoint.y + startH - j * (startH / (numBranch - 1)) - (i - 1) * (startH / (numBranch - 1)),
+            startPoint.y + startH - j * (startH / (numBranch - 1)) - (i - 1) * (startH / (numBranch - 1)),
+            arrowEndY,
+            arrowEndY,
+          ],
+          mode: "lines",
+          line: {
+            color: colorB,
+            width: lineWidth,
+          },
+          hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+          opacity: 1,
+
+        };
+        lineList.push(lineLoc);
+
+        let lineArrow = {
+          type: 'path',
+          // 0.2는 삼각형 높이
+          path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
+	              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
+          fillcolor: colorB, // 채우기 색깔
+          line: { color: colorB }, // 테두리 색깔
+          name: {
+            shape: 'arrow',
+            idx: arrowIdx++,
+          }
+        };
+        arrowList.push(lineArrow);
+      }
+    }
+    for (let i = crossover; i < numBranch; i++) {
+      let colorB = armColorDict[armG.armGroupType[i]];
+      let arrowEndY = startPoint.y + startH - i * (startH / (numBranch - 1))
+      let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
+      let lineLoc = {
+        name: {
+          armGroupType: armG.armGroupType[i],
+          idx: branchIdx++
+        },
+        x: [
+          armGLinePoint1.x,
+          armGLinePoint1.x + armGW,
+          arrowEndX,
+        ],
+        y: [
+          armGLinePoint1.y,
+          arrowEndY,
+          arrowEndY,
+        ],
+        mode: "lines",
+        line: {
+          color: colorB,
+          width: lineWidth,
+        },
+        hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+        opacity: 1,
+
+      };
+      lineList.push(lineLoc);
+
+      let lineArrow = {
+        type: 'path',
+        // 0.2는 삼각형 높이
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle} 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle} Z`,
+        fillcolor: colorB, // 채우기 색깔
+        line: { color: colorB }, // 테두리 색깔
+        name: {
+          shape: 'arrow',
+          idx: arrowIdx++,
+        }
+      };
+      arrowList.push(lineArrow);
+    }
   } else if (designModel === "Parallel Assignment" || numBranch !== 1) {
     // limit number of branch
     let numBranchLimit = numBranch
@@ -148,6 +248,7 @@ export function drawBranch(
           width: lineWidth,
         },
         hoverinfo: "skip", // 모식도 데이터 오버이벤트 없애기
+        opacity: 1,
 
       };
       lineList.push(lineLoc);
@@ -185,6 +286,7 @@ export function drawBranch(
         color: colorB,
         width: lineWidth,
       },
+      opacity: 1,
     };
     lineList.push(lineLoc);
     let lineArrow = {
