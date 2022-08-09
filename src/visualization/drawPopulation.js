@@ -90,7 +90,10 @@ export function drawPopulation(startPoint, startW, population) {
           align: "left",
           text: conditionText,
           showarrow: false,
-          name: ["population", "condition"],
+          name: {
+            type: 'PopulationBox',
+            inJson: 'Condition',
+          },
           font: {
             size: 11,
           },
@@ -103,7 +106,10 @@ export function drawPopulation(startPoint, startW, population) {
           align: "left",
           text: genderText,
           showarrow: false,
-          name: ["population", "gender"],
+          name: {
+            type: 'PopulationBox',
+            inJson: 'Gender',
+          },
           font: {
             size: 11,
           },
@@ -116,7 +122,10 @@ export function drawPopulation(startPoint, startW, population) {
           align: "left",
           text: healthyText,
           showarrow: false,
-          name: ["population", "healthyCondition"],
+          name: {
+            type: 'PopulationBox',
+            inJson: 'HealthyCondition',
+          },
           font: {
             size: 11,
           },
@@ -129,7 +138,10 @@ export function drawPopulation(startPoint, startW, population) {
           align: "left",
           text: minAgeText,
           showarrow: false,
-          name: ["population", "minAge"],
+          name: {
+            type: 'PopulationBox',
+            inJson: 'MinAge',
+          },
           font: {
             size: 11,
           },
@@ -145,7 +157,10 @@ export function drawPopulation(startPoint, startW, population) {
           align: "left",
           text: maxAgeText,
           showarrow: false,
-          name: ["population", "maxAge"],
+          name: {
+            prop: 'PopulationBox',
+            inJson: 'MaxAge',
+          },
           font: {
             size: 11,
           },

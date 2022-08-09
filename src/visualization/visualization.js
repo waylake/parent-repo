@@ -7,12 +7,7 @@ import { drawBranch } from "./drawBranch";
 import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
 import { writeIntervention } from "./writeIntervention";
 
-let lockIcon = {
-  'width': 1000,
-  'height': 1000,
-  'path': "M320 768h512v192q0 106 -75 181t-181 75t-181 -75t-75 -181v-192zM1152 672v-576q0 -40 -28 -68t-68 -28h-960q-40 0 -68 28t-28 68v576q0 40 28 68t68 28h32v192q0 184 132 316t316 132t316 -132t132 -316v-192h32q40 0 68 -28t28 -68z",
-  'transform': 'matrix(0.75 0 0 -0.75 0 1000)'
-}
+
 export let armGArrowW = 7;
 export function visualization(data) {
   // data from extraction

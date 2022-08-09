@@ -3,7 +3,7 @@ import * as data from "./Data";
 // import $ from "jquery";
 // import {PythonShell} from 'python-shell';
 
-export function getInfo(url) {
+export function getInfo(infoDict) {
   // codes to run python file in javascript
   // const pyodide = window.pyodide;
   // pyodide.runPython(request_call(url));
@@ -22,12 +22,12 @@ export function getInfo(url) {
   // });
 
   // const {spawn} = require('child_process');
-  // const newjson = spawn('/home/jun/anaconda3/bin/python', 
+  // const newjson = spawn('/home/jun/anaconda3/bin/python',
   // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
   // NCT00482833.json: title, objective 공백 넣기
   // NCT04844424.json: 군 엄청 많음
   // NCT05488340.json : 약마다 용량 다름
-  const infoDict = require("../NCT_ID_database/NCT05488340.json"); // read json file by using require method
+  // const infoDict = require("../NCT_ID_database/NCT03507790.json"); // read json file by using require method
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 
@@ -82,7 +82,9 @@ export function getInfo(url) {
   );
 
   // ##intervetntion##
-  const masking = infoDict["Masking"].includes('None') ? 'None' : infoDict["Masking"]; // None이면 그냥 None만 리턴
+  const masking = infoDict["Masking"].includes("None")
+    ? "None"
+    : infoDict["Masking"]; // None이면 그냥 None만 리턴
   const allocation = infoDict["Allocation"];
   const ratio = infoDict["PopulationRatio"];
   // # print(infoDict)
