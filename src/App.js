@@ -47,7 +47,10 @@ import axios from "axios";
 // })
 // console.log(Dda);
 function App() {
-  const infoDict = require("./NCT_ID_database/NCT05488340.json");
+  // crossover : NCT04450953
+  // 군 엄청 많아: NCT04844424
+  // 약 엄청 많아: NCT02374567
+  const infoDict = require("./NCT_ID_database/NCT02374567.json");
   const dataJson = getInfo(infoDict);
 
   let visualizationInfo = visualization(dataJson);
