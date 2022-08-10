@@ -12,8 +12,7 @@ import { visualization } from "./visualization/visualization";
 import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
-import { addCrossModel } from "./visualization/edit";
-import { changeCross } from "./visualization/edit";
+import { makeNewModel } from "./visualization/edit";
 //state
 import { useState } from "react";
 //아이콘
@@ -106,9 +105,8 @@ function App() {
             for (let i = 0; i < data.length; i++) {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
-            // modifyBranch("Parallel Assignment", newData, clickedBranchIdx);
+            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
 
-            //
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
@@ -141,7 +139,7 @@ function App() {
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
             //cross-over로 꼬을 브랜치 맨 앞으로
             moveIdxFront(armGroupList, [smallIdx, bigIdx]);
-            newInfoDict.DesignModel = addCrossModel(changeCross(newInfoDict.DesignModel), armGroupList.length);
+            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
