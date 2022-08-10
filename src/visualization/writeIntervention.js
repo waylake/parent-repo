@@ -26,7 +26,8 @@ export function writeIntervention(
   const intervenFontSize = 12;
   const intervenDurFontSize = 9;
   const intervenHoverFontSize = 13;
-
+  const intervenBranchLetterLimit = 30;
+  const intervenHoverLetterLimit = 15;
   let res;
   let drugNameIdx = 0;
   let durationIdx = 0;
@@ -40,18 +41,28 @@ export function writeIntervention(
     drugInfo = armG.interventionDescription[0];
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
-    for (let i = 0; i < drugInfo.length; i++) {
-      onlyDrug +=
-        i + 1 === drugInfo.length
-          ? drugInfo[i]["DrugName"]
-          : drugInfo[i]["DrugName"] + "+";
+    let onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
+    for (let j = 0; j < drugInfo.length; j++) {
+      // 브랜치 위에 있는 글자
+      onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
+      if (onlyDrugLineN <= 2) {
+        onlyDrug +=
+          j + 1 === drugInfo.length
+            ? drugInfo[j]["DrugName"]
+            : drugInfo[j]["DrugName"] + "+";
+      }
       drugDescription +=
-        drugInfo[i]["DrugName"] + "(" + drugInfo[i]["Dosage"] + ") ";
-      drugHowToTake = drugInfo[i]["HowToTake"];
+      drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
+      drugHowToTake = drugInfo[j]["HowToTake"];
     }
+    if (onlyDrug.lastIndexOf("+") === (onlyDrug.length - 1)) { 
+      onlyDrug = onlyDrug.substring(0, onlyDrug.length - 1); 
+      
+    }
+    
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
-    onlyDrug = lineBreak(onlyDrug, 32)[1];
+    onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
 
     let interObj = {
       x: textStartX,
@@ -99,9 +110,10 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(interDur);
-  } 
+  }
+  // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
   else if (
-    (designModel === "Crossover Assignment")
+    (designModel === "Crossover Assignment") & (numBranch === 2)
   ) {
   // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
     // else if (
@@ -126,8 +138,8 @@ export function writeIntervention(
           "<br>";
       }
 
-      drugDescription = countLine(drugDescription, 15)[1];
-      onlyDrug = lineBreak(onlyDrug, 32)[1];
+      drugDescription = countLine(drugDescription, intervenHoverLetterLimit)[1];
+      onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
       // 꼬기 전
       let interObjB = {
         x: armGLinePoint1.x + armGW + 0.1,
@@ -272,12 +284,18 @@ export function writeIntervention(
       try {
         textStartX = armGLinePoint1.x + armGW + 0.1;
         testStartY = startPoint.y + startH - 0.1;
+        let onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
         for (let j = 0; j < drugInfo.length; j++) {
           // 브랜치 위에 있는 글자
-          onlyDrug +=
-            j + 1 === drugInfo.length
-              ? drugInfo[j]["DrugName"]
-              : drugInfo[j]["DrugName"] + "+";
+          onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
+          if (onlyDrugLineN <= 2) {
+            onlyDrug +=
+              j + 1 === drugInfo.length
+                ? drugInfo[j]["DrugName"]
+                : drugInfo[j]["DrugName"] + "+";
+          }
+
+          // hover event's content
           drugDescription +=
             drugInfo[j]["DrugName"] +
             "(" +
@@ -294,7 +312,8 @@ export function writeIntervention(
             Duration: drugInfo[j]["Duration"],
           });
         }
-        onlyDrug = lineBreak(onlyDrug, 32)[1];
+        onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
+
 
         //make letter object
         let interObj = {
