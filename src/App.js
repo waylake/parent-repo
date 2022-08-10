@@ -50,6 +50,8 @@ function App() {
   const infoDict = require("./NCT_ID_database/NCT05488340.json");
   const dataJson = getInfo(infoDict);
 
+
+
   let visualizationInfo = visualization(dataJson);
   //data
   let vData = visualizationInfo.Gdata;
@@ -105,6 +107,7 @@ function App() {
             for (let i = 0; i < data.length; i++) {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
+            const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
             newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
 
             const newDataJson = getInfo(newInfoDict);
