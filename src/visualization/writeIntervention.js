@@ -115,6 +115,11 @@ export function writeIntervention(
   else if (
     (designModel === "Crossover Assignment") & (numBranch === 2)
   ) {
+  // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
+    // else if (
+  //   (designModel === "Crossover Assignment") &
+  //   ((typeof intervention.washoutPeriod == "String") & (numBranch === 2))
+  // ) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";

@@ -21,30 +21,12 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
-// async function componentDidMount () {
-//   try {
-//       const res = await fetch('http://127.0.0.1:8000/api/');
-//       const posts = await res.json();
-//       this.setState({
-//           posts
-//       });
-//   } catch (e) {
-//       console.log(e);
-//   }
-// }
-
-// const [post, setPost] = useState();
-
-// const Dda = useAsync({
-//   promiseFn: componentDidMount,
-//   id: 1,
-// })
-// console.log(Dda);
 function App() {
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
   const infoDict = require("./NCT_ID_database/NCT02374567.json");
+
   const dataJson = getInfo(infoDict);
 
   let visualizationInfo = visualization(dataJson);
@@ -225,7 +207,6 @@ function App() {
             <Search className></Search>
           </div>
           <Card variant="outlined">hi</Card>
-          
         </Grid>
         <Grid item xs={12}>
           <div className="plot">
