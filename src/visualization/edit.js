@@ -58,7 +58,7 @@ export function removeHtmlTag(annot) {
 
 export function changeCross(currentModel, op = '+') {
   const cross = op === '+' ? {
-    "Crossover Assignment": "c2",
+    Cr: "c2",
     c2: 'c4',
     c4: 'c6',
   } : {
@@ -66,11 +66,12 @@ export function changeCross(currentModel, op = '+') {
     c4: 'c2',
     c6: 'c4',
   };
-  return cross[currentModel];
+
+  return cross[currentModel.slice(0, 2)];
 }
 
 export function makeNewModel(currentModel, numBranch, op) {
   const cross = changeCross(currentModel, op);
-  const parallel = cross === 'Crossover Assignment' ? '' : `p${numBranch} - ${Number(cross[1])}`;
+  const parallel = cross === 'Crossover Assignment' ? '' : 'p' + (numBranch - Number(cross[1]));
   return cross + parallel;
 }

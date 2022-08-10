@@ -47,10 +47,9 @@ import axios from "axios";
 // })
 // console.log(Dda);
 function App() {
-  const infoDict = require("./NCT_ID_database/NCT05488340.json");
+  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT05488340.json"));
   const dataJson = getInfo(infoDict);
-
-
+  console.log(infoDict);
 
   let visualizationInfo = visualization(dataJson);
   //data
@@ -119,8 +118,10 @@ function App() {
               if (value.name) value.hoverinfo = "none";
             }
             removeHtmlTag(newLayout.annotations);
+            setInfoDict(newInfoDict);
             setData(newData);
             setLayout(newLayout);
+
           }}
         ></Button>
 
@@ -143,6 +144,7 @@ function App() {
             //cross-over로 꼬을 브랜치 맨 앞으로
             moveIdxFront(armGroupList, [smallIdx, bigIdx]);
             newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
+
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
@@ -153,6 +155,7 @@ function App() {
             }
             //Html tag 제거
             removeHtmlTag(newLayout.annotations);
+            setInfoDict(newInfoDict);
             setLayout(newLayout);
             setData(newData);
           }}
@@ -170,16 +173,19 @@ function App() {
             const newInfoDict = { ...infoDict };
             const annot = layout.annotations;
             changeInfoDict(newInfoDict, annot);
+
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
 
-            setLayout(newVisualizationInfo.Glayout);
+
             // data 클릭 안되게 바꾸기
             const newData = [...data];
             for (let value of newData) {
               if (value.name) value.hoverinfo = "skip";
             }
+            setLayout(newVisualizationInfo.Glayout);
             setData(newData);
+            setInfoDict(newInfoDict);
             setMode("READ");
           }}
         ></Button>
@@ -248,7 +254,6 @@ function App() {
             // onInitialized={(figure) => useState(figure)}
             // onUpdate={(figure) => useState(figure)}
             ></Plot>
-
             <div className="buttonDiv">{content}</div>
           </div>
         </Grid>
