@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
 import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-import { Grid, Box } from "@material-ui/core"; // material ui
+import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
@@ -18,14 +18,8 @@ import { useState } from "react";
 //아이콘
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
-// import {PythonShell} from 'python-shell';
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { InterDetial } from "./component/Modal";
-import { useAsync } from "react-async";
-import axios from "axios";
-
-// import $ from "jquery";
 
 // async function componentDidMount () {
 //   try {
@@ -230,6 +224,8 @@ function App() {
           <div className="url">
             <Search className></Search>
           </div>
+          <Card variant="outlined">hi</Card>
+          
         </Grid>
         <Grid item xs={12}>
           <div className="plot">

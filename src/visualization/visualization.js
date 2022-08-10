@@ -1,7 +1,6 @@
 import { Point } from "./Point";
 import { drawPopulation } from "./drawPopulation";
 import { drawPreIntervention } from "./drawPreIntervention";
-import { countLine } from "./drawPopulation";
 
 import { drawBranch } from "./drawBranch";
 import { drawInfoTrial, lineBreak } from "./drawInfoTrial";
@@ -31,7 +30,7 @@ export function visualization(data) {
     height: 800,
     // autosize: true,
     xaxis: {
-      range: [9, 29],
+      range: [9, 27],
       showgrid: false,
       showticklabels: false,
     },
