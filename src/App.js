@@ -9,10 +9,11 @@ import Search from "./component/Search";
 //함수
 import { getInfo } from "./visualization/DataExtraction";
 import { visualization } from "./visualization/visualization";
-import { armGArrowW } from "./visualization/visualization";
 import { changeInfoDict } from "./visualization/edit";
-import { changeIdx } from "./visualization/edit";
+import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
+import { addCrossModel } from "./visualization/edit";
+import { changeCross } from "./visualization/edit";
 //state
 import { useState } from "react";
 //아이콘
@@ -64,42 +65,6 @@ function App() {
   const [config, setConfig] = useState(vConfig);
   const [mode, setMode] = useState("READ");
 
-  //branch
-  const startX = data[0].x[1]; // 시작점
-  const crossOverX = [
-    data[0].x[0],
-    startX,
-    startX + armGArrowW / 3,
-    startX + (armGArrowW / 3) * 2,
-    startX + armGArrowW,
-  ];
-  const parallelX = [data[0].x[0], startX, startX + armGArrowW];
-
-  function modifyBranch(model, data, idx) {
-    if (model === "Crossover Assignment") {
-      const startY1 = data[idx[0]].y[1];
-      const startY2 = data[idx[1]].y[1];
-      const y1 = [data[0].y[0], startY1, startY1, startY2, startY2];
-      const y2 = [data[0].y[0], startY2, startY2, startY1, startY1];
-      const y = [y1, y2];
-      for (let i = 0; i < idx.length; i++) {
-        data[idx[i]].x = crossOverX;
-        data[idx[i]].y = y[i];
-      }
-    }
-    const startY1 = data[idx[0]].y[1];
-    const startY2 = data[idx[1]].y[1];
-    const y1 = [data[0].y[0], startY1, startY1];
-    const y2 = [data[0].y[0], startY2, startY2];
-    const y = [y1, y2];
-    if (model === "Parallel Assignment") {
-      for (let i = 0; i < idx.length; i++) {
-        data[idx[i]].x = parallelX;
-        data[idx[i]].y = y[i];
-      }
-    }
-  }
-
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
@@ -141,12 +106,14 @@ function App() {
             for (let i = 0; i < data.length; i++) {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
+            // modifyBranch("Parallel Assignment", newData, clickedBranchIdx);
 
+            //
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
             const newLayout = newVisualizationInfo.Glayout;
-            modifyBranch("Parallel Assignment", newData, clickedBranchIdx);
+
             for (let value of newData) {
               if (value.name) value.hoverinfo = "none";
             }
@@ -172,9 +139,9 @@ function App() {
                 ? clickedBranchIdx
                 : [...clickedBranchIdx].reverse();
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            changeIdx(armGroupList, [smallIdx, bigIdx]);
-            clickedBranchIdx = [0, 1];
-
+            //cross-over로 꼬을 브랜치 맨 앞으로
+            moveIdxFront(armGroupList, [smallIdx, bigIdx]);
+            newInfoDict.DesignModel = addCrossModel(changeCross(newInfoDict.DesignModel), armGroupList.length);
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
@@ -183,8 +150,6 @@ function App() {
             for (let value of newData) {
               if (value.name) value.hoverinfo = "none";
             }
-            //좌표 설정
-            modifyBranch("Crossover Assignment", newData, clickedBranchIdx);
             //Html tag 제거
             removeHtmlTag(newLayout.annotations);
             setLayout(newLayout);
@@ -279,8 +244,8 @@ function App() {
               onHover={(e) => {
                 console.log(1);
               }}
-              // onInitialized={(figure) => useState(figure)}
-              // onUpdate={(figure) => useState(figure)}
+            // onInitialized={(figure) => useState(figure)}
+            // onUpdate={(figure) => useState(figure)}
             ></Plot>
 
             <div className="buttonDiv">{content}</div>

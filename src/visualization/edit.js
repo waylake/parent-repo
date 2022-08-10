@@ -31,7 +31,7 @@ export function changeInfoDict(newInfoDict, annot) {
   }
 }
 
-export function changeIdx(armGroupList, ary) {
+export function moveIdxFront(armGroupList, ary) {
   const aryToAdd = [];
   for (let i = 1; i >= 0; i--) {
     aryToAdd.push(armGroupList.splice(ary[i], 1));
@@ -55,3 +55,21 @@ export function removeHtmlTag(annot) {
     }
   }
 }
+
+export function changeCross(currentModel) {
+  const cross = {
+    "Crossover Assignment": "c2",
+    c2: 'c4',
+    c4: 'c6',
+  };
+
+  return cross[currentModel];
+}
+
+export function addCrossModel(numCross, numBranch) {
+  const cross = numCross;
+  const parallel = `p${numBranch} - ${Number(cross[1])}`;
+  return cross + parallel;
+}
+
+// export function subtractCrossModel()
