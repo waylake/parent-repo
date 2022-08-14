@@ -31,7 +31,7 @@ export function changeInfoDict(newInfoDict, annot) {
   }
 }
 
-export function changeIdx(armGroupList, ary) {
+export function moveIdxFront(armGroupList, ary) {
   const aryToAdd = [];
   for (let i = 1; i >= 0; i--) {
     aryToAdd.push(armGroupList.splice(ary[i], 1));
@@ -54,4 +54,24 @@ export function removeHtmlTag(annot) {
       annot[i].text = annot[i].text.replace(re2, '');
     }
   }
+}
+
+export function changeCross(currentModel, op = '+') {
+  const cross = op === '+' ? {
+    Cr: "c2",
+    c2: 'c4',
+    c4: 'c6',
+  } : {
+    c2: "Crossover Assignment",
+    c4: 'c2',
+    c6: 'c4',
+  };
+
+  return cross[currentModel.slice(0, 2)];
+}
+
+export function makeNewModel(currentModel, numBranch, op) {
+  const cross = changeCross(currentModel, op);
+  const parallel = cross === 'Crossover Assignment' ? '' : 'p' + (numBranch - Number(cross[1]));
+  return cross + parallel;
 }
