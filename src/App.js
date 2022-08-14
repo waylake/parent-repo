@@ -16,10 +16,14 @@ import { makeNewModel } from "./visualization/edit";
 //state
 import { useState } from "react";
 //아이콘
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+//img
+import armLabel from "./img/label.png";
 
 function App() {
 
@@ -239,7 +243,13 @@ function App() {
         // onInitialized={(figure) => useState(figure)}
         // onUpdate={(figure) => useState(figure)}
         ></Plot>
-        <div className="buttonDiv">{content}</div>
+        <div className="buttonDiv">
+          {content}
+        </div>
+        <div className="questionIcon">
+          <FontAwesomeIcon icon={faCircleQuestion} />
+          <img src={armLabel} />
+        </div>
       </div>
     </div>
   );
