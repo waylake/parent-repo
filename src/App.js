@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
-import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
+// import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
 import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
@@ -23,12 +23,11 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
 
-  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT05488340.json"));
+  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT00482833.json"));
 
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const infoDict = require("./NCT_ID_database/NCT02374567.json");
 
 
   const dataJson = getInfo(infoDict);
@@ -48,11 +47,53 @@ function App() {
   const [config, setConfig] = useState(vConfig);
   const [mode, setMode] = useState("READ");
 
+  const clikckBranch = (e) => {
+    const newLayout = { ...layout };
+    let selectedBranch = 0;
+    //branch 투명도
+    e.points[0].data.opacity =
+      e.points[0].data.opacity === 1 ? 0.3 : 1;
+    //화살표 촉 투명도
+    for (let value of newLayout.shapes) {
+      if (
+        value.name &&
+        value.name[0] === "arrow" &&
+        value.name[1] === e.points[0].data.name[1]
+      ) {
+        value.opacity = value.opacity === 1 ? 0.3 : 1;
+      }
+    }
+    for (let value of data) {
+      //클릭된 개수 세기
+      selectedBranch =
+        value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+    }
+    if (selectedBranch >= 3) {
+      //branch 투명도
+      alert("두개 까지만 선택 가능합니다.");
+      e.points[0].data.opacity = 1;
+      //화살표 촉 투명도
+      for (let value of newLayout.shapes) {
+        if (
+          value.name &&
+          value.name[0] === "arrow" &&
+          value.name[1] === e.points[0].data.name[1]
+        ) {
+          value.opacity = 1;
+        }
+      }
+    }
+    const newData = [...data];
+    setData(newData);
+    setLayout(newLayout);
+  }
+
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <Button
+        mode='edit'
         icon={faPenToSquare}
         onChangeMode={() => {
           // editable하게 바꾸기
@@ -81,6 +122,7 @@ function App() {
     content = (
       <>
         <Button
+          mode='parallel'
           icon={faGripLines}
           onChangeMode={() => {
             // crossover -> parallel 로 바꾸기
@@ -109,6 +151,7 @@ function App() {
         ></Button>
 
         <Button
+          mode='cross'
           icon={faShuffle}
           onChangeMode={() => {
             // parallel -> cross over로 바꾸기
@@ -145,6 +188,7 @@ function App() {
         ></Button>
 
         <Button
+          mode='save'
           icon={faFloppyDisk}
           onChangeMode={() => {
             // editable: false
@@ -176,73 +220,28 @@ function App() {
     );
   }
   return (
-    <Grid container spacing={1}>
-      <div className="container">
-        <Grid item xs={12}>
-          <div className="url">
-            <Search className></Search>
-          </div>
-          <Card variant="outlined">hi</Card>
-        </Grid>
-        <Grid item xs={12}>
-          <div className="plot">
-            <Plot
-              layout={layout}
-              data={data}
-              frames={frames}
-              config={config}
-              onClick={(e) => {
-                const newLayout = { ...layout };
-                let selectedBranch = 0;
-                //branch 투명도
-                e.points[0].data.opacity =
-                  e.points[0].data.opacity === 1 ? 0.3 : 1;
-                // console.log(e);
-                //화살표 촉 투명도
-                for (let value of newLayout.shapes) {
-                  if (
-                    value.name &&
-                    value.name[0] === "arrow" &&
-                    value.name[1] === e.points[0].data.name[1]
-                  ) {
-                    value.opacity = value.opacity === 1 ? 0.3 : 1;
-                  }
-                }
-                for (let value of data) {
-                  //클릭된 개수 세기
-                  selectedBranch =
-                    value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
-                }
-                if (selectedBranch >= 3) {
-                  //branch 투명도
-                  alert("두개 까지만 선택 가능합니다.");
-                  e.points[0].data.opacity = 1;
-                  //화살표 촉 투명도
-                  for (let value of newLayout.shapes) {
-                    if (
-                      value.name &&
-                      value.name[0] === "arrow" &&
-                      value.name[1] === e.points[0].data.name[1]
-                    ) {
-                      value.opacity = 1;
-                    }
-                  }
-                }
-                const newData = [...data];
-                setData(newData);
-                setLayout(newLayout);
-              }}
-              onHover={(e) => {
-                console.log(1);
-              }}
-            // onInitialized={(figure) => useState(figure)}
-            // onUpdate={(figure) => useState(figure)}
-            ></Plot>
-            <div className="buttonDiv">{content}</div>
-          </div>
-        </Grid>
+    <div className="container">
+      <div className="url">
+        <Search className></Search>
       </div>
-    </Grid>
+      <div className="plot">
+        <Plot
+          layout={layout}
+          data={data}
+          frames={frames}
+          config={config}
+          onClick={(e) => {
+            clikckBranch(e);
+          }}
+          onHover={(e) => {
+            console.log(1);
+          }}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
+        ></Plot>
+        <div className="buttonDiv">{content}</div>
+      </div>
+    </div>
   );
 }
 
