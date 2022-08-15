@@ -35,7 +35,6 @@ function App() {
 
 
   const dataJson = getInfo(infoDict);
-  console.log(infoDict);
 
   let visualizationInfo = visualization(dataJson);
   //data
@@ -61,8 +60,8 @@ function App() {
     for (let value of newLayout.shapes) {
       if (
         value.name &&
-        value.name[0] === "arrow" &&
-        value.name[1] === e.points[0].data.name[1]
+        value.name.shape === "arrow" &&
+        value.name.idx === e.points[0].data.name.idx
       ) {
         value.opacity = value.opacity === 1 ? 0.3 : 1;
       }
@@ -209,13 +208,8 @@ function App() {
             const newVisualizationInfo = visualization(newDataJson);
 
 
-            // data 클릭 안되게 바꾸기
-            const newData = [...data];
-            for (let value of newData) {
-              if (value.name) value.hoverinfo = "skip";
-            }
             setLayout(newVisualizationInfo.Glayout);
-            setData(newData);
+            setData(newVisualizationInfo.Gdata);
             setInfoDict(newInfoDict);
             setMode("READ");
           }}
@@ -226,7 +220,14 @@ function App() {
   return (
     <div className="container">
       <div className="url">
-        <Search className></Search>
+        <Search onCreate={(nctId) => {
+          setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+          setData(vData);
+          setLayout(vLayout);
+          // // setConfig(vConfig);
+          // // setFrames([]);
+          setMode("READ");
+        }}></Search>
       </div>
       <div className="plot">
         <Plot
@@ -248,7 +249,7 @@ function App() {
         </div>
         <div className="questionIcon">
           <FontAwesomeIcon icon={faCircleQuestion} />
-          <img src={armLabel} />
+          <img src={armLabel} alt="armlabel" />
         </div>
       </div>
     </div>

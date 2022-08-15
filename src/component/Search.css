@@ -11,8 +11,11 @@
   width: 500px;
   border-right: none;
   font-family: "NanumGothic";
+  outline: none;
 }
-
+.searchbar input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}
 .searchbar button {
   color: white;
   background-color: rgba(10, 76, 138, 0.671);

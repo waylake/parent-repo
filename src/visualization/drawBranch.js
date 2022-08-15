@@ -82,7 +82,8 @@ export function drawBranch(
         name: {
           shape: 'arrow',
           idx: arrowIdx++,
-        }
+        },
+        opacity: 1,
       };
       arrowList.push(lineArrow);
     }
@@ -166,7 +167,8 @@ export function drawBranch(
           name: {
             shape: 'arrow',
             idx: arrowIdx++,
-          }
+          },
+          opacity: 1,
         };
         arrowList.push(lineArrow);
       }
@@ -211,7 +213,8 @@ export function drawBranch(
         name: {
           shape: 'arrow',
           idx: arrowIdx++,
-        }
+        },
+        opacity: 1,
       };
       arrowList.push(lineArrow);
     }
@@ -263,7 +266,8 @@ export function drawBranch(
         name: {
           shape: 'arrow',
           idx: arrowIdx++,
-        }
+        },
+        opacity: 1,
       };
       arrowList.push(lineArrow);
     }
@@ -299,7 +303,8 @@ export function drawBranch(
       name: {
         shape: 'arrow',
         idx: arrowIdx++,
-      }
+      },
+      opacity: 1,
     };
     arrowList.push(lineArrow);
   } else {
