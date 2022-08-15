@@ -14,7 +14,7 @@ function Search({ onCreate }) {
   return (
     <div className="searchbar" onSubmit={handleSubmit}>
       <form>
-        <input type="text" placeholder="URL 입력" name="url" value={nctId} onChange={handleNctIdChange}></input>
+        <input type="text" placeholder="NCTID 입력" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <button type="submit">모식도 생성</button>
       </form>
     </div>
