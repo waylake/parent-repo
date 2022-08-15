@@ -8,7 +8,7 @@ function Search({ onCreate }) {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreate(nctId);
+    onCreate(e.target.url.value);
   }
 
   return (
