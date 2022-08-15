@@ -35,7 +35,6 @@ function App() {
 
 
   const dataJson = getInfo(infoDict);
-  console.log(infoDict);
 
   let visualizationInfo = visualization(dataJson);
   //data
@@ -226,7 +225,14 @@ function App() {
   return (
     <div className="container">
       <div className="url">
-        <Search className></Search>
+        <Search onCreate={(nctId) => {
+          setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+          setData(vData);
+          setLayout(vLayout);
+          setConfig(vConfig);
+          setFrames([]);
+          setMode("READ");
+        }}></Search>
       </div>
       <div className="plot">
         <Plot
@@ -248,7 +254,7 @@ function App() {
         </div>
         <div className="questionIcon">
           <FontAwesomeIcon icon={faCircleQuestion} />
-          <img src={armLabel} />
+          <img src={armLabel} alt="armlabel" />
         </div>
       </div>
     </div>
