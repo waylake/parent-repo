@@ -22,10 +22,13 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+// import {getData} from './visualization/getJson';
 //img
 import armLabel from "./img/label.png";
 
+
 function App() {
+
 
   const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT00482833.json"));
 
