@@ -137,6 +137,8 @@ function App() {
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
             newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
 
+            const annot = layout.annotations;
+            changeInfoDict(newInfoDict, annot);
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
@@ -173,6 +175,9 @@ function App() {
             //cross-over로 꼬을 브랜치 맨 앞으로
             moveIdxFront(armGroupList, [smallIdx, bigIdx]);
             newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
+
+            const annot = layout.annotations;
+            changeInfoDict(newInfoDict, annot);
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
