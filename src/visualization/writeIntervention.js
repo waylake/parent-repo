@@ -52,14 +52,14 @@ export function writeIntervention(
             : drugInfo[j]["DrugName"] + "+";
       }
       drugDescription +=
-      drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
+        drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
       drugHowToTake = drugInfo[j]["HowToTake"];
     }
-    if (onlyDrug.lastIndexOf("+") === (onlyDrug.length - 1)) { 
-      onlyDrug = onlyDrug.substring(0, onlyDrug.length - 1); 
-      
+    if (onlyDrug.lastIndexOf("+") === (onlyDrug.length - 1)) {
+      onlyDrug = onlyDrug.substring(0, onlyDrug.length - 1);
+
     }
-    
+
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
     onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
@@ -115,11 +115,11 @@ export function writeIntervention(
   else if (
     (designModel === "Crossover Assignment") & (numBranch === 2)
   ) {
-  // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
+    // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
     // else if (
-  //   (designModel === "Crossover Assignment") &
-  //   ((typeof intervention.washoutPeriod == "String") & (numBranch === 2))
-  // ) {
+    //   (designModel === "Crossover Assignment") &
+    //   ((typeof intervention.washoutPeriod == "String") & (numBranch === 2))
+    // ) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
@@ -268,7 +268,113 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
-  } else {
+  }
+  else if (designModel[0] === 'c' && designModel[2] === 'p') {
+    textStartX = armGLinePoint1.x + armGW + 0.1;
+    testStartY = startPoint.y + startH - 0.1;
+    const crossover = Number(designModel[1]);
+    for (let i = 0; i < numBranch; i++) {
+      drugDescription = "";
+      onlyDrug = "";
+      drugInfo = armG.interventionDescription[i];
+      for (let j = 0; j < drugInfo.length; j++) {
+        onlyDrug +=
+          j + 1 === drugInfo.length
+            ? drugInfo[j]["DrugName"]
+            : drugInfo[j]["DrugName"] + "+";
+        drugDescription +=
+          drugInfo[j]["DrugName"] +
+          "(" +
+          drugInfo[j]["Dosage"] +
+          ") : " +
+          drugHowToTake +
+          "<br>";
+      }
+
+      drugDescription = countLine(drugDescription, intervenHoverLetterLimit)[1];
+      onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
+
+      let interObj = {
+        x: armGLinePoint1.x + armGW + 0.1,
+        y: startPoint.y + startH - i * (startH / (numBranch - 1)),
+        xanchor: "left",
+        yanchor: "bottom",
+        align: "left",
+        text: onlyDrug,
+        name: {
+          type: "armGroup",
+          inJson: "DrugName",
+          idx: drugNameIdx++,
+        },
+        font: {
+          size: intervenFontSize,
+        },
+        hovertext: drugDescription,
+        hoverlabel: {
+          bgcolor: "rgba(0,0,0,0.1)",
+          bordercolor: "rgba(0,0,0,0.1)",
+          font: {
+            size: intervenHoverFontSize,
+            color: "black",
+          },
+        },
+        showarrow: false,
+        captureevents: true,
+      };
+
+      annotations.push(interObj);
+    }
+    for (let j = 1; j < crossover; j += 2) {
+      for (let i = 0; i < 2; i++) {
+        let interDur = {
+          x: textStartX + armGArrowW,
+          y:
+            testStartY -
+            (1 - i) * (startH / (numBranch - 1)) +
+            (yRange[1] - yRange[0]) / 20,
+          xanchor: "right",
+          yanchor: "bottom",
+          align: "left",
+          text: armG.interventionDescription[i + j - 1][0]["Duration"],
+          name: {
+            type: "armGroup",
+            inJson: "Duration",
+            idx: durationIdx++
+          },
+          font: {
+            size: intervenDurFontSize,
+          },
+          showarrow: false,
+        };
+        annotations.push(interDur);
+      }
+    }
+    for (let i = crossover; i < numBranch; i++) {
+      let interDur = {
+        x: textStartX + armGArrowW,
+        y:
+          testStartY -
+          i * (startH / (numBranch - 1)) +
+          (yRange[1] - yRange[0]) / 20,
+        xanchor: "right",
+        yanchor: "bottom",
+        align: "left",
+        text: armG.interventionDescription[i][0]["Duration"],
+        name: {
+          type: "armGroup",
+          inJson: "Duration",
+          idx: durationIdx++
+        },
+        font: {
+          size: intervenDurFontSize,
+        },
+        showarrow: false,
+      };
+      annotations.push(interDur);
+    }
+
+  }
+  else {
     // parallel, sequential...
     // limit number of branch
     let numBranchLimit = numBranch;

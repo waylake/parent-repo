@@ -124,7 +124,7 @@ export function drawBranch(
     // draw Branch
     for (let i = 1; i < crossover; i += 2) {
       for (let j = 0; j < 2; j++) {
-        let colorB = armColorDict[armG.armGroupType[j]];
+        let colorB = armColorDict[armG.armGroupType[j + i - 1]];
         let arrowEndY = startPoint.y + startH - startH / (numBranch - 1) * i + j * startH / (numBranch - 1);
         let arrowEndX = armGLinePoint1.x + armGW + armGArrowW
         let lineLoc = {

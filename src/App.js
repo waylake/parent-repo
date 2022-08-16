@@ -27,7 +27,7 @@ import armLabel from "./img/label.png";
 
 function App() {
 
-  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT00482833.json"));
+  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT05488340.json"));
 
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
