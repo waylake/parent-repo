@@ -55,9 +55,9 @@ export function visualization(data) {
     edits: {
       annotationText: false,
     },
-    // modeBarButtons: [["zoom2d", "pan2d"],],
+    modeBarButtons: [["toImage",],],
     // modeBarButtonsToAdd: ['drawrect'],
-    modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d", 'lasso2d', 'select2d'],
+    // modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d", 'lasso2d', 'select2d'],
     displayModeBar: true,
     displaylogo: false,
     // fillFrame: true,

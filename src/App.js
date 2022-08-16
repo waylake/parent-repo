@@ -34,7 +34,6 @@ function App() {
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-
   const [data, setData] = useState();
   const [layout, setLayout] = useState();
   const [frames, setFrames] = useState([]);
@@ -147,6 +146,8 @@ function App() {
               "-"
             );
 
+            const annot = layout.annotations;
+            changeInfoDict(newInfoDict, annot);
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
@@ -186,6 +187,9 @@ function App() {
               armGroupList.length,
               "+"
             );
+
+            const annot = layout.annotations;
+            changeInfoDict(newInfoDict, annot);
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);

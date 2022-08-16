@@ -17,7 +17,7 @@
 .buttonDiv {
   position: absolute;
   top: 1px;
-  right: 100px;
+  right: 30px;
   display: flex;
   /* justify-content: right; */
   /* align-items: flex-start; */
