@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
-import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
+// import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
 import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
@@ -9,24 +9,29 @@ import Search from "./component/Search";
 //함수
 import { getInfo } from "./visualization/DataExtraction";
 import { visualization } from "./visualization/visualization";
-import { armGArrowW } from "./visualization/visualization";
 import { changeInfoDict } from "./visualization/edit";
-import { changeIdx } from "./visualization/edit";
+import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
+import { makeNewModel } from "./visualization/edit";
 //state
 import { useState } from "react";
 //아이콘
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+//img
+import armLabel from "./img/label.png";
 
 function App() {
+
+  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT00482833.json"));
+
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const infoDict = require("./NCT_ID_database/NCT02374567.json");
-
   const dataJson = getInfo(infoDict);
 
   let visualizationInfo = visualization(dataJson);
@@ -43,40 +48,45 @@ function App() {
   const [config, setConfig] = useState(vConfig);
   const [mode, setMode] = useState("READ");
 
-  //branch
-  const startX = data[0].x[1]; // 시작점
-  const crossOverX = [
-    data[0].x[0],
-    startX,
-    startX + armGArrowW / 3,
-    startX + (armGArrowW / 3) * 2,
-    startX + armGArrowW,
-  ];
-  const parallelX = [data[0].x[0], startX, startX + armGArrowW];
-
-  function modifyBranch(model, data, idx) {
-    if (model === "Crossover Assignment") {
-      const startY1 = data[idx[0]].y[1];
-      const startY2 = data[idx[1]].y[1];
-      const y1 = [data[0].y[0], startY1, startY1, startY2, startY2];
-      const y2 = [data[0].y[0], startY2, startY2, startY1, startY1];
-      const y = [y1, y2];
-      for (let i = 0; i < idx.length; i++) {
-        data[idx[i]].x = crossOverX;
-        data[idx[i]].y = y[i];
+  const clikckBranch = (e) => {
+    const newLayout = { ...layout };
+    let selectedBranch = 0;
+    //branch 투명도
+    e.points[0].data.opacity =
+      e.points[0].data.opacity === 1 ? 0.3 : 1;
+    //화살표 촉 투명도
+    for (let value of newLayout.shapes) {
+      if (
+        value.name &&
+        value.name.shape === "arrow" &&
+        value.name.idx === e.points[0].data.name.idx
+      ) {
+        value.opacity = value.opacity === 1 ? 0.3 : 1;
       }
     }
-    const startY1 = data[idx[0]].y[1];
-    const startY2 = data[idx[1]].y[1];
-    const y1 = [data[0].y[0], startY1, startY1];
-    const y2 = [data[0].y[0], startY2, startY2];
-    const y = [y1, y2];
-    if (model === "Parallel Assignment") {
-      for (let i = 0; i < idx.length; i++) {
-        data[idx[i]].x = parallelX;
-        data[idx[i]].y = y[i];
+    for (let value of data) {
+      //클릭된 개수 세기
+      selectedBranch =
+        value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+    }
+    if (selectedBranch >= 3) {
+      //branch 투명도
+      alert("두개 까지만 선택 가능합니다.");
+      e.points[0].data.opacity = 1;
+      //화살표 촉 투명도
+      for (let value of newLayout.shapes) {
+        if (
+          value.name &&
+          value.name[0] === "arrow" &&
+          value.name[1] === e.points[0].data.name[1]
+        ) {
+          value.opacity = 1;
+        }
       }
     }
+    const newData = [...data];
+    setData(newData);
+    setLayout(newLayout);
   }
 
   let content = "";
@@ -84,6 +94,7 @@ function App() {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <Button
+        mode='edit'
         icon={faPenToSquare}
         onChangeMode={() => {
           // editable하게 바꾸기
@@ -112,6 +123,7 @@ function App() {
     content = (
       <>
         <Button
+          mode='parallel'
           icon={faGripLines}
           onChangeMode={() => {
             // crossover -> parallel 로 바꾸기
@@ -120,22 +132,27 @@ function App() {
             for (let i = 0; i < data.length; i++) {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
+            const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
+            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
             const newData = newVisualizationInfo.Gdata;
             const newLayout = newVisualizationInfo.Glayout;
-            modifyBranch("Parallel Assignment", newData, clickedBranchIdx);
+
             for (let value of newData) {
               if (value.name) value.hoverinfo = "none";
             }
             removeHtmlTag(newLayout.annotations);
+            setInfoDict(newInfoDict);
             setData(newData);
             setLayout(newLayout);
+
           }}
         ></Button>
 
         <Button
+          mode='cross'
           icon={faShuffle}
           onChangeMode={() => {
             // parallel -> cross over로 바꾸기
@@ -151,8 +168,9 @@ function App() {
                 ? clickedBranchIdx
                 : [...clickedBranchIdx].reverse();
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            changeIdx(armGroupList, [smallIdx, bigIdx]);
-            clickedBranchIdx = [0, 1];
+            //cross-over로 꼬을 브랜치 맨 앞으로
+            moveIdxFront(armGroupList, [smallIdx, bigIdx]);
+            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
@@ -162,16 +180,16 @@ function App() {
             for (let value of newData) {
               if (value.name) value.hoverinfo = "none";
             }
-            //좌표 설정
-            modifyBranch("Crossover Assignment", newData, clickedBranchIdx);
             //Html tag 제거
             removeHtmlTag(newLayout.annotations);
+            setInfoDict(newInfoDict);
             setLayout(newLayout);
             setData(newData);
           }}
         ></Button>
 
         <Button
+          mode='save'
           icon={faFloppyDisk}
           onChangeMode={() => {
             // editable: false
@@ -183,16 +201,14 @@ function App() {
             const newInfoDict = { ...infoDict };
             const annot = layout.annotations;
             changeInfoDict(newInfoDict, annot);
+
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
 
+
             setLayout(newVisualizationInfo.Glayout);
-            // data 클릭 안되게 바꾸기
-            const newData = [...data];
-            for (let value of newData) {
-              if (value.name) value.hoverinfo = "skip";
-            }
-            setData(newData);
+            setData(newVisualizationInfo.Gdata);
+            setInfoDict(newInfoDict);
             setMode("READ");
           }}
         ></Button>
@@ -200,74 +216,41 @@ function App() {
     );
   }
   return (
-    <Grid container spacing={1}>
-      <div className="container">
-        <Grid item xs={12}>
-          <div className="url">
-            <Search className></Search>
-          </div>
-          <Card variant="outlined">hi</Card>
-        </Grid>
-        <Grid item xs={12}>
-          <div className="plot">
-            <Plot
-              layout={layout}
-              data={data}
-              frames={frames}
-              config={config}
-              onClick={(e) => {
-                const newLayout = { ...layout };
-                let selectedBranch = 0;
-                //branch 투명도
-                e.points[0].data.opacity =
-                  e.points[0].data.opacity === 1 ? 0.3 : 1;
-                // console.log(e);
-                //화살표 촉 투명도
-                for (let value of newLayout.shapes) {
-                  if (
-                    value.name &&
-                    value.name[0] === "arrow" &&
-                    value.name[1] === e.points[0].data.name[1]
-                  ) {
-                    value.opacity = value.opacity === 1 ? 0.3 : 1;
-                  }
-                }
-                for (let value of data) {
-                  //클릭된 개수 세기
-                  selectedBranch =
-                    value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
-                }
-                if (selectedBranch >= 3) {
-                  //branch 투명도
-                  alert("두개 까지만 선택 가능합니다.");
-                  e.points[0].data.opacity = 1;
-                  //화살표 촉 투명도
-                  for (let value of newLayout.shapes) {
-                    if (
-                      value.name &&
-                      value.name[0] === "arrow" &&
-                      value.name[1] === e.points[0].data.name[1]
-                    ) {
-                      value.opacity = 1;
-                    }
-                  }
-                }
-                const newData = [...data];
-                setData(newData);
-                setLayout(newLayout);
-              }}
-              onHover={(e) => {
-                console.log(1);
-              }}
-              // onInitialized={(figure) => useState(figure)}
-              // onUpdate={(figure) => useState(figure)}
-            ></Plot>
-
-            <div className="buttonDiv">{content}</div>
-          </div>
-        </Grid>
+    <div className="container">
+      <div className="url">
+        <Search onCreate={(nctId) => {
+          setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+          setData(vData);
+          setLayout(vLayout);
+          // // setConfig(vConfig);
+          // // setFrames([]);
+          setMode("READ");
+        }}></Search>
       </div>
-    </Grid>
+      <div className="plot">
+        <Plot
+          layout={layout}
+          data={data}
+          frames={frames}
+          config={config}
+          onClick={(e) => {
+            clikckBranch(e);
+          }}
+          onHover={(e) => {
+            console.log(1);
+          }}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
+        ></Plot>
+        <div className="buttonDiv">
+          {content}
+        </div>
+        <div className="questionIcon">
+          <FontAwesomeIcon icon={faCircleQuestion} />
+          <img src={armLabel} alt="armlabel" />
+        </div>
+      </div>
+    </div>
   );
 }
 
