@@ -32,8 +32,6 @@ function App() {
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-
-
   const dataJson = getInfo(infoDict);
 
   let visualizationInfo = visualization(dataJson);
