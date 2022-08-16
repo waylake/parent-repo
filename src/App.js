@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
 import { Grid, Card } from "@mui/material/"; // material ui
@@ -26,37 +26,42 @@ import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
 
-
 function App() {
-
-
-  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT00482833.json"));
+  const [infoDict, setInfoDict] = useState(
+    require("./NCT_ID_database/NCT00482833.json")
+  );
 
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const dataJson = getInfo(infoDict);
 
-  let visualizationInfo = visualization(dataJson);
-  //data
-  let vData = visualizationInfo.Gdata;
+  const [data, setData] = useState();
+  const [layout, setLayout] = useState();
+  const [frames, setFrames] = useState([]);
+  const [config, setConfig] = useState();
+  const [mode, setMode] = useState("READ");
 
   //Layout
-  let vLayout = visualizationInfo.Glayout;
-  let vConfig = visualizationInfo.Gconfig;
+  let vLayout, vConfig;
+  let vData;
 
-  const [data, setData] = useState(vData);
-  const [layout, setLayout] = useState(vLayout);
-  const [frames, setFrames] = useState([]);
-  const [config, setConfig] = useState(vConfig);
-  const [mode, setMode] = useState("READ");
+  useEffect(() => {
+    (async () => {
+      vData = await getInfo();
+      let visualizationInfo = visualization(vData);
+
+      //data
+      setData(visualizationInfo.Gdata);
+      setLayout(visualizationInfo.Glayout);
+      setConfig(visualizationInfo.Gconfig);
+    })();
+  }, []);
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
     let selectedBranch = 0;
     //branch 투명도
-    e.points[0].data.opacity =
-      e.points[0].data.opacity === 1 ? 0.3 : 1;
+    e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
     //화살표 촉 투명도
     for (let value of newLayout.shapes) {
       if (
@@ -90,14 +95,14 @@ function App() {
     const newData = [...data];
     setData(newData);
     setLayout(newLayout);
-  }
+  };
 
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <Button
-        mode='edit'
+        mode="edit"
         icon={faPenToSquare}
         onChangeMode={() => {
           // editable하게 바꾸기
@@ -126,7 +131,7 @@ function App() {
     content = (
       <>
         <Button
-          mode='parallel'
+          mode="parallel"
           icon={faGripLines}
           onChangeMode={() => {
             // crossover -> parallel 로 바꾸기
@@ -136,7 +141,11 @@ function App() {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
+            newInfoDict.DesignModel = makeNewModel(
+              newInfoDict.DesignModel,
+              armGroupList.length,
+              "-"
+            );
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
@@ -150,12 +159,11 @@ function App() {
             setInfoDict(newInfoDict);
             setData(newData);
             setLayout(newLayout);
-
           }}
         ></Button>
 
         <Button
-          mode='cross'
+          mode="cross"
           icon={faShuffle}
           onChangeMode={() => {
             // parallel -> cross over로 바꾸기
@@ -173,7 +181,11 @@ function App() {
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
             //cross-over로 꼬을 브랜치 맨 앞으로
             moveIdxFront(armGroupList, [smallIdx, bigIdx]);
-            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
+            newInfoDict.DesignModel = makeNewModel(
+              newInfoDict.DesignModel,
+              armGroupList.length,
+              "+"
+            );
 
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
@@ -192,7 +204,7 @@ function App() {
         ></Button>
 
         <Button
-          mode='save'
+          mode="save"
           icon={faFloppyDisk}
           onChangeMode={() => {
             // editable: false
@@ -208,7 +220,6 @@ function App() {
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
 
-
             setLayout(newVisualizationInfo.Glayout);
             setData(newVisualizationInfo.Gdata);
             setInfoDict(newInfoDict);
@@ -221,14 +232,16 @@ function App() {
   return (
     <div className="container">
       <div className="url">
-        <Search onCreate={(nctId) => {
-          setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
-          setData(vData);
-          setLayout(vLayout);
-          // // setConfig(vConfig);
-          // // setFrames([]);
-          setMode("READ");
-        }}></Search>
+        <Search
+          onCreate={(nctId) => {
+            setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+            setData(vData);
+            setLayout(vLayout);
+            // // setConfig(vConfig);
+            // // setFrames([]);
+            setMode("READ");
+          }}
+        ></Search>
       </div>
       <div className="plot">
         <Plot
@@ -242,12 +255,10 @@ function App() {
           onHover={(e) => {
             console.log(1);
           }}
-        // onInitialized={(figure) => useState(figure)}
-        // onUpdate={(figure) => useState(figure)}
+          // onInitialized={(figure) => useState(figure)}
+          // onUpdate={(figure) => useState(figure)}
         ></Plot>
-        <div className="buttonDiv">
-          {content}
-        </div>
+        <div className="buttonDiv">{content}</div>
         <div className="questionIcon">
           <FontAwesomeIcon icon={faCircleQuestion} />
           <img src={armLabel} alt="armlabel" />
