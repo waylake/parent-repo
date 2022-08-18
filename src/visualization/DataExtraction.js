@@ -1,8 +1,8 @@
 import * as data from "./Data";
-import {getData} from './getJson.js';
+// import {getData} from './getJson.js';
 
-export async function getInfo() {
-  const infoDict = await getData();
+export function getInfo(infoDict) {
+  // const infoDict = await getData();
   // codes to run python file in javascript
   
   // ##designmodel##

@@ -1,8 +1,8 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-import { Grid, Card } from "@mui/material/"; // material ui
+// import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
@@ -22,39 +22,34 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-// import {getData} from './visualization/getJson';
 //img
 import armLabel from "./img/label.png";
+import LandingPage from "./component/LandingPage";
 
 function App() {
   const [infoDict, setInfoDict] = useState(
-    require("./NCT_ID_database/NCT00482833.json")
+    require("./NCT_ID_database/NCT05488340.json")
   );
 
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const [data, setData] = useState();
-  const [layout, setLayout] = useState();
-  const [frames, setFrames] = useState([]);
-  const [config, setConfig] = useState();
-  const [mode, setMode] = useState("READ");
+  const dataJson = getInfo(infoDict);
+  console.log(infoDict);
+
+  let visualizationInfo = visualization(dataJson);
+  //data
+  let vData = visualizationInfo.Gdata;
 
   //Layout
-  let vLayout, vConfig;
-  let vData;
+  let vLayout = visualizationInfo.Glayout;
+  let vConfig = visualizationInfo.Gconfig;
 
-  useEffect(() => {
-    (async () => {
-      vData = await getInfo();
-      let visualizationInfo = visualization(vData);
-
-      //data
-      setData(visualizationInfo.Gdata);
-      setLayout(visualizationInfo.Glayout);
-      setConfig(visualizationInfo.Gconfig);
-    })();
-  }, []);
+  const [data, setData] = useState(vData);
+  const [layout, setLayout] = useState(vLayout);
+  const [frames, setFrames] = useState([]);
+  const [config, setConfig] = useState(vConfig);
+  const [mode, setMode] = useState("READ");
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -235,6 +230,7 @@ function App() {
   }
   return (
     <div className="container">
+      <div><LandingPage></LandingPage></div>
       <div className="url">
         <Search
           onCreate={(nctId) => {
