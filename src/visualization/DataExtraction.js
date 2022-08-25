@@ -1,33 +1,9 @@
 import * as data from "./Data";
-// import {request_call} from "../resource_control.py";
-// import $ from "jquery";
-// import {PythonShell} from 'python-shell';
+// import {getData} from './getJson.js';
 
-export function getInfo(infoDict) {
-  // codes to run python file in javascript
-  // const pyodide = window.pyodide;
-  // pyodide.runPython(request_call(url));
-  // const infoDict = pyodide.runPython(request_call(url));
-  // console.log(infoDict);
-  ////////////////////////////////////////////////////
-  // var options = {
-  //   mode: 'text',
-  //   args: ['https://www.clinicaltrials.gov/ct2/show/NCT04050098?term=mg&draw=3&rank=51', 'My Second Argument', '--option=123']
-  // };
-
-  // PythonShell.run('../test.py', options, function (err, results) {
-  //     if (err) throw err;
-  //     // results is an array consisting of messages collected during execution
-  //     console.log('results: %j', results);
-  // });
-
-  // const {spawn} = require('child_process');
-  // const newjson = spawn('/home/jun/anaconda3/bin/python',
-  // ['../resource_control.py', "https://www.clinicaltrials.gov/ct2/show/NCT04050098"]);
-  // NCT00482833.json: title, objective 공백 넣기
-  // NCT04844424.json: 군 엄청 많음
-  // NCT05488340.json : 약마다 용량 다름
-  // const infoDict = require("../NCT_ID_database/NCT03507790.json"); // read json file by using require method
+export function getInfo(infoDict) {  
+  console.log("this is from get info ", infoDict);
+  
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 

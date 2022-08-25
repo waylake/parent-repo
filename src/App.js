@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-import { Grid, Card } from "@mui/material/"; // material ui
+// import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
@@ -14,7 +14,7 @@ import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
 //state
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -24,17 +24,28 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
+import LandingPage from "./component/LandingPage";
+
+import axios from "axios";
 
 function App() {
+  const [infoDict, setInfoDict] = useState(
+    require("./NCT_ID_database/NCT05488340.json")
+  );
 
-  const [infoDict, setInfoDict] = useState(require("./NCT_ID_database/NCT05488340.json"));
-
+  
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
   const dataJson = getInfo(infoDict);
+  // console.log(infoDict);
+  let visualizationInfo;
+  // useEffect(()=>{
+  // })
+  visualizationInfo = visualization(dataJson);
+  const [changed, setChanged] = useState(false);
 
-  let visualizationInfo = visualization(dataJson);
+  // let visualizationInfo = visualization(dataJson);
   //data
   let vData = visualizationInfo.Gdata;
 
@@ -52,8 +63,7 @@ function App() {
     const newLayout = { ...layout };
     let selectedBranch = 0;
     //branch 투명도
-    e.points[0].data.opacity =
-      e.points[0].data.opacity === 1 ? 0.3 : 1;
+    e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
     //화살표 촉 투명도
     for (let value of newLayout.shapes) {
       if (
@@ -87,14 +97,14 @@ function App() {
     const newData = [...data];
     setData(newData);
     setLayout(newLayout);
-  }
+  };
 
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <Button
-        mode='edit'
+        mode="edit"
         icon={faPenToSquare}
         onChangeMode={() => {
           // editable하게 바꾸기
@@ -123,7 +133,7 @@ function App() {
     content = (
       <>
         <Button
-          mode='parallel'
+          mode="parallel"
           icon={faGripLines}
           onChangeMode={() => {
             // crossover -> parallel 로 바꾸기
@@ -133,7 +143,11 @@ function App() {
               if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
             }
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '-');
+            newInfoDict.DesignModel = makeNewModel(
+              newInfoDict.DesignModel,
+              armGroupList.length,
+              "-"
+            );
 
             const annot = layout.annotations;
             changeInfoDict(newInfoDict, annot);
@@ -149,12 +163,11 @@ function App() {
             setInfoDict(newInfoDict);
             setData(newData);
             setLayout(newLayout);
-
           }}
         ></Button>
 
         <Button
-          mode='cross'
+          mode="cross"
           icon={faShuffle}
           onChangeMode={() => {
             // parallel -> cross over로 바꾸기
@@ -172,7 +185,11 @@ function App() {
             const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
             //cross-over로 꼬을 브랜치 맨 앞으로
             moveIdxFront(armGroupList, [smallIdx, bigIdx]);
-            newInfoDict.DesignModel = makeNewModel(newInfoDict.DesignModel, armGroupList.length, '+');
+            newInfoDict.DesignModel = makeNewModel(
+              newInfoDict.DesignModel,
+              armGroupList.length,
+              "+"
+            );
 
             const annot = layout.annotations;
             changeInfoDict(newInfoDict, annot);
@@ -194,7 +211,7 @@ function App() {
         ></Button>
 
         <Button
-          mode='save'
+          mode="save"
           icon={faFloppyDisk}
           onChangeMode={() => {
             // editable: false
@@ -210,7 +227,6 @@ function App() {
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
 
-
             setLayout(newVisualizationInfo.Glayout);
             setData(newVisualizationInfo.Gdata);
             setInfoDict(newInfoDict);
@@ -220,17 +236,68 @@ function App() {
       </>
     );
   }
+
+  //axios를 위한 함수
+  const myRequest = async (nctid) => {
+    console.log(nctid);
+    try{
+      const retries = 2;
+      let body = {
+        url: nctid,
+        timeout: 5000
+      }
+      for(let q=0; q<retries; q++){
+        try{
+          const req = await axios.post(`http://localhost:5000/api`, body)
+          console.log(req.data);
+          setInfoDict(req.data);
+          console.log("hello");
+
+          if(req){
+            break;
+          }else{
+            console.log(req);
+            console.log("cannot fetch data");
+          }
+        }catch(e){
+          console.log("cannot fetch error");
+        }
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <div className="container">
+      <div>
+        <LandingPage></LandingPage>
+      </div>
       <div className="url">
-        <Search onCreate={(nctId) => {
-          setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
-          setData(vData);
-          setLayout(vLayout);
-          // // setConfig(vConfig);
-          // // setFrames([]);
-          setMode("READ");
-        }}></Search>
+        <Search
+          onCreate={(nctId) => {
+            // setNCTNum(nctId);
+            try {
+              // mongo DB에서 읽어도록 코드 작성해야됨
+              setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+              setChanged(true);
+            } catch {
+              try {
+                myRequest(nctId);
+                setChanged(true);
+              } catch{
+                console.log("error");
+              }
+            }
+            console.log(changed)
+            if(changed){
+              setData(vData);
+              setLayout(vLayout);
+              setMode("READ");
+              setChanged(false);
+            }
+          }}
+        ></Search>
       </div>
       <div className="plot">
         <Plot
@@ -244,12 +311,10 @@ function App() {
           onHover={(e) => {
             console.log(1);
           }}
-        // onInitialized={(figure) => useState(figure)}
-        // onUpdate={(figure) => useState(figure)}
+          // onInitialized={(figure) => useState(figure)}
+          // onUpdate={(figure) => useState(figure)}
         ></Plot>
-        <div className="buttonDiv">
-          {content}
-        </div>
+        <div className="buttonDiv">{content}</div>
         <div className="questionIcon">
           <FontAwesomeIcon icon={faCircleQuestion} />
           <img src={armLabel} alt="armlabel" />
