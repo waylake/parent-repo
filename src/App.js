@@ -32,20 +32,14 @@ function App() {
   const [infoDict, setInfoDict] = useState(
     require("./NCT_ID_database/NCT05488340.json")
   );
+  const [changed, setChanged] = useState(false);
 
-  
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const dataJson = getInfo(infoDict);
-  // console.log(infoDict);
-  let visualizationInfo;
-  // useEffect(()=>{
-  // })
-  visualizationInfo = visualization(dataJson);
-  const [changed, setChanged] = useState(false);
+  const dataProcessed = getInfo(infoDict);
+  let visualizationInfo = visualization(dataProcessed);
 
-  // let visualizationInfo = visualization(dataJson);
   //data
   let vData = visualizationInfo.Gdata;
 
@@ -240,33 +234,33 @@ function App() {
   //axios를 위한 함수
   const myRequest = async (nctid) => {
     console.log(nctid);
-    try{
+    try {
       const retries = 2;
       let body = {
         url: nctid,
-        timeout: 5000
-      }
-      for(let q=0; q<retries; q++){
-        try{
-          const req = await axios.post(`http://localhost:5000/api`, body)
-          console.log(req.data);
-          setInfoDict(req.data);
-          console.log("hello");
-
-          if(req){
+      };
+      let req;
+      for (let q = 0; q < retries; q++) {
+        try {
+          req = await axios.post(`http://localhost:5000/api`, body);
+          if (req) {
             break;
-          }else{
+          } else {
             console.log(req);
             console.log("cannot fetch data");
           }
-        }catch(e){
+        } catch (e) {
           console.log("cannot fetch error");
         }
       }
-    }catch(e){
+      console.log(req.data);
+      setInfoDict(req.data);
+      console.log("hello");
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
+
 
   return (
     <div className="container">
@@ -285,12 +279,19 @@ function App() {
               try {
                 myRequest(nctId);
                 setChanged(true);
-              } catch{
+              } catch {
                 console.log("error");
               }
             }
-            console.log(changed)
-            if(changed){
+            // console.log(changed)
+            if (changed) {
+              let dataProcessed = getInfo(infoDict);
+              visualizationInfo = visualization(dataProcessed);
+              //data
+              let vData = visualizationInfo.Gdata;
+              //Layout
+              let vLayout = visualizationInfo.Glayout;
+
               setData(vData);
               setLayout(vLayout);
               setMode("READ");
