@@ -261,8 +261,12 @@ function App() {
     }
   };
 
+
   return (
     <div className="container">
+      <div>
+        <LandingPage></LandingPage>
+      </div>
       <div className="url">
         <Search
           onCreate={(nctId) => {
@@ -287,6 +291,7 @@ function App() {
               let vData = visualizationInfo.Gdata;
               //Layout
               let vLayout = visualizationInfo.Glayout;
+
               setData(vData);
               setLayout(vLayout);
               setMode("READ");
