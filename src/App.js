@@ -93,6 +93,42 @@ function App() {
     setLayout(newLayout);
   };
 
+  const handleTextEditable = (bool) => {
+    const newConfig = { ...config };
+    newConfig.edits.annotationText = bool;
+    setConfig(newConfig);
+  };
+
+  const handleBranchClicked = () => {
+    const newData = [...data];
+    for (let value of newData) {
+      if (value.name) value.hoverinfo = "none";
+    }
+    setData(newData);
+  }
+
+  const handleAnnotations = () => {
+    const newLayout = { ...layout };
+    const annot = newLayout.annotations;
+    //Html tag 제거
+    removeHtmlTag(annot);
+    setLayout(newLayout);
+  }
+
+  const changeModeToEdit = () => {
+    handleTextEditable(true);
+    handleBranchClicked();
+    handleAnnotations();
+    setMode("EDIT");
+  }
+
+  const changeModeToRead = () => {
+    setInfoDict((prevInfoDict) => prevInfoDict);
+    // setLayout
+    setMode('READ');
+  }
+
+
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
@@ -100,27 +136,7 @@ function App() {
       <Button
         mode="edit"
         icon={faPenToSquare}
-        onChangeMode={() => {
-          // editable하게 바꾸기
-          const newConfig = { ...config };
-          newConfig.edits.annotationText = true;
-          setConfig(newConfig);
-
-          // Layout값 바꾸기
-          const newLayout = { ...layout };
-          const annot = newLayout.annotations;
-          //Html tag 제거
-          removeHtmlTag(annot);
-
-          // data 클릭 되게 바꾸기
-          const newData = [...data];
-          for (let value of newData) {
-            if (value.name) value.hoverinfo = "none";
-          }
-          setData(newData);
-          setLayout(newLayout);
-          setMode("EDIT");
-        }}
+        onChangeMode={changeModeToEdit}
       ></Button>
     );
   } else if (mode === "EDIT") {
@@ -208,22 +224,7 @@ function App() {
           mode="save"
           icon={faFloppyDisk}
           onChangeMode={() => {
-            // editable: false
-            const newConfig = { ...config };
-            newConfig.edits.annotationText = false;
-            setConfig(newConfig);
-
-            //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
-            const newInfoDict = { ...infoDict };
-            const annot = layout.annotations;
-            changeInfoDict(newInfoDict, annot);
-
-            const newDataJson = getInfo(newInfoDict);
-            const newVisualizationInfo = visualization(newDataJson);
-
-            setLayout(newVisualizationInfo.Glayout);
-            setData(newVisualizationInfo.Gdata);
-            setInfoDict(newInfoDict);
+            setInfoDict()
             setMode("READ");
           }}
         ></Button>
@@ -270,18 +271,11 @@ function App() {
       <div className="url">
         <Search
           onCreate={(nctId) => {
-            // setNCTNum(nctId);
             try {
-              // mongo DB에서 읽어도록 코드 작성해야됨
-              setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
+              myRequest(nctId);
               setChanged(true);
             } catch {
-              try {
-                myRequest(nctId);
-                setChanged(true);
-              } catch {
-                console.log("error");
-              }
+              console.log("error");
             }
             // console.log(changed)
             if (changed) {
@@ -297,7 +291,8 @@ function App() {
               setMode("READ");
               setChanged(false);
             }
-          }}
+          }
+          }
         ></Search>
       </div>
       <div className="plot">
@@ -312,8 +307,8 @@ function App() {
           onHover={(e) => {
             console.log(1);
           }}
-          // onInitialized={(figure) => useState(figure)}
-          // onUpdate={(figure) => useState(figure)}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
         ></Plot>
         <div className="buttonDiv">{content}</div>
         <div className="questionIcon">
