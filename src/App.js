@@ -29,29 +29,28 @@ import LandingPage from "./component/LandingPage";
 import axios from "axios";
 
 function App() {
-  const [infoDict, setInfoDict] = useState(
-    require("./NCT_ID_database/NCT05488340.json")
-  );
-  const [changed, setChanged] = useState(false);
+  const [infoDict, setInfoDict] = useState();
 
   // crossover : NCT04450953
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
-  const dataProcessed = getInfo(infoDict);
-  let visualizationInfo = visualization(dataProcessed);
+
+  // const dataProcessed = getInfo(infoDict);
+  // let visualizationInfo = visualization(dataProcessed);
 
   //data
-  let vData = visualizationInfo.Gdata;
+  // let vData = visualizationInfo.Gdata;
 
   //Layout
-  let vLayout = visualizationInfo.Glayout;
-  let vConfig = visualizationInfo.Gconfig;
+  // let vLayout = visualizationInfo.Glayout;
+  // let vConfig = visualizationInfo.Gconfig;
 
-  const [data, setData] = useState(vData);
-  const [layout, setLayout] = useState(vLayout);
-  const [frames, setFrames] = useState([]);
-  const [config, setConfig] = useState(vConfig);
+  const [data, setData] = useState();
+  const [layout, setLayout] = useState();
+  const [frames, setFrames] = useState();
+  const [config, setConfig] = useState();
   const [mode, setMode] = useState("READ");
+  const [visible, setVisible] = useState(false);
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -93,6 +92,31 @@ function App() {
     setLayout(newLayout);
   };
 
+  const createGraph = async (nctId) => {
+    let result = '';
+    try {
+      result = await myRequest(nctId);
+
+    } catch {
+      console.log("error");
+    }
+    const information = getInfo(result);
+    const visualizationInformation = visualization(information);
+    //data
+    const newData = visualizationInformation.Gdata;
+    //Layout
+    const newLayout = visualizationInformation.Glayout;
+    //Config
+    const newConfig = visualizationInformation.Gconfig;
+
+
+    setData(newData);
+    setLayout(newLayout);
+    setConfig(newConfig);
+    setMode("READ");
+    setVisible(true);
+    setInfoDict(result);
+  }
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
@@ -233,7 +257,7 @@ function App() {
 
   //axios를 위한 함수
   const myRequest = async (nctid) => {
-    console.log(nctid);
+    // console.log(nctid);
     try {
       const retries = 2;
       let body = {
@@ -253,9 +277,7 @@ function App() {
           console.log("cannot fetch error");
         }
       }
-      console.log(req.data);
-      setInfoDict(req.data);
-      console.log("hello");
+      return req.data;
     } catch (e) {
       console.log(e);
     }
@@ -269,38 +291,11 @@ function App() {
       </div>
       <div className="url">
         <Search
-          onCreate={(nctId) => {
-            // setNCTNum(nctId);
-            try {
-              // mongo DB에서 읽어도록 코드 작성해야됨
-              setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
-              setChanged(true);
-            } catch {
-              try {
-                myRequest(nctId);
-                setChanged(true);
-              } catch {
-                console.log("error");
-              }
-            }
-            // console.log(changed)
-            if (changed) {
-              let dataProcessed = getInfo(infoDict);
-              visualizationInfo = visualization(dataProcessed);
-              //data
-              let vData = visualizationInfo.Gdata;
-              //Layout
-              let vLayout = visualizationInfo.Glayout;
-
-              setData(vData);
-              setLayout(vLayout);
-              setMode("READ");
-              setChanged(false);
-            }
-          }}
+          onCreate={createGraph}
         ></Search>
       </div>
-      <div className="plot">
+
+      {visible && <div className="plot">
         <Plot
           layout={layout}
           data={data}
@@ -312,15 +307,15 @@ function App() {
           onHover={(e) => {
             console.log(1);
           }}
-          // onInitialized={(figure) => useState(figure)}
-          // onUpdate={(figure) => useState(figure)}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
         ></Plot>
         <div className="buttonDiv">{content}</div>
         <div className="questionIcon">
           <FontAwesomeIcon icon={faCircleQuestion} />
           <img src={armLabel} alt="armlabel" />
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
