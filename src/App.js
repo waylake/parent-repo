@@ -270,33 +270,17 @@ function App() {
       <div className="url">
         <Search
           onCreate={(nctId) => {
-            // setNCTNum(nctId);
-            try {
-              // mongo DB에서 읽어도록 코드 작성해야됨
-              setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
-              setChanged(true);
-            } catch {
-              try {
-                myRequest(nctId);
-                setChanged(true);
-              } catch {
-                console.log("error");
-              }
-            }
-            // console.log(changed)
-            if (changed) {
-              let dataProcessed = getInfo(infoDict);
-              visualizationInfo = visualization(dataProcessed);
-              //data
-              let vData = visualizationInfo.Gdata;
-              //Layout
-              let vLayout = visualizationInfo.Glayout;
-
-              setData(vData);
-              setLayout(vLayout);
-              setMode("READ");
-              setChanged(false);
-            }
+            const example = require(`./NCT_ID_database/${nctId}.json`);
+            let dataProcessed = getInfo(example);
+            visualizationInfo = visualization(dataProcessed);
+            //data
+            let vData = visualizationInfo.Gdata;
+            //Layout
+            let vLayout = visualizationInfo.Glayout;
+            setData(vData);
+            setLayout(vLayout);
+            setMode("READ");
+            setInfoDict(require(`./NCT_ID_database/${nctId}.json`));
           }}
         ></Search>
       </div>
@@ -312,8 +296,8 @@ function App() {
           onHover={(e) => {
             console.log(1);
           }}
-          // onInitialized={(figure) => useState(figure)}
-          // onUpdate={(figure) => useState(figure)}
+        // onInitialized={(figure) => useState(figure)}
+        // onUpdate={(figure) => useState(figure)}
         ></Plot>
         <div className="buttonDiv">{content}</div>
         <div className="questionIcon">
