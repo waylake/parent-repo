@@ -1,9 +1,9 @@
 import * as data from "./Data";
 // import {getData} from './getJson.js';
 
-export function getInfo(infoDict) {  
-  console.log("this is from get info ", infoDict);
-  
+export function getInfo(infoDict) {
+  // console.log("this is from get info ", infoDict);
+
   // ##designmodel##
   const designModel = infoDict["DesignModel"];
 
