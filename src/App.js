@@ -93,10 +93,9 @@ function App() {
   };
 
   const createGraph = async (nctId) => {
-    let result = '';
+    let result = "";
     try {
       result = await myRequest(nctId);
-
     } catch {
       console.log("error");
     }
@@ -109,14 +108,13 @@ function App() {
     //Config
     const newConfig = visualizationInformation.Gconfig;
 
-
     setData(newData);
     setLayout(newLayout);
     setConfig(newConfig);
     setMode("READ");
     setVisible(true);
     setInfoDict(result);
-  }
+  };
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
@@ -283,39 +281,35 @@ function App() {
     }
   };
 
-
   return (
     <div className="container">
-      <div>
-        <LandingPage></LandingPage>
-      </div>
       <div className="url">
-        <Search
-          onCreate={createGraph}
-        ></Search>
+        <Search onCreate={createGraph}></Search>
       </div>
 
-      {visible && <div className="plot">
-        <Plot
-          layout={layout}
-          data={data}
-          frames={frames}
-          config={config}
-          onClick={(e) => {
-            clikckBranch(e);
-          }}
-          onHover={(e) => {
-            console.log(1);
-          }}
-        // onInitialized={(figure) => useState(figure)}
-        // onUpdate={(figure) => useState(figure)}
-        ></Plot>
-        <div className="buttonDiv">{content}</div>
-        <div className="questionIcon">
-          <FontAwesomeIcon icon={faCircleQuestion} />
-          <img src={armLabel} alt="armlabel" />
+      {visible && (
+        <div className="plot">
+          <Plot
+            layout={layout}
+            data={data}
+            frames={frames}
+            config={config}
+            onClick={(e) => {
+              clikckBranch(e);
+            }}
+            onHover={(e) => {
+              console.log(1);
+            }}
+            // onInitialized={(figure) => useState(figure)}
+            // onUpdate={(figure) => useState(figure)}
+          ></Plot>
+          <div className="buttonDiv">{content}</div>
+          <div className="questionIcon">
+            <FontAwesomeIcon icon={faCircleQuestion} />
+            <img src={armLabel} alt="armlabel" />
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 }
