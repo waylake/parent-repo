@@ -24,7 +24,8 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
-import LandingPage from "./component/LandingPage";
+import { ConvertStringToHTML } from "./stringToHtml";
+import { OriginalText } from "./craw";
 
 import axios from "axios";
 
@@ -51,6 +52,7 @@ function App() {
   const [config, setConfig] = useState();
   const [mode, setMode] = useState("READ");
   const [visible, setVisible] = useState(false);
+  const [text, setText] = useState();
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -92,14 +94,20 @@ function App() {
     setLayout(newLayout);
   };
 
-  const createGraph = async (nctId) => {
-    let result = "";
+  const createGraph = async (keyword) => {
+    let result_json;
+    let result_text;
     try {
-      result = await myRequest(nctId);
+      result_json = await myRequest(keyword);
+      result_text = await myCrawling(result_json["_id"]);
     } catch {
       console.log("error");
     }
-    const information = getInfo(result);
+    setText(ConvertStringToHTML(result_text)); // 원문 설정
+    console.log(ConvertStringToHTML(result_text));
+    console.log("this is from text====", text); //this works!
+
+    const information = getInfo(result_json);
     const visualizationInformation = visualization(information);
     //data
     const newData = visualizationInformation.Gdata;
@@ -113,8 +121,9 @@ function App() {
     setConfig(newConfig);
     setMode("READ");
     setVisible(true);
-    setInfoDict(result);
+    setInfoDict(result_json);
   };
+
   let content = "";
   if (mode === "READ") {
     //READ 모드일때 edit버튼을 누르면
@@ -254,12 +263,12 @@ function App() {
   }
 
   //axios를 위한 함수
-  const myRequest = async (nctid) => {
+  const myRequest = async (keywrod) => {
     // console.log(nctid);
     try {
       const retries = 2;
       let body = {
-        url: nctid,
+        url: keywrod,
       };
       let req;
       for (let q = 0; q < retries; q++) {
@@ -281,13 +290,44 @@ function App() {
     }
   };
 
+  const myCrawling = async (nctid) => {
+    // console.log(nctid);
+    try {
+      const retries = 2;
+      let body = {
+        url: nctid,
+      };
+      let req;
+      for (let q = 0; q < retries; q++) {
+        try {
+          req = await axios.post(`http://localhost:5000/crawling`, body);
+          if (req) {
+            break;
+          } else {
+            console.log(req);
+            console.log("cannot fetch data");
+          }
+        } catch (e) {
+          console.log("cannot fetch error");
+        }
+      }
+      // console.log("this is from crawling! \n", req.data);
+      return req.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="container">
       <div className="url">
         <Search onCreate={createGraph}></Search>
       </div>
-
-      {visible && (
+      {visible && 
+        <OriginalText rendered={text}></OriginalText>
+      &&
+      (
+        
         <div className="plot">
           <Plot
             layout={layout}
