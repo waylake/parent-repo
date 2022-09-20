@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-// import { Grid, Card } from "@mui/material/"; // material ui
+import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
@@ -24,10 +24,13 @@ import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
-import { ConvertStringToHTML } from "./stringToHtml";
-import { OriginalText } from "./craw";
 
 import axios from "axios";
+
+import "./css/w3-ct.css";
+import "./css/print.css";
+import "./css/trial-record.css";
+
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -94,18 +97,20 @@ function App() {
     setLayout(newLayout);
   };
 
+  const Parser = require("html-react-parser");
+  let result_json;
+  let result_text;
   const createGraph = async (keyword) => {
-    let result_json;
-    let result_text;
     try {
       result_json = await myRequest(keyword);
       result_text = await myCrawling(result_json["_id"]);
     } catch {
       console.log("error");
     }
-    setText(ConvertStringToHTML(result_text)); // 원문 설정
-    console.log(ConvertStringToHTML(result_text));
-    console.log("this is from text====", text); //this works!
+    // setText(ConvertStringToHTML(result_text)); // 원문 설정
+    console.log(Parser(result_text));
+    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+    // console.log("this is from text====", text); //this works!
 
     const information = getInfo(result_json);
     const visualizationInformation = visualization(information);
@@ -323,31 +328,34 @@ function App() {
       <div className="url">
         <Search onCreate={createGraph}></Search>
       </div>
-      {visible && 
-        <OriginalText rendered={text}></OriginalText>
-      &&
-      (
-        
-        <div className="plot">
-          <Plot
-            layout={layout}
-            data={data}
-            frames={frames}
-            config={config}
-            onClick={(e) => {
-              clikckBranch(e);
-            }}
-            onHover={(e) => {
-              console.log(1);
-            }}
-            // onInitialized={(figure) => useState(figure)}
-            // onUpdate={(figure) => useState(figure)}
-          ></Plot>
-          <div className="buttonDiv">{content}</div>
-          <div className="questionIcon">
-            <FontAwesomeIcon icon={faCircleQuestion} />
-            <img src={armLabel} alt="armlabel" />
-          </div>
+      {visible && (
+        <div className="contents">
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <div className="original">{text}</div>
+            </Grid>
+            <Grid item xs={4}>
+              <div className="plot">
+                <Plot
+                  layout={layout}
+                  data={data}
+                  frames={frames}
+                  config={config}
+                  onClick={(e) => {
+                    clikckBranch(e);
+                  }}
+                  onHover={(e) => {
+                    console.log(1);
+                  }}
+                ></Plot>
+                <div className="buttonDiv">{content}</div>
+                <div className="questionIcon">
+                  <FontAwesomeIcon icon={faCircleQuestion} />
+                  <img src={armLabel} alt="armlabel" />
+                </div>
+              </div>
+            </Grid>
+          </Grid>
         </div>
       )}
     </div>
