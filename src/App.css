@@ -3,6 +3,7 @@
   height: 1000px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  background-color: rgb(232, 232, 234);
   overflow-x: auto; /*y축 스크롤바 생성*/
 }
 
@@ -48,3 +49,4 @@
 .questionIcon:hover img {
   visibility: visible;
 }
+
