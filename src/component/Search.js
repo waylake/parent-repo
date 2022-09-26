@@ -11,13 +11,14 @@ function Search({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onCreate(e.target.url.value);
+    // document.getElementById("clicked").style.cursor="wait";
   }
 
   return (
     <div className="searchbar">
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="NCTID 입력" name="url" value={nctId} onChange={handleNctIdChange}></input>
-        <button type="submit">모식도 생성</button>
+        <button type="submit" id="clicked">모식도 생성</button>
       </form>
     </div>
 

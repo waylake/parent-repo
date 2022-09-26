@@ -44,7 +44,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
         { //maksing
           x: numberPoint.x + numberW / 2,
           y: numberPoint.y - delta,
-          text: 'M=' + masking,
+          text: "<a href='#studydesign' target='_self' style='color:black;'>"+'M=' + masking+"</a>",
           showarrow: false,
           font: {
             size: 10
@@ -54,7 +54,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
         { //enrollment
           x: numberPoint.x + numberW / 2,
           y: numberPoint.y + delta,
-          text: 'N=' + enrollment,
+          text: "<a href='#studydesign' target='_self' style='color:black;'>"+'N=' + enrollment+"</a>",
           showarrow: false,
           font: {
             size: 10
@@ -64,7 +64,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
         { //allocation
           x: allocationPoint.x,
           y: allocationPoint.y,
-          text: allocation[0],
+          text: "<a href='#studydesign' target='_self' style='color:black;'>"+allocation[0]+"</a>",
           showarrow: false,
 
         },
@@ -72,7 +72,7 @@ export function drawPreIntervention(numberPoint, numberW, allocationPoint, radiu
           x: allocationPoint.x,
           y: allocationPoint.y + radius / deltaRadius,
           yanchor: "bottom",
-          text: ratio,
+          text: "<a href='#armgroup' target='_self' style='color:black;'>"+ratio+"</a>",
           font: {
             size: 7
           },

@@ -1,5 +1,5 @@
 import { countLine } from "./drawPopulation";
-import { lineBreak } from "./drawInfoTrial"
+import { lineBreak } from "./drawInfoTrial";
 import { faTable } from "@fortawesome/free-solid-svg-icons";
 
 export function writeIntervention(
@@ -55,9 +55,8 @@ export function writeIntervention(
         drugInfo[j]["DrugName"] + "(" + drugInfo[j]["Dosage"] + ") ";
       drugHowToTake = drugInfo[j]["HowToTake"];
     }
-    if (onlyDrug.lastIndexOf("+") === (onlyDrug.length - 1)) {
+    if (onlyDrug.lastIndexOf("+") === onlyDrug.length - 1) {
       onlyDrug = onlyDrug.substring(0, onlyDrug.length - 1);
-
     }
 
     res = countLine(drugDescription, 45);
@@ -74,7 +73,7 @@ export function writeIntervention(
       name: {
         type: "armGroup",
         inJson: "DrugName",
-        idx: drugNameIdx++
+        idx: drugNameIdx++,
       },
       font: {
         size: intervenFontSize,
@@ -102,7 +101,7 @@ export function writeIntervention(
       name: {
         type: "armGroup",
         inJson: "Duration",
-        idx: durationIdx++
+        idx: durationIdx++,
       },
       font: {
         size: intervenDurFontSize,
@@ -112,9 +111,7 @@ export function writeIntervention(
     annotations.push(interDur);
   }
   // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
-  else if (
-    (designModel === "Crossover Assignment") & (numBranch === 2)
-  ) {
+  else if ((designModel === "Crossover Assignment") & (numBranch === 2)) {
     // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
     // else if (
     //   (designModel === "Crossover Assignment") &
@@ -151,7 +148,7 @@ export function writeIntervention(
         name: {
           type: "armGroup",
           inJson: "DrugName",
-          idx: drugNameIdx++
+          idx: drugNameIdx++,
         },
         font: {
           size: intervenFontSize,
@@ -214,7 +211,7 @@ export function writeIntervention(
       name: {
         type: "armGroup",
         inJson: "Duration",
-        idx: durationIdx++
+        idx: durationIdx++,
       },
       font: {
         size: timeObjFontSize,
@@ -260,7 +257,7 @@ export function writeIntervention(
       name: {
         type: "armGroup",
         inJson: "Duration",
-        idx: durationIdx++
+        idx: durationIdx++,
       },
       font: {
         size: timeObjFontSize,
@@ -268,8 +265,7 @@ export function writeIntervention(
       showarrow: false,
     };
     annotations.push(timeObjBf, timeObjM, timeObjM2, timeObjAf);
-  }
-  else if (designModel[0] === 'c' && designModel[2] === 'p') {
+  } else if (designModel[0] === "c" && designModel[2] === "p") {
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH - 0.1;
     const crossover = Number(designModel[1]);
@@ -339,7 +335,7 @@ export function writeIntervention(
           name: {
             type: "armGroup",
             inJson: "Duration",
-            idx: durationIdx++
+            idx: durationIdx++,
           },
           font: {
             size: intervenDurFontSize,
@@ -363,7 +359,7 @@ export function writeIntervention(
         name: {
           type: "armGroup",
           inJson: "Duration",
-          idx: durationIdx++
+          idx: durationIdx++,
         },
         font: {
           size: intervenDurFontSize,
@@ -372,9 +368,7 @@ export function writeIntervention(
       };
       annotations.push(interDur);
     }
-
-  }
-  else {
+  } else {
     // parallel, sequential...
     // limit number of branch
     let numBranchLimit = numBranch;
@@ -420,7 +414,6 @@ export function writeIntervention(
         }
         onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
 
-
         //make letter object
         let interObj = {
           x: textStartX,
@@ -428,7 +421,10 @@ export function writeIntervention(
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
-          text: onlyDrug,
+          text:
+            "<a href='#armgroup' target='_self' style='color:black;'>" +
+            onlyDrug +
+            "</a>",
           name: {
             type: "armGroup",
             inJson: "DrugName",
@@ -462,7 +458,7 @@ export function writeIntervention(
           name: {
             type: "armGroup",
             inJson: "Duration",
-            idx: durationIdx++
+            idx: durationIdx++,
           },
           font: {
             size: intervenDurFontSize,
@@ -478,7 +474,10 @@ export function writeIntervention(
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
-          text: drugDescription,
+          text:
+            "<a href='#armgroup' target='_self' style='color:black;'>" +
+            drugDescription +
+            "</a>",
           name: ["armGroup", "drug"],
           font: {
             size: intervenFontSize,
