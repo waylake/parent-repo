@@ -14,7 +14,7 @@ import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
 import { getRequest, postRequest } from "./api";
-import { myRequest } from "./api";
+
 //state
 import { useState, useEffect } from "react";
 //아이콘
@@ -110,6 +110,39 @@ function App() {
     console.log(result);
   };
 
+  const modifyBranch = (branchToModified) => { //바뀔 인자값 넣기
+    const newInfoDict = { ...infoDict };
+    let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
+    }
+    if (branchToModified === 'cross') moveIdxFront(newInfoDict, clickedBranchIdx);
+
+    newInfoDict.DesignModel = makeNewModel(
+      newInfoDict.DesignModel,
+      newInfoDict.DrugInformation.ArmGroupList.length,
+      "+"
+    );
+
+    const annot = layout.annotations;
+    changeInfoDict(newInfoDict, annot);
+
+    const newDataJson = getInfo(newInfoDict);
+    const newVisualizationInfo = visualization(newDataJson);
+    const newData = newVisualizationInfo.Gdata;
+    const newLayout = newVisualizationInfo.Glayout;
+
+    for (let value of newData) {
+      if (value.name) value.hoverinfo = "none";
+    }
+    //Html tag 제거
+    removeHtmlTag(newLayout.annotations);
+    setInfoDict(newInfoDict);
+    setLayout(newLayout);
+    setData(newData);
+
+  }
+
 
   const Parser = require("html-react-parser");
   let result_json;
@@ -155,7 +188,7 @@ function App() {
           // editable하게 바꾸기
           const newConfig = { ...config };
           newConfig.edits.annotationText = true;
-          setConfig(newConfig);
+
 
           // Layout값 바꾸기
           const newLayout = { ...layout };
@@ -168,6 +201,7 @@ function App() {
           for (let value of newData) {
             if (value.name) value.hoverinfo = "none";
           }
+          setConfig(newConfig);
           setData(newData);
           setLayout(newLayout);
           setMode("EDIT");
@@ -180,91 +214,22 @@ function App() {
         <Button
           mode="parallel"
           icon={faGripLines}
-          onChangeMode={() => {
-            // crossover -> parallel 로 바꾸기
-            const newInfoDict = { ...infoDict };
-            const clickedBranchIdx = []; // 선택된 branch idx 2개 담기
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
-            }
-            const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            newInfoDict.DesignModel = makeNewModel(
-              newInfoDict.DesignModel,
-              armGroupList.length,
-              "-"
-            );
-
-            const annot = layout.annotations;
-            changeInfoDict(newInfoDict, annot);
-            const newDataJson = getInfo(newInfoDict);
-            const newVisualizationInfo = visualization(newDataJson);
-            const newData = newVisualizationInfo.Gdata;
-            const newLayout = newVisualizationInfo.Glayout;
-
-            for (let value of newData) {
-              if (value.name) value.hoverinfo = "none";
-            }
-            removeHtmlTag(newLayout.annotations);
-            setInfoDict(newInfoDict);
-            setData(newData);
-            setLayout(newLayout);
-          }}
+          onChangeBranch={modifyBranch}// cross over -> parallel로 바꾸기
         ></Button>
 
         <Button
           mode="cross"
           icon={faShuffle}
-          onChangeMode={() => {
-            // parallel -> cross over로 바꾸기
-            const newInfoDict = { ...infoDict };
-            let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
-            }
-
-            //branch가 붙어있지 않다면 붙어있도록 순서 변경
-            let [smallIdx, bigIdx] =
-              clickedBranchIdx[1] > clickedBranchIdx[0]
-                ? clickedBranchIdx
-                : [...clickedBranchIdx].reverse();
-            const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
-            //cross-over로 꼬을 브랜치 맨 앞으로
-            moveIdxFront(armGroupList, [smallIdx, bigIdx]);
-            newInfoDict.DesignModel = makeNewModel(
-              newInfoDict.DesignModel,
-              armGroupList.length,
-              "+"
-            );
-
-            const annot = layout.annotations;
-            changeInfoDict(newInfoDict, annot);
-
-            const newDataJson = getInfo(newInfoDict);
-            const newVisualizationInfo = visualization(newDataJson);
-            const newData = newVisualizationInfo.Gdata;
-            const newLayout = newVisualizationInfo.Glayout;
-
-            for (let value of newData) {
-              if (value.name) value.hoverinfo = "none";
-            }
-            //Html tag 제거
-            removeHtmlTag(newLayout.annotations);
-            setInfoDict(newInfoDict);
-            setLayout(newLayout);
-            setData(newData);
-          }}
+          onChangeBranch={modifyBranch}// parallel -> cross over로 바꾸기
         ></Button>
 
         <Button
           mode="save"
           icon={faFloppyDisk}
           onChangeMode={() => {
-
-            // await postRequest(infoDict);
-            // editable: false
             const newConfig = { ...config };
             newConfig.edits.annotationText = false;
-            setConfig(newConfig);
+
 
             //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
             const newInfoDict = { ...infoDict };
@@ -274,6 +239,7 @@ function App() {
             const newDataJson = getInfo(newInfoDict);
             const newVisualizationInfo = visualization(newDataJson);
 
+            setConfig(newConfig);
             setLayout(newVisualizationInfo.Glayout);
             setData(newVisualizationInfo.Gdata);
             setInfoDict(newInfoDict);
