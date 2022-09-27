@@ -13,6 +13,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
+import { getRequest } from "./api";
 //state
 import { useState, useEffect } from "react";
 //아이콘
@@ -102,8 +103,8 @@ function App() {
   let result_text;
   const createGraph = async (keyword) => {
     try {
-      result_json = await myRequest(keyword);
-      result_text = await myCrawling(result_json["_id"]);
+      result_json = await getRequest(keyword);
+      // result_text = await myCrawling(result_json["_id"]);
     } catch {
       console.log("error");
     }
@@ -267,33 +268,6 @@ function App() {
     );
   }
 
-  //axios를 위한 함수
-  const myRequest = async (keywrod) => {
-    // console.log(nctid);
-    try {
-      const retries = 2;
-      let body = {
-        url: keywrod,
-      };
-      let req;
-      for (let q = 0; q < retries; q++) {
-        try {
-          req = await axios.post(`http://localhost:5000/api`, body);
-          if (req) {
-            break;
-          } else {
-            console.log(req);
-            console.log("cannot fetch data");
-          }
-        } catch (e) {
-          console.log("cannot fetch error");
-        }
-      }
-      return req.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const myCrawling = async (nctid) => {
     // console.log(nctid);
