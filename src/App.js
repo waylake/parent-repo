@@ -13,7 +13,8 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { getRequest } from "./api";
+import { getRequest, postRequest } from "./api";
+import { myRequest } from "./api";
 //state
 import { useState, useEffect } from "react";
 //아이콘
@@ -98,6 +99,18 @@ function App() {
     setLayout(newLayout);
   };
 
+  const postGraph = async () => {
+    let result = '';
+    try {
+      result = await postRequest(infoDict);
+    }
+    catch (error) {
+      console.log(error);
+    }
+    console.log(result);
+  };
+
+
   const Parser = require("html-react-parser");
   let result_json;
   let result_text;
@@ -108,9 +121,10 @@ function App() {
     } catch {
       console.log("error");
     }
+
     // setText(ConvertStringToHTML(result_text)); // 원문 설정
-    console.log(Parser(result_text));
-    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+    // console.log(Parser(result_text));
+    // setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
     // console.log("this is from text====", text); //this works!
 
     const information = getInfo(result_json);
@@ -245,6 +259,8 @@ function App() {
           mode="save"
           icon={faFloppyDisk}
           onChangeMode={() => {
+
+            // await postRequest(infoDict);
             // editable: false
             const newConfig = { ...config };
             newConfig.edits.annotationText = false;
@@ -263,6 +279,8 @@ function App() {
             setInfoDict(newInfoDict);
             setMode("READ");
           }}
+          onClick={postGraph}
+
         ></Button>
       </>
     );

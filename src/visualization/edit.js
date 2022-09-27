@@ -41,6 +41,10 @@ export function moveIdxFront(armGroupList, ary) {
   }
 }
 
+
+
+
+
 export function removeHtmlTag(annot) {
   const re1 = /<br>/g; //br태그 정규표현식
   const re2 = /<\/?b>/g; //b태그 정규표현식

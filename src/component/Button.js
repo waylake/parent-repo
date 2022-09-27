@@ -1,21 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Button.css";
 
-const mode = {
+const modeList = {
   edit: 'Edit',
   save: 'Save',
   parallel: 'Change branch to parallel',
   cross: 'Change branch to cross',
 }
 
-function Button(props) {
-  const tooltipText = mode[props.mode];
-  const classNames = `button ${props.mode}`
+function Button({ mode, onChangeMode, icon, onSubmit }) {
+  const tooltipText = modeList[mode];
+  const classNames = `button ${mode}`
+  const handleClick = onSubmit ? () => onSubmit() : undefined;
   return (
     <button className={classNames} type="button" data-tooltip={tooltipText} onClick={e => {
       e.preventDefault();
-      props.onChangeMode();
-    }}><FontAwesomeIcon icon={props.icon} />
+      onChangeMode();
+      handleClick();
+    }}><FontAwesomeIcon icon={icon} />
     </button>
   )
 

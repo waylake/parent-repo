@@ -15,14 +15,18 @@ export const putRequest = async (nctid, json) => {
   return body;
 }
 
-export const postRequest = async (nctid, json) => {
-  const response = await fetch(`http://localhost:5000/api`, {
-    method: 'POST',
-    body: json,
-  });
-  const body = await response.json();
-  return body;
+export const postRequest = async (json) => {
+  let response;
+  try {
+    response = await axios.post('http://localhost:5000/api', json);
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+  return response.data;
 }
+
 
 
 //axios를 위한 함수
