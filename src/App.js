@@ -40,16 +40,6 @@ function App() {
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
 
-  // const dataProcessed = getInfo(infoDict);
-  // let visualizationInfo = visualization(dataProcessed);
-
-  //data
-  // let vData = visualizationInfo.Gdata;
-
-  //Layout
-  // let vLayout = visualizationInfo.Glayout;
-  // let vConfig = visualizationInfo.Gconfig;
-
   const [data, setData] = useState();
   const [layout, setLayout] = useState();
   const [frames, setFrames] = useState();
@@ -131,22 +121,22 @@ function App() {
 
   };
 
-  const Parser = require("html-react-parser");
-  let result_json;
-  let result_text;
+  const createOriginal = async (keyword) => {
+    let result_text;
+    const Parser = require("html-react-parser");
+    result_text = await myCrawling(keyword);
+    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+  }
+
   const createGraph = async (keyword) => {
+    let result_json;
     try {
       result_json = await myRequest(keyword);
-      result_text = await myCrawling(result_json["_id"]);
       // result_json = await getRequest(keyword);
 
     } catch {
       console.log("error");
     }
-
-
-    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-
 
     const information = getInfo(result_json);
     const visualizationInformation = visualization(information);
@@ -164,6 +154,11 @@ function App() {
     setVisible(true);
     setInfoDict(result_json);
   };
+
+  const clickCreate = (keyword) => {
+    createOriginal(keyword);
+    createGraph(keyword);
+  }
 
   let content = "";
   if (mode === "read") {
@@ -274,7 +269,7 @@ function App() {
   return (
     <div id="container">
       <div className="url">
-        <Search onCreate={createGraph}></Search>
+        <Search onCreate={clickCreate}></Search>
       </div>
       {visible && (
         <div className="contents">
