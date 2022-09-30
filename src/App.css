@@ -3,37 +3,35 @@
   height: 1000px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   overflow-x: auto; /*y축 스크롤바 생성*/
-  justify-content: center;
-  align-items: center;
   background-color: rgb(223, 223, 223);
 }
 
 .contents {
+  grid-column: 1/3;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
+  justify-content: center;
 }
 
 #original {
   background-color: white;
-  /* display: flex; */
-  align-items: center;
-  /* flex: 1 1 auto;
-  flex-direction: row; */
-  justify-content: center;
-  /* width: 50vw; */
-  height: 85vh;
+  width: 800px;
+  height: 800px;
   overflow: scroll;
   border: 1px solid black;
+  margin: 10px;
+}
+
+#plot {
+  margin: 10px;
+  position: relative;
 }
 
 #draggable {
-  position:relative;
-  left:100%;
-  bottom:50%;
+  position: relative;
+  left: 100%;
+  bottom: 50%;
   background: rgba(1, 1, 1, 0.2);
   border-bottom: 1px solid black;
   border-right: 1px solid black;
@@ -41,16 +39,6 @@
   cursor: col-resize;
   height: 800px;
   width: 3px;
-}
-
-#plot {
-  width: 100%;
-  grid-column: 1/3;
-  position: relative;
-  left:0%;
-  /* padding-left: 100px; */
-  margin:20px;
-  height: 100%;
 }
 
 .buttonDiv {
@@ -64,7 +52,7 @@
 
 .url {
   grid-column: 1/3;
-  grid-row-start: 1;
+
   display: flex;
   justify-content: center;
   align-items: center;
