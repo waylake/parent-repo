@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-import { Grid, Card } from "@mui/material/"; // material ui
+// import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";

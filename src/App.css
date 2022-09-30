@@ -30,15 +30,12 @@
 
 #draggable {
   position: relative;
-  right:0.5%;
-  top:5%;
-  background: rgba(1, 1, 1, 0.2);
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
+  right: 0.5%;
+  top: 5%;
+  background-color: rgba(0, 0, 0, 0);
   cursor: col-resize;
-  height: 700px;
-  width: 3px;
+  height: 800px;
+  width: 2px;
 }
 
 .buttonDiv {
