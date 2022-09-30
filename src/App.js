@@ -98,17 +98,6 @@ function App() {
     setLayout(newLayout);
   };
 
-  const postGraph = async (json) => {
-    let result = '';
-    try {
-      result = await postRequest(json);
-    }
-    catch (error) {
-      console.log(error);
-    }
-    return result;
-  };
-
   const modifyBranch = (branchToModified) => { //바뀔 인자값 넣기
     const newInfoDict = { ...infoDict };
     let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
@@ -276,9 +265,8 @@ function App() {
     let resizable = document.getElementById("original");
     let re_bar = document.getElementById("draggable");
 
-    resizable.style.width = `${
-      parseInt(initialSize) + parseInt(e.clientX - initialPos)
-    }px`;
+    resizable.style.width = `${parseInt(initialSize) + parseInt(e.clientX - initialPos)
+      }px`;
 
     re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
   };
@@ -290,39 +278,32 @@ function App() {
       </div>
       {visible && (
         <div className="contents">
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={8}>
-              <div id="original">{text}</div>
-            {/* </Grid>
-            <Grid item xs={2}> */}
-              <div
-                id="draggable"
-                draggable="true"
-                onDragStart={initial}
-                onDrag={resize}></div>
-            </Grid>
-            <Grid item xs={4}>
-              <div id="plot">
-                <Plot
-                  layout={layout}
-                  data={data}
-                  frames={frames}
-                  config={config}
-                  onClick={(e) => {
-                    clikckBranch(e);
-                  }}
-                  onHover={(e) => {
-                    console.log(1);
-                  }}
-                ></Plot>
-                <div className="buttonDiv">{content}</div>
-                <div className="questionIcon">
-                  <FontAwesomeIcon icon={faCircleQuestion} />
-                  <img src={armLabel} alt="armlabel" />
-                </div>
-              </div>
-            </Grid>
-          </Grid>
+          <div id="original">{text}</div>
+          {/* <div
+            id="draggable"
+            draggable="true"
+            onDragStart={initial}
+            onDrag={resize}>
+          </div> */}
+          <div id="plot">
+            <Plot
+              layout={layout}
+              data={data}
+              frames={frames}
+              config={config}
+              onClick={(e) => {
+                clikckBranch(e);
+              }}
+              onHover={(e) => {
+                console.log(1);
+              }}
+            ></Plot>
+            <div className="buttonDiv">{content}</div>
+            <div className="questionIcon">
+              <FontAwesomeIcon icon={faCircleQuestion} />
+              <img src={armLabel} alt="armlabel" />
+            </div>
+          </div>
         </div>
       )}
     </div>
