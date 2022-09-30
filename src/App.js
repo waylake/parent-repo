@@ -335,13 +335,13 @@ function App() {
 
   const resize = (e) => {
     let resizable = document.getElementById("original");
-    // let re_bar = document.getElementById("draggable");
+    let re_bar = document.getElementById("draggable");
 
     resizable.style.width = `${
       parseInt(initialSize) + parseInt(e.clientX - initialPos)
     }px`;
 
-    // re_bar.style.backgroundPositionX = `${initialPos}`
+    re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
   };
 
   return (
@@ -351,17 +351,16 @@ function App() {
       </div>
       {visible && (
         <div className="contents">
-          <Grid container spacing={2}>
+          <Grid container spacing={2} justifyContent="center">
             <Grid item xs={8}>
               <div id="original">{text}</div>
-            </Grid>
-            <Grid>
+            {/* </Grid>
+            <Grid item xs={2}> */}
               <div
                 id="draggable"
                 draggable="true"
                 onDragStart={initial}
-                onDrag={resize}
-              />
+                onDrag={resize}></div>
             </Grid>
             <Grid item xs={4}>
               <div id="plot">
