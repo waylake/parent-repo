@@ -8,19 +8,22 @@ const modeList = {
   cross: 'Change branch to cross',
 }
 
-function Button({ mode, icon, onChangeMode, onChangeBranch, onSubmit }) {
+function Button({ mode, icon, onChangeMode, onChangeBranch }) {
   const tooltipText = modeList[mode];
   const classNames = `button ${mode}`
 
   const handleMode = onChangeMode ? () => onChangeMode() : undefined;
-  const handleClick = onSubmit ? () => onSubmit() : undefined;
   const handleBranch = onChangeBranch ? () => onChangeBranch(mode) : undefined;
+  const onClick = () => {
+
+    if (handleMode) handleMode();
+    if (handleBranch) handleBranch(mode);
+
+  }
   return (
     <button className={classNames} type="button" data-tooltip={tooltipText} onClick={(e) => {
       e.preventDefault();
-      handleMode();
-      handleClick();
-      handleBranch(mode);
+      onClick();
     }}><FontAwesomeIcon icon={icon} />
     </button>
   )

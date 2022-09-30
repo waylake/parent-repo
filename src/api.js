@@ -18,7 +18,7 @@ export const putRequest = async (nctid, json) => {
 export const postRequest = async (json) => {
   let response;
   try {
-    response = await axios.post('http://localhost:5000/api', json);
+    response = await axios.post('http://localhost:5000/create', json);
   }
   catch (error) {
     console.log(error);

@@ -13,7 +13,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { getRequest, postRequest } from "./api";
+import { getRequest, postRequest, myRequest } from "./api";
 
 //state
 import { useState, useEffect } from "react";
@@ -55,7 +55,7 @@ function App() {
   const [layout, setLayout] = useState();
   const [frames, setFrames] = useState();
   const [config, setConfig] = useState();
-  const [mode, setMode] = useState("READ");
+  const [mode, setMode] = useState("read");
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
 
@@ -99,15 +99,15 @@ function App() {
     setLayout(newLayout);
   };
 
-  const postGraph = async () => {
+  const postGraph = async (json) => {
     let result = '';
     try {
-      result = await postRequest(infoDict);
+      result = await postRequest(json);
     }
     catch (error) {
       console.log(error);
     }
-    console.log(result);
+    return result;
   };
 
   const modifyBranch = (branchToModified) => { //바뀔 인자값 넣기
@@ -141,24 +141,24 @@ function App() {
     setLayout(newLayout);
     setData(newData);
 
-  }
-
+  };
 
   const Parser = require("html-react-parser");
   let result_json;
   let result_text;
   const createGraph = async (keyword) => {
     try {
-      result_json = await getRequest(keyword);
+      result_json = await myRequest(keyword);
       // result_text = await myCrawling(result_json["_id"]);
+      // result_json = await getRequest(keyword);
+
     } catch {
       console.log("error");
     }
 
-    // setText(ConvertStringToHTML(result_text)); // 원문 설정
-    // console.log(Parser(result_text));
+
     // setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-    // console.log("this is from text====", text); //this works!
+
 
     const information = getInfo(result_json);
     const visualizationInformation = visualization(information);
@@ -172,13 +172,13 @@ function App() {
     setData(newData);
     setLayout(newLayout);
     setConfig(newConfig);
-    setMode("READ");
+    setMode("read");
     setVisible(true);
     setInfoDict(result_json);
   };
 
   let content = "";
-  if (mode === "READ") {
+  if (mode === "read") {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <Button
@@ -204,11 +204,11 @@ function App() {
           setConfig(newConfig);
           setData(newData);
           setLayout(newLayout);
-          setMode("EDIT");
+          setMode("edit");
         }}
       ></Button>
     );
-  } else if (mode === "EDIT") {
+  } else if (mode === "edit") {
     content = (
       <>
         <Button
@@ -226,26 +226,36 @@ function App() {
         <Button
           mode="save"
           icon={faFloppyDisk}
-          onChangeMode={() => {
-            const newConfig = { ...config };
-            newConfig.edits.annotationText = false;
+          onChangeMode={async () => {
+            let result = '';
+            // const newConfig = { ...config };
+            // newConfig.edits.annotationText = false;
 
 
-            //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+            // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
             const newInfoDict = { ...infoDict };
             const annot = layout.annotations;
             changeInfoDict(newInfoDict, annot);
 
-            const newDataJson = getInfo(newInfoDict);
+            try {
+              result = await postRequest(newInfoDict);
+            }
+            catch (error) {
+              console.log(error);
+            }
+
+            console.log(result);
+
+            const newDataJson = getInfo(result);
             const newVisualizationInfo = visualization(newDataJson);
 
-            setConfig(newConfig);
             setLayout(newVisualizationInfo.Glayout);
             setData(newVisualizationInfo.Gdata);
-            setInfoDict(newInfoDict);
-            setMode("READ");
+            setConfig(newVisualizationInfo.Gconfig);
+            setInfoDict(result);
+            setMode("read");
+
           }}
-          onClick={postGraph}
 
         ></Button>
       </>
