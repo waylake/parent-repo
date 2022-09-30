@@ -279,12 +279,12 @@ function App() {
       {visible && (
         <div className="contents">
           <div id="original">{text}</div>
-          {/* <div
+          <div
             id="draggable"
             draggable="true"
             onDragStart={initial}
             onDrag={resize}>
-          </div> */}
+          </div>
           <div id="plot">
             <Plot
               layout={layout}
