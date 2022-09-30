@@ -24,6 +24,7 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faGripLines, faPray } from "@fortawesome/free-solid-svg-icons";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
 
@@ -237,10 +238,14 @@ function App() {
             setConfig(newVisualizationInfo.Gconfig);
             setInfoDict(result);
             setMode("read");
-
           }}
-
         ></Button>
+        <Button
+          mode="load"
+          icon={faUpload}
+
+        >
+        </Button>
       </>
     );
   }

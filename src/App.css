@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  overflow-x: auto; /*y축 스크롤바 생성*/
+  /* overflow-x: auto; y축 스크롤바 생성 */
   background-color: rgb(223, 223, 223);
 }
 

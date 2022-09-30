@@ -14,7 +14,8 @@
 }
 
 .button.parallel::after,
-.button.cross::after {
+.button.cross::after,
+.button.load::after {
   width: 150px;
 }
 
