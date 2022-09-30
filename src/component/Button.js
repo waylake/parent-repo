@@ -6,6 +6,7 @@ const modeList = {
   save: 'Save',
   parallel: 'Change branch to parallel',
   cross: 'Change branch to cross',
+  load: 'load original graph'
 }
 
 function Button({ mode, icon, onChangeMode, onChangeBranch }) {
@@ -15,10 +16,8 @@ function Button({ mode, icon, onChangeMode, onChangeBranch }) {
   const handleMode = onChangeMode ? () => onChangeMode() : undefined;
   const handleBranch = onChangeBranch ? () => onChangeBranch(mode) : undefined;
   const onClick = () => {
-
     if (handleMode) handleMode();
     if (handleBranch) handleBranch(mode);
-
   }
   return (
     <button className={classNames} type="button" data-tooltip={tooltipText} onClick={(e) => {
