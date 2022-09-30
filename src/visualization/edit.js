@@ -31,15 +31,25 @@ export function changeInfoDict(newInfoDict, annot) {
   }
 }
 
-export function moveIdxFront(armGroupList, ary) {
+export function moveIdxFront(newInfoDict, clickedBranchIdx) {
+  //branch가 붙어있지 않다면 붙어있도록 순서 변경
+  clickedBranchIdx =
+    clickedBranchIdx[1] > clickedBranchIdx[0]
+      ? clickedBranchIdx
+      : [...clickedBranchIdx].reverse();
+  const armGroupList = newInfoDict.DrugInformation.ArmGroupList;
   const aryToAdd = [];
   for (let i = 1; i >= 0; i--) {
-    aryToAdd.push(armGroupList.splice(ary[i], 1));
+    aryToAdd.push(armGroupList.splice(clickedBranchIdx[i], 1));
   }
-  for (let i = 0; i < ary.length; i++) {
+  for (let i = 0; i < clickedBranchIdx.length; i++) {
     armGroupList.splice(0, 0, aryToAdd[i][0]);
   }
 }
+
+
+
+
 
 export function removeHtmlTag(annot) {
   const re1 = /<br>/g; //br태그 정규표현식
