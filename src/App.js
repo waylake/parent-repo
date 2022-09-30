@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Plot from "react-plotly.js";
 // import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
-import { Grid, Card } from "@mui/material/"; // material ui
+// import { Grid, Card } from "@mui/material/"; // material ui
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
@@ -13,7 +13,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { getRequest, postRequest, myRequest } from "./api";
+import { getRequest, postRequest, myRequest, myCrawling } from "./api";
 
 //state
 import { useState, useEffect } from "react";
@@ -250,35 +250,6 @@ function App() {
     );
   }
 
-
-  const myCrawling = async (nctid) => {
-    // console.log(nctid);
-    try {
-      const retries = 2;
-      let body = {
-        url: nctid,
-      };
-      let req;
-      for (let q = 0; q < retries; q++) {
-        try {
-          req = await axios.post(`http://localhost:5000/crawling`, body);
-          if (req) {
-            break;
-          } else {
-            console.log(req);
-            console.log("cannot fetch data");
-          }
-        } catch (e) {
-          console.log("cannot fetch error");
-        }
-      }
-      // console.log("this is from crawling! \n", req.data);
-      return req.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
@@ -308,12 +279,12 @@ function App() {
       {visible && (
         <div className="contents">
           <div id="original">{text}</div>
-          {/* <div
+          <div
             id="draggable"
             draggable="true"
             onDragStart={initial}
             onDrag={resize}>
-          </div> */}
+          </div>
           <div id="plot">
             <Plot
               layout={layout}
