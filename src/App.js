@@ -31,7 +31,6 @@ import "./css/w3-ct.css";
 import "./css/print.css";
 import "./css/trial-record.css";
 
-
 function App() {
   const [infoDict, setInfoDict] = useState();
 
@@ -323,8 +322,30 @@ function App() {
     }
   };
 
+  // these below are for resizable div contents.
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
+
+  const initial = (e) => {
+    let resizable = document.getElementById("original");
+
+    setInitialPos(e.clientX);
+    setInitialSize(resizable.offsetWidth);
+  };
+
+  const resize = (e) => {
+    let resizable = document.getElementById("original");
+    // let re_bar = document.getElementById("draggable");
+
+    resizable.style.width = `${
+      parseInt(initialSize) + parseInt(e.clientX - initialPos)
+    }px`;
+
+    // re_bar.style.backgroundPositionX = `${initialPos}`
+  };
+
   return (
-    <div className="container">
+    <div id="container">
       <div className="url">
         <Search onCreate={createGraph}></Search>
       </div>
@@ -332,10 +353,18 @@ function App() {
         <div className="contents">
           <Grid container spacing={2}>
             <Grid item xs={8}>
-              <div className="original">{text}</div>
+              <div id="original">{text}</div>
+            </Grid>
+            <Grid>
+              <div
+                id="draggable"
+                draggable="true"
+                onDragStart={initial}
+                onDrag={resize}
+              />
             </Grid>
             <Grid item xs={4}>
-              <div className="plot">
+              <div id="plot">
                 <Plot
                   layout={layout}
                   data={data}
