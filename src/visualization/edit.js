@@ -54,6 +54,7 @@ export function moveIdxFront(newInfoDict, clickedBranchIdx) {
 export function removeHtmlTag(annot) {
   const re1 = /<br>/g; //br태그 정규표현식
   const re2 = /<\/?b>/g; //b태그 정규표현식
+  const re3 = /<[a-zA-Z0-9=#'_:;]+>/gi;
   for (let i = 0; i < annot.length; i++) {
     if (annot[i].text === '') { // 빈 텍스트 값이면
       annot[i].text = 'write text';
@@ -62,6 +63,7 @@ export function removeHtmlTag(annot) {
     else { // 빈 텍스트 값이 아니면
       annot[i].text = annot[i].text.replace(re1, ' ');
       annot[i].text = annot[i].text.replace(re2, '');
+      annot[i].text = annot[i].text.replace(re3, '');
     }
   }
 }

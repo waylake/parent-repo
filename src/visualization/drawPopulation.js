@@ -34,15 +34,15 @@ export function drawPopulation(startPoint, startW, population) {
   //높이 구하기
   let [popLine, popText] = countLine(
     "<b>Condition:</b> " +
-    condition +
-    "<br>" +
-    gender +
-    "<br>" +
-    healthyCondition +
-    "<br>" +
-    maxAge +
-    "<br>" +
-    minAge,
+      condition +
+      "<br>" +
+      gender +
+      "<br>" +
+      healthyCondition +
+      "<br>" +
+      maxAge +
+      "<br>" +
+      minAge,
     30
   );
 
@@ -88,11 +88,14 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: conditionText,
+          text:
+            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            conditionText +
+            "</a>",
           showarrow: false,
           name: {
-            type: 'PopulationBox',
-            inJson: 'Condition',
+            type: "PopulationBox",
+            inJson: "Condition",
           },
           font: {
             size: 11,
@@ -104,11 +107,14 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: genderText,
+          text:
+            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            genderText +
+            "</a>",
           showarrow: false,
           name: {
-            type: 'PopulationBox',
-            inJson: 'Gender',
+            type: "PopulationBox",
+            inJson: "Gender",
           },
           font: {
             size: 11,
@@ -120,11 +126,14 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: healthyText,
+          text:
+            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            healthyText +
+            "</a>",
           showarrow: false,
           name: {
-            type: 'PopulationBox',
-            inJson: 'HealthyCondition',
+            type: "PopulationBox",
+            inJson: "HealthyCondition",
           },
           font: {
             size: 11,
@@ -136,11 +145,14 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: minAgeText,
+          text:
+            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            minAgeText +
+            "</a>",
           showarrow: false,
           name: {
-            type: 'PopulationBox',
-            inJson: 'MinAge',
+            type: "PopulationBox",
+            inJson: "MinAge",
           },
           font: {
             size: 11,
@@ -155,11 +167,14 @@ export function drawPopulation(startPoint, startW, population) {
           xanchor: "left",
           yanchor: "top",
           align: "left",
-          text: maxAgeText,
+          text:
+            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            maxAgeText +
+            "</a>",
           showarrow: false,
           name: {
-            prop: 'PopulationBox',
-            inJson: 'MaxAge',
+            prop: "PopulationBox",
+            inJson: "MaxAge",
           },
           font: {
             size: 11,
