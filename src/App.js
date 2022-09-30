@@ -13,7 +13,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { getRequest, postRequest, myRequest } from "./api";
+import { getRequest, postRequest, myRequest, myCrawling } from "./api";
 
 //state
 import { useState, useEffect } from "react";
@@ -148,7 +148,7 @@ function App() {
   const createGraph = async (keyword) => {
     try {
       result_json = await myRequest(keyword);
-      // result_text = await myCrawling(result_json["_id"]);
+      result_text = await myCrawling(result_json["_id"]);
       // result_json = await getRequest(keyword);
 
     } catch {
@@ -156,7 +156,7 @@ function App() {
     }
 
 
-    // setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
 
 
     const information = getInfo(result_json);
@@ -260,35 +260,6 @@ function App() {
       </>
     );
   }
-
-
-  const myCrawling = async (nctid) => {
-    // console.log(nctid);
-    try {
-      const retries = 2;
-      let body = {
-        url: nctid,
-      };
-      let req;
-      for (let q = 0; q < retries; q++) {
-        try {
-          req = await axios.post(`http://localhost:5000/crawling`, body);
-          if (req) {
-            break;
-          } else {
-            console.log(req);
-            console.log("cannot fetch data");
-          }
-        } catch (e) {
-          console.log("cannot fetch error");
-        }
-      }
-      // console.log("this is from crawling! \n", req.data);
-      return req.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
