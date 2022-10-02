@@ -6,29 +6,6 @@ export const getRequest = async (nctid) => {
   return body;
 };
 
-export const putRequest = async (nctid, json) => {
-  const response = await fetch(`http://localhost:5000/api/${nctid}`, {
-    method: 'PUT',
-    body: json,
-  });
-  const body = await response.json();
-  return body;
-}
-
-export const postRequest = async (json) => {
-  let response;
-  try {
-    response = await axios.post('http://localhost:5000/create', json);
-  }
-  catch (error) {
-    console.log(error);
-  }
-
-  return response.data;
-}
-
-
-
 //axios를 위한 함수
 export const myRequest = async (nctid) => {
   // console.log(nctid);
@@ -56,6 +33,32 @@ export const myRequest = async (nctid) => {
     console.log(e);
   }
 };
+
+export const postRequest = async (json) => {
+  let response;
+  try {
+    response = await axios.post('http://localhost:5000/create', json);
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+  return response.data;
+}
+
+export const loadRequest = async (nctid) => {
+
+  let response;
+  let body = { url: nctid };
+  try {
+    response = await axios.post('http://localhost:5000/load', body);
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+  return response.data;
+}
 
 export const myCrawling = async (nctid) => {
   // console.log(nctid);

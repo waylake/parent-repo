@@ -13,7 +13,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { getRequest, postRequest, myRequest, myCrawling } from "./api";
+import { postRequest, myRequest, myCrawling, loadRequest } from "./api";
 
 //state
 import { useState, useEffect } from "react";
@@ -28,11 +28,11 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 //img
 import armLabel from "./img/label.png";
 
-import axios from "axios";
 
 import "./css/w3-ct.css";
 import "./css/print.css";
 import "./css/trial-record.css";
+import Loading from "./component/Loading";
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -48,6 +48,10 @@ function App() {
   const [mode, setMode] = useState("read");
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
+  const [loading, setLoading] = useState(false);
+  // these below are for resizable div contents.
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -122,24 +126,110 @@ function App() {
 
   };
 
-  const createOriginal = async (keyword) => {
+  // const createGraph = async (keyword) => {
+  //   let result;
+  //   try {
+  //     setLoading(true);
+  //     result = await myRequest(keyword);
+  //   } catch {
+  //     console.log("error");
+  //   }
+  //   finally {
+  //     setLoading(false);
+  //   }
+
+  //   makeNewGraph(result);
+  //   setVisible(true);
+  //   setMode("read");
+  // };
+
+  // const createOriginal = async (keyword) => {
+  //   let result_text;
+  //   const Parser = require("html-react-parser");
+  //   try {
+  //     setLoading(true);
+  //     result_text = await myCrawling(keyword);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  //   setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+  // }
+
+
+  const clickCreate = async (keyword) => {
+    let result;
     let result_text;
     const Parser = require("html-react-parser");
-    result_text = await myCrawling(keyword);
-    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-  }
-
-  const createGraph = async (keyword) => {
-    let result_json;
     try {
-      result_json = await myRequest(keyword);
-      // result_json = await getRequest(keyword);
-
+      setLoading(true);
+      result = await myRequest(keyword);
+      result_text = await myCrawling(keyword);
     } catch {
       console.log("error");
     }
+    finally {
+      setLoading(false);
+    }
+    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+    makeNewGraph(result);
+    setVisible(true);
+    setMode("read");
+  };
 
-    const information = getInfo(result_json);
+  const clickLoad = async () => {
+    let result;
+    try {
+      result = await loadRequest(infoDict.NCTID);
+    }
+    catch (error) {
+      console.log(error);
+    }
+    makeNewGraph(result);
+  };
+
+  const saveGraph = async () => {
+    let result = '';
+    // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+    const newInfoDict = { ...infoDict };
+    const annot = layout.annotations;
+    changeInfoDict(newInfoDict, annot);
+    try {
+      result = await postRequest(newInfoDict);
+    }
+    catch (error) {
+      console.log(error);
+    }
+    makeNewGraph(result);
+    setMode("read");
+  };
+
+  const editGraph = () => {
+    // editable하게 바꾸기
+    const newConfig = { ...config };
+    newConfig.edits.annotationText = true;
+
+
+    // Layout값 바꾸기
+    const newLayout = { ...layout };
+    const annot = newLayout.annotations;
+    //Html tag 제거
+    removeHtmlTag(annot);
+
+    // data 클릭 되게 바꾸기
+    const newData = [...data];
+    for (let value of newData) {
+      if (value.name) value.hoverinfo = "none";
+    }
+    setConfig(newConfig);
+    setData(newData);
+    setLayout(newLayout);
+    setMode("edit");
+  };
+
+  const makeNewGraph = (json) => {
+    const information = getInfo(json);
     const visualizationInformation = visualization(information);
     //data
     const newData = visualizationInformation.Gdata;
@@ -151,15 +241,25 @@ function App() {
     setData(newData);
     setLayout(newLayout);
     setConfig(newConfig);
-    setMode("read");
-    setVisible(true);
-    setInfoDict(result_json);
+    setInfoDict(json);
   };
 
-  const clickCreate = (keyword) => {
-    createOriginal(keyword);
-    createGraph(keyword);
-  }
+  const initial = (e) => {
+    let resizable = document.getElementById("original");
+
+    setInitialPos(e.clientX);
+    setInitialSize(resizable.offsetWidth);
+  };
+
+  const resize = (e) => {
+    let resizable = document.getElementById("original");
+    let re_bar = document.getElementById("draggable");
+
+    resizable.style.width = `${parseInt(initialSize) + parseInt(e.clientX - initialPos)
+      }px`;
+
+    re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
+  };
 
   let content = "";
   if (mode === "read") {
@@ -168,28 +268,7 @@ function App() {
       <Button
         mode="edit"
         icon={faPenToSquare}
-        onChangeMode={() => {
-          // editable하게 바꾸기
-          const newConfig = { ...config };
-          newConfig.edits.annotationText = true;
-
-
-          // Layout값 바꾸기
-          const newLayout = { ...layout };
-          const annot = newLayout.annotations;
-          //Html tag 제거
-          removeHtmlTag(annot);
-
-          // data 클릭 되게 바꾸기
-          const newData = [...data];
-          for (let value of newData) {
-            if (value.name) value.hoverinfo = "none";
-          }
-          setConfig(newConfig);
-          setData(newData);
-          setLayout(newLayout);
-          setMode("edit");
-        }}
+        onChangeMode={editGraph}
       ></Button>
     );
   } else if (mode === "edit") {
@@ -210,103 +289,58 @@ function App() {
         <Button
           mode="save"
           icon={faFloppyDisk}
-          onChangeMode={async () => {
-            let result = '';
-            // const newConfig = { ...config };
-            // newConfig.edits.annotationText = false;
-
-
-            // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
-            const newInfoDict = { ...infoDict };
-            const annot = layout.annotations;
-            changeInfoDict(newInfoDict, annot);
-
-            try {
-              result = await postRequest(newInfoDict);
-            }
-            catch (error) {
-              console.log(error);
-            }
-
-            console.log(result);
-
-            const newDataJson = getInfo(result);
-            const newVisualizationInfo = visualization(newDataJson);
-
-            setLayout(newVisualizationInfo.Glayout);
-            setData(newVisualizationInfo.Gdata);
-            setConfig(newVisualizationInfo.Gconfig);
-            setInfoDict(result);
-            setMode("read");
-          }}
+          onChangeMode={saveGraph}
         ></Button>
         <Button
           mode="load"
           icon={faUpload}
-
+          onChangeMode={clickLoad}
         >
         </Button>
       </>
     );
   }
 
-  // these below are for resizable div contents.
-  const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
-
-  const initial = (e) => {
-    let resizable = document.getElementById("original");
-
-    setInitialPos(e.clientX);
-    setInitialSize(resizable.offsetWidth);
-  };
-
-  const resize = (e) => {
-    let resizable = document.getElementById("original");
-    let re_bar = document.getElementById("draggable");
-
-    resizable.style.width = `${parseInt(initialSize) + parseInt(e.clientX - initialPos)
-      }px`;
-
-    re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
-  };
-
   return (
-    <div id="container">
-      <div className="url">
-        <Search onCreate={clickCreate}></Search>
-      </div>
-      {visible && (
-        <div className="contents">
-          <div id="original">{text}</div>
-          <div
-            id="draggable"
-            draggable="true"
-            onDragStart={initial}
-            onDrag={resize}>
-          </div>
-          <div id="plot">
-            <Plot
-              layout={layout}
-              data={data}
-              frames={frames}
-              config={config}
-              onClick={(e) => {
-                clikckBranch(e);
-              }}
-              onHover={(e) => {
-                console.log(1);
-              }}
-            ></Plot>
-            <div className="buttonDiv">{content}</div>
-            <div className="questionIcon">
-              <FontAwesomeIcon icon={faCircleQuestion} />
-              <img src={armLabel} alt="armlabel" />
+    <div>
+      <div id={loading ? "darkContainer" : "container"}>
+        <div className="url">
+          <Search onCreate={clickCreate}></Search>
+        </div>
+        {visible && (
+          <div className="contents">
+            <div id="original">{text}</div>
+            <div
+              id="draggable"
+              draggable="true"
+              onDragStart={initial}
+              onDrag={resize}>
+            </div>
+            <div id="plot">
+              <Plot
+                layout={layout}
+                data={data}
+                frames={frames}
+                config={config}
+                onClick={(e) => {
+                  clikckBranch(e);
+                }}
+                onHover={(e) => {
+                  console.log(1);
+                }}
+              ></Plot>
+              <div className="buttonDiv">{content}</div>
+              <div className="questionIcon">
+                <FontAwesomeIcon icon={faCircleQuestion} />
+                <img src={armLabel} alt="armlabel" />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      {loading && <Loading />}
     </div>
+
   );
 }
 
