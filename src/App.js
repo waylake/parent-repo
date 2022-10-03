@@ -49,6 +49,7 @@ function App() {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
+  const [isOrigianl, setIsOriginal] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
@@ -126,86 +127,7 @@ function App() {
 
   };
 
-  // const createGraph = async (keyword) => {
-  //   let result;
-  //   try {
-  //     setLoading(true);
-  //     result = await myRequest(keyword);
-  //   } catch {
-  //     console.log("error");
-  //   }
-  //   finally {
-  //     setLoading(false);
-  //   }
-
-  //   makeNewGraph(result);
-  //   setVisible(true);
-  //   setMode("read");
-  // };
-
-  // const createOriginal = async (keyword) => {
-  //   let result_text;
-  //   const Parser = require("html-react-parser");
-  //   try {
-  //     setLoading(true);
-  //     result_text = await myCrawling(keyword);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  //   setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-  // }
-
-
-  const clickCreate = async (keyword) => {
-    let result;
-    let result_text;
-    const Parser = require("html-react-parser");
-    try {
-      setLoading(true);
-      result = await myRequest(keyword);
-      result_text = await myCrawling(keyword);
-    } catch {
-      console.log("error");
-    }
-    finally {
-      setLoading(false);
-    }
-    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-    makeNewGraph(result);
-    setVisible(true);
-    setMode("read");
-  };
-
-  const clickLoad = async () => {
-    let result;
-    try {
-      result = await loadRequest(infoDict.NCTID);
-    }
-    catch (error) {
-      console.log(error);
-    }
-    makeNewGraph(result);
-  };
-
-  const saveGraph = async () => {
-    let result = '';
-    // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
-    const newInfoDict = { ...infoDict };
-    const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
-    try {
-      result = await postRequest(newInfoDict);
-    }
-    catch (error) {
-      console.log(error);
-    }
-    makeNewGraph(result);
-    setMode("read");
-  };
-
-  const editGraph = () => {
+  const editGraph = () => { // 모식도 편집되게 바꾸기 함수
     // editable하게 바꾸기
     const newConfig = { ...config };
     newConfig.edits.annotationText = true;
@@ -228,7 +150,7 @@ function App() {
     setMode("edit");
   };
 
-  const makeNewGraph = (json) => {
+  const drawGraph = (json) => { //모식도 그리기 함수
     const information = getInfo(json);
     const visualizationInformation = visualization(information);
     //data
@@ -261,15 +183,101 @@ function App() {
     re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
   };
 
+  // const createOriginal = async (keyword) => {
+  //   let result_text;
+  //   const Parser = require("html-react-parser");
+  //   try {
+  //     setLoading(true);
+  //     result_text = await myCrawling(keyword);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  //   setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+  // }
+
+
+  const clickCreate = async (keyword) => { // 크롤링 및 모식도 한번에 동시 생성
+    let result;
+    let result_text;
+    const Parser = require("html-react-parser");
+    try {
+      setLoading(true);
+      result = await myRequest(keyword);
+      result_text = await myCrawling(keyword);
+    } catch (error) {
+      console.log("error");
+    }
+    finally {
+      setLoading(false);
+    }
+    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+    drawGraph(result);
+    setVisible(true);
+    setMode("read");
+  };
+
+
+  const saveGraph = async () => { // 편집된 모식도 저장 함수
+    let result = '';
+    // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+    const newInfoDict = { ...infoDict };
+    const annot = layout.annotations;
+    changeInfoDict(newInfoDict, annot);
+    try {
+      result = await postRequest(newInfoDict);
+    }
+    catch (error) {
+      console.log(error);
+    }
+    drawGraph(result);
+    setMode("read");
+  };
+
+  const loadOriginal = async () => {
+    let result;
+    try {
+      result = await loadRequest(infoDict.NCTID);
+    }
+    catch (error) {
+      console.log(error);
+    }
+    drawGraph(result);
+    setIsOriginal(true);
+  };
+
+  const loadEdited = async () => { // 원본 모식도 그리기
+    let result;
+    try {
+      result = await myRequest(infoDict.NCTID);
+    } catch {
+      console.log("error");
+    }
+    drawGraph(result);
+    setMode("read");
+    setIsOriginal(false);
+  };
+
+
+
   let content = "";
   if (mode === "read") {
     //READ 모드일때 edit버튼을 누르면
     content = (
-      <Button
-        mode="edit"
-        icon={faPenToSquare}
-        onChangeMode={editGraph}
-      ></Button>
+      <>
+        {!isOrigianl &&
+          <Button
+            mode="edit"
+            icon={faPenToSquare}
+            onChangeMode={editGraph}
+          />}
+        <Button
+          mode={isOrigianl ? "loadEdited" : "loadOriginal"}
+          icon={faUpload}
+          onChangeMode={isOrigianl ? loadEdited : loadOriginal}
+        />
+      </>
     );
   } else if (mode === "edit") {
     content = (
@@ -291,12 +299,7 @@ function App() {
           icon={faFloppyDisk}
           onChangeMode={saveGraph}
         ></Button>
-        <Button
-          mode="load"
-          icon={faUpload}
-          onChangeMode={clickLoad}
-        >
-        </Button>
+
       </>
     );
   }
