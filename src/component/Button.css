@@ -15,7 +15,8 @@
 
 .button.parallel::after,
 .button.cross::after,
-.button.load::after {
+.button.loadOriginal::after,
+.button.loadEdited::after {
   width: 150px;
 }
 
