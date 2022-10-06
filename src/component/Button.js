@@ -6,7 +6,8 @@ const modeList = {
   save: 'Save',
   parallel: 'Change branch to parallel',
   cross: 'Change branch to cross',
-  load: 'load original graph'
+  loadOriginal: 'load original graph',
+  loadEdited: 'load edited graph',
 }
 
 function Button({ mode, icon, onChangeMode, onChangeBranch }) {
