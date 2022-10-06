@@ -89,7 +89,7 @@ export function drawPopulation(startPoint, startW, population) {
           yanchor: "top",
           align: "left",
           text:
-            "<a href='#eligibility' target='_self' style='color:black;'>" +
+            "<a href='#studydesc' target='_self' style='color:black;'>" +
             conditionText +
             "</a>",
           showarrow: false,
