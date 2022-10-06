@@ -1,6 +1,8 @@
 // import { countLine } from "./drawPopulation";
 // import { Point } from "./Point";
 
+import { faHighlighter } from "@fortawesome/free-solid-svg-icons";
+import { highlight } from "./highlight.js";
 import { countLine } from "./drawPopulation";
 
 // 단어 break해서라도 네모박스 라인 맞추기 위한 함수
@@ -73,7 +75,10 @@ export function drawInfoTrial(
           //objective
           x: objPoint.x,
           y: objPoint.y,
-          text: "<a href='#studydesc' target='_self' style='color:black;'>"+objective+"</a>",
+          text:
+            "<a href='#studydesc' target='_self' style='color:black;'>" +
+            objective +
+            "</a>",
           showarrow: false,
           xanchor: "left",
           yanchor: "bottom",
@@ -91,7 +96,7 @@ export function drawInfoTrial(
           x: titlePoint.x,
           y: titlePoint.y,
           text:
-            "<a href='#studydesc' target='_self' style='color:black;'>" +
+            "<a href='#wrapper' target='_self' style='color:black;'>" +
             title +
             "</a>",
           showarrow: false,
@@ -109,7 +114,10 @@ export function drawInfoTrial(
           // official title
           x: officialPoint.x,
           y: legendPoint.y - startH / 3,
-          text: "<a href='#studydesc' target='_self' style='color:black;'>" + officialTitle+"</a>",
+          text:
+            "<a href='#studydesign' target='_self' style='color:black;'>" +
+            officialTitle +
+            "</a>",
           showarrow: false,
           xanchor: "left",
           yanchor: "top",
@@ -126,7 +134,10 @@ export function drawInfoTrial(
           // complete time
           x: durationPoint.x,
           y: durationPoint.y - 0.05,
-          text: "<a href='#studydesign' target='_self' style='color:black;'>"+ completeTime+"</a>",
+          text:
+            "<a href='#studydesign' target='_self' style='color:black;'>" +
+            completeTime +
+            "</a>",
           showarrow: false,
           font: {
             size: 8,
