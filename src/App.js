@@ -19,15 +19,10 @@ import { postRequest, myRequest, myCrawling, loadRequest } from "./api";
 import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
-import { faGripLines, faPray, faTags } from "@fortawesome/free-solid-svg-icons";
-import { faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-//img
-import armLabel from "./img/label.png";
+import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
+import { faGripLines, faFileImport, faCircleQuestion, faShuffle, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
+import armLabel from "./img/label.png";
 import "./css/w3-ct.css";
 import "./css/print.css";
 import "./css/trial-record.css";
@@ -50,7 +45,7 @@ function App() {
   const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [isOrigianl, setIsOriginal] = useState(false);
+  const [isOriginal, setIsOriginal] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
@@ -244,6 +239,7 @@ function App() {
       console.log(error);
     }
     drawGraph(result);
+    setMode("read");
     setIsOriginal(true);
   };
 
@@ -264,16 +260,16 @@ function App() {
     //READ 모드일때 edit버튼을 누르면
     content = (
       <>
-        {!isOrigianl &&
+        {!isOriginal &&
           <Button
             mode="edit"
             icon={faPenToSquare}
             onChangeMode={editGraph}
           />}
         <Button
-          mode={isOrigianl ? "loadEdited" : "loadOriginal"}
-          icon={faUpload}
-          onChangeMode={isOrigianl ? loadEdited : loadOriginal}
+          mode={isOriginal ? "loadEdited" : "loadOriginal"}
+          icon={isOriginal ? faArrowRotateLeft : faFileImport}
+          onChangeMode={isOriginal ? loadEdited : loadOriginal}
         />
       </>
     );
@@ -297,6 +293,11 @@ function App() {
           icon={faFloppyDisk}
           onChangeMode={saveGraph}
         ></Button>
+        <Button
+          mode={isOriginal ? "loadEdited" : "loadOriginal"}
+          icon={isOriginal ? faArrowRotateLeft : faFileImport}
+          onChangeMode={isOriginal ? loadEdited : loadOriginal}
+        />
       </>
     );
   }
