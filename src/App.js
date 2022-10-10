@@ -20,19 +20,14 @@ import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
-
 import { faGripLines, faFileImport, faCircleQuestion, faShuffle, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
-
-
-//img
 import armLabel from "./img/label.png";
-
-
 import "./css/w3-ct.css";
 import "./css/print.css";
 import "./css/trial-record.css";
 import Loading from "./component/Loading";
+import { highlight } from "./visualization/highlight";
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -49,6 +44,7 @@ function App() {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [isOriginal, setIsOriginal] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
@@ -94,13 +90,15 @@ function App() {
     setLayout(newLayout);
   };
 
-  const modifyBranch = (branchToModified) => { //바뀔 인자값 넣기
+  const modifyBranch = (branchToModified) => {
+    //바뀔 인자값 넣기
     const newInfoDict = { ...infoDict };
     let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
     for (let i = 0; i < data.length; i++) {
       if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
     }
-    if (branchToModified === 'cross') moveIdxFront(newInfoDict, clickedBranchIdx);
+    if (branchToModified === "cross")
+      moveIdxFront(newInfoDict, clickedBranchIdx);
 
     newInfoDict.DesignModel = makeNewModel(
       newInfoDict.DesignModel,
@@ -124,7 +122,6 @@ function App() {
     setInfoDict(newInfoDict);
     setLayout(newLayout);
     setData(newData);
-
   };
 
   const editGraph = () => { // 모식도 편집되게 바꾸기 함수
@@ -200,16 +197,15 @@ function App() {
 
   const clickCreate = async (keyword) => { // 크롤링 및 모식도 한번에 동시 생성
     let result;
-    let result_text;
+    let result_text = "<div id='wrapper'></div>";
     const Parser = require("html-react-parser");
     try {
       setLoading(true);
       result = await myRequest(keyword);
-      result_text = await myCrawling(keyword);
-    } catch (error) {
+      result_text += await myCrawling(keyword);
+    } catch {
       console.log("error");
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
     setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
@@ -227,8 +223,7 @@ function App() {
     changeInfoDict(newInfoDict, annot);
     try {
       result = await postRequest(newInfoDict);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
     drawGraph(result);
@@ -260,8 +255,6 @@ function App() {
     setIsOriginal(false);
   };
 
-
-
   let content = "";
   if (mode === "read") {
     //READ 모드일때 edit버튼을 누르면
@@ -286,13 +279,13 @@ function App() {
         <Button
           mode="parallel"
           icon={faGripLines}
-          onChangeBranch={modifyBranch}// cross over -> parallel로 바꾸기
+          onChangeBranch={modifyBranch} // cross over -> parallel로 바꾸기
         ></Button>
 
         <Button
           mode="cross"
           icon={faShuffle}
-          onChangeBranch={modifyBranch}// parallel -> cross over로 바꾸기
+          onChangeBranch={modifyBranch} // parallel -> cross over로 바꾸기
         ></Button>
 
         <Button
@@ -322,8 +315,8 @@ function App() {
               id="draggable"
               draggable="true"
               onDragStart={initial}
-              onDrag={resize}>
-            </div>
+              onDrag={resize}
+            ></div>
             <div id="plot">
               <Plot
                 layout={layout}
@@ -333,8 +326,9 @@ function App() {
                 onClick={(e) => {
                   clikckBranch(e);
                 }}
-                onHover={(e) => {
-                  console.log(1);
+                onClickAnnotation={(e) => {
+                  setClicked(true);
+                  highlight(e, clicked, infoDict);
                 }}
               ></Plot>
               <div className="buttonDiv">{content}</div>
@@ -348,7 +342,6 @@ function App() {
       </div>
       {loading && <Loading />}
     </div>
-
   );
 }
 
