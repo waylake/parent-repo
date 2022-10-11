@@ -6,6 +6,7 @@ import Plot from "react-plotly.js";
 //컴포넌트
 import Button from "./component/Button";
 import Search from "./component/Search";
+import Example from "./component/Example";
 //함수
 import { getInfo } from "./visualization/DataExtraction";
 import { visualization } from "./visualization/visualization";
@@ -293,6 +294,7 @@ function App() {
           icon={faFloppyDisk}
           onChangeMode={saveGraph}
         ></Button>
+
         <Button
           mode={isOriginal ? "loadEdited" : "loadOriginal"}
           icon={isOriginal ? faArrowRotateLeft : faFileImport}
@@ -307,6 +309,11 @@ function App() {
       <div id={loading ? "darkContainer" : "container"}>
         <div className="url">
           <Search onCreate={clickCreate}></Search>
+          <div className="example">
+            <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onClick={clickCreate} />
+            <Example name="Crossover" nctIds={['NCT02040376', 'NCT04450953', 'NCT00400023']} onClick={clickCreate} />
+            <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onClick={clickCreate} />
+          </div>
         </div>
         {visible && (
           <div className="contents">
