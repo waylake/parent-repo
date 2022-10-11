@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./Search.css";
 
+
 function Search({ onCreate }) {
-  const [nctId, setNctId] = useState('');
+  const [nctId, setNctId] = useState('NCT04577378');
 
   const handleNctIdChange = (e) => {
     setNctId(e.target.value);
