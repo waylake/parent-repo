@@ -1,0 +1,38 @@
+.hover-div {
+  position: relative;
+  background-color: rgba(10, 76, 138, 0.671);
+  border-radius: 5px;
+  color: white;
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 20px;
+  width: 170px;
+  text-align: center;
+}
+
+.hover-div:hover {
+  background-color: rgba(7, 44, 80, 0.984);
+}
+
+.hover-div:hover .btn-group {
+  visibility: visible;
+}
+
+.btn-group:hover {
+  visibility: visible;
+}
+
+.btn-group {
+  visibility: hidden;
+  position: absolute;
+  top: 41px;
+  left: 0px;
+}
+
+.btn-group button {
+  padding: 5px 30px;
+  background-color: white;
+  color: rgba(10, 76, 138, 0.671);
+  border: none;
+  margin: 2px;
+}
