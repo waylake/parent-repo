@@ -90,3 +90,19 @@ export function makeNewModel(currentModel, numBranch, op) {
   const parallel = cross === 'Crossover Assignment' ? '' : 'p' + (numBranch - Number(cross[1]));
   return cross + parallel;
 }
+
+export function makeGraphClicked(arr, size = 30) {
+  const totalArr = [];
+  for (let i = 0; i < arr.length - 1; i++) {
+    const start = arr[i];
+    const end = arr[i + 1];
+    const tempArr = [];
+    for (let j = 0; j < size; j++) {
+      const internalDivision = (size - j) / size * start + j / size * end;
+      tempArr.push(internalDivision);
+    }
+
+    totalArr.push(...tempArr);
+  }
+  return totalArr;
+}
