@@ -1,3 +1,4 @@
+import { makeGraphClicked } from "./edit";
 export const armColorDict = {
   Experimental: "rgba(205, 31, 72, 1)", //coral
   OtherS: "rgba(255, 210, 40, 1)", //gold

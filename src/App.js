@@ -79,8 +79,8 @@ function App() {
       for (let value of newLayout.shapes) {
         if (
           value.name &&
-          value.name[0] === "arrow" &&
-          value.name[1] === e.points[0].data.name[1]
+          value.name.shape === "arrow" &&
+          value.name.idx === e.points[0].data.name.idx
         ) {
           value.opacity = 1;
         }
@@ -98,22 +98,28 @@ function App() {
     for (let i = 0; i < data.length; i++) {
       if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
     }
-    if (branchToModified === "cross")
+
+    if (branchToModified === "cross") {
       moveIdxFront(newInfoDict, clickedBranchIdx);
+      newInfoDict.DesignModel = makeNewModel(
+        newInfoDict.DesignModel,
+        newInfoDict.DrugInformation.ArmGroupList.length,
+        "+"
+      );
+    }
+    else {
+      newInfoDict.DesignModel = makeNewModel(
+        newInfoDict.DesignModel,
+        newInfoDict.DrugInformation.ArmGroupList.length,
+        "-"
+      );
+    }
 
-    newInfoDict.DesignModel = makeNewModel(
-      newInfoDict.DesignModel,
-      newInfoDict.DrugInformation.ArmGroupList.length,
-      "+"
-    );
 
-    const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
-
-    const newDataJson = getInfo(newInfoDict);
-    const newVisualizationInfo = visualization(newDataJson);
-    const newData = newVisualizationInfo.Gdata;
-    const newLayout = newVisualizationInfo.Glayout;
+    const information = getInfo(newInfoDict);
+    const visualizationInformation = visualization(information);
+    const newData = visualizationInformation.Gdata;
+    const newLayout = visualizationInformation.Glayout;
 
     for (let value of newData) {
       if (value.name) value.hoverinfo = "none";
