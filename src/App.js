@@ -47,6 +47,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [isOriginal, setIsOriginal] = useState(false);
+  const [isBranchButton, setisBranchButton] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
@@ -164,6 +165,9 @@ function App() {
     //Config
     const newConfig = visualizationInformation.Gconfig;
 
+    if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+      setisBranchButton(true);
+    else setisBranchButton(false);
     setData(newData);
     setLayout(newLayout);
     setConfig(newConfig);
@@ -282,19 +286,21 @@ function App() {
     );
   } else if (mode === "edit") {
     content = (
-      <>
-        <Button
-          mode="parallel"
-          icon={faGripLines}
-          onChangeBranch={modifyBranch} // cross over -> parallel로 바꾸기
-        ></Button>
+      <>{isBranchButton &&
+        <>
+          <Button
+            mode="parallel"
+            icon={faGripLines}
+            onChangeBranch={modifyBranch} // cross over -> parallel로 바꾸기
+          ></Button>
 
-        <Button
-          mode="cross"
-          icon={faShuffle}
-          onChangeBranch={modifyBranch} // parallel -> cross over로 바꾸기
-        ></Button>
-
+          <Button
+            mode="cross"
+            icon={faShuffle}
+            onChangeBranch={modifyBranch} // parallel -> cross over로 바꾸기
+          ></Button>
+        </>
+      }
         <Button
           mode="save"
           icon={faFloppyDisk}
