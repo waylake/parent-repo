@@ -157,21 +157,26 @@ function App() {
 
   const drawGraph = (json) => { //모식도 그리기 함수
     const information = getInfo(json);
-    const visualizationInformation = visualization(information);
-    //data
-    const newData = visualizationInformation.Gdata;
-    //Layout
-    const newLayout = visualizationInformation.Glayout;
-    //Config
-    const newConfig = visualizationInformation.Gconfig;
+    try { //drug가 아닌 경우 모식도 생성X
+      const visualizationInformation = visualization(information);
+      //data
+      const newData = visualizationInformation.Gdata;
+      //Layout
+      const newLayout = visualizationInformation.Glayout;
+      //Config
+      const newConfig = visualizationInformation.Gconfig;
 
-    if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
-      setisBranchButton(true);
-    else setisBranchButton(false);
-    setData(newData);
-    setLayout(newLayout);
-    setConfig(newConfig);
-    setInfoDict(json);
+      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+        setisBranchButton(true);
+      else setisBranchButton(false);
+      setData(newData);
+      setLayout(newLayout);
+      setConfig(newConfig);
+      setInfoDict(json);
+
+    } catch (error) {
+      alert("This trial is not supported")
+    }
   };
 
   const initial = (e) => {
