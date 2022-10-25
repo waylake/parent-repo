@@ -335,7 +335,7 @@ function App() {
                 }}
                 onClickAnnotation={(e) => {
                   setClicked(true);
-                  highlight(e, clicked, infoDict);
+                  clicked = highlight(e, clicked, infoDict);
                 }}
               ></Plot>
               <div className="buttonDiv">{content}</div>
