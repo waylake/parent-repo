@@ -15,6 +15,14 @@ export function highlight(e, clicked, infos) {
   let len_annos = annotations.length;
   console.log(annotations);
 
+  if (clicked[0]) {
+    clicked[0].style.background = "white";
+  } else if (clicked[1]) {
+    for (let q = 0; q < clicked[1].length; q++) {
+      clicked[1][q].style.background = "white";
+    }
+  }
+
   let isArr = false;
 
   let designModel = infos.DesignModel;
@@ -23,6 +31,7 @@ export function highlight(e, clicked, infos) {
   let intervenStartIndex;
   let intervenEndIndex;
   if (designModel === "Crossover Assignment") {
+    // 군 개수가 2개로 지정되어있기 때문에 숫자로 하드코딩해도 됨.
     intervenStartIndex = len_annos - 6;
     intervenEndIndex = len_annos - 4;
   }
@@ -31,9 +40,9 @@ export function highlight(e, clicked, infos) {
     intervenStartIndex = len_annos - len_interven * 2;
     intervenEndIndex = len_annos;
   }
-  
+
   let elem;
-  
+  let idxArr;
   //------------------------------------------------------------
   // e.index: 1~13 은 공통임.
   // condition
@@ -62,7 +71,6 @@ export function highlight(e, clicked, infos) {
     let studydesigns = document.querySelectorAll(
       "#tab-body > div > div:nth-child(1) > table > tbody > tr"
     );
-    let idxArr;
     if (e.index === 6) idxArr = getIndex(studydesigns, "Masking");
     else if (e.index === 7) idxArr = getIndex(studydesigns, "Enrollment");
     else if (e.index === 8) idxArr = getIndex(studydesigns, "Allocation");
@@ -101,17 +109,22 @@ export function highlight(e, clicked, infos) {
 
     let nthIntervenIndex = e.index - intervenStartIndex;
     let order = e.index - intervenStartIndex;
-    if(designModel != "Crossover Assignment") order = Math.floor(nthIntervenIndex / 2); // 기간까지 표시하기 위함
+    if (designModel != "Crossover Assignment")
+      order = Math.floor(nthIntervenIndex / 2); // 기간까지 표시하기 위함
     elem = tags.querySelector(
       "tbody > tr:nth-child(" + String(order + 1) + ")"
     );
   }
 
   // crossover의 washout
-  else if(e.index >= intervenEndIndex){
+  else if (e.index >= intervenEndIndex) {
     // 필요하다면 단어만 하이라이트도 필요. 일단은 표 전체를 하이라이트!
-    elem = document.querySelector("#tab-body > div > div:nth-child(3) > table > tbody");
+    elem = document.querySelector(
+      "#tab-body > div > div:nth-child(3) > table > tbody"
+    );
   }
   // based on query 'elem', change background color!
   if (isArr === false) elem.style.background = "#fff59d";
+
+  return [elem, idxArr];
 }
