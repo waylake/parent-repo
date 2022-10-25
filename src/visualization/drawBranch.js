@@ -1,3 +1,4 @@
+import { makeGraphClicked } from "./edit";
 export const armColorDict = {
   Experimental: "rgba(205, 31, 72, 1)", //coral
   OtherS: "rgba(255, 210, 40, 1)", //gold
@@ -45,20 +46,20 @@ export function drawBranch(
           armGroupType: armG.armGroupType[i],
           idx: branchIdx++,
         },
-        x: [
+        x: makeGraphClicked([
           armGLinePoint1.x,
           armGLinePoint1.x + armGW,
           armGLinePoint1.x + armGW + armGArrowW / 3,
           armGLinePoint1.x + armGW + (armGArrowW / 3) * 2,
           arrowEndX,
-        ],
-        y: [
+        ]),
+        y: makeGraphClicked([
           armGLinePoint1.y,
           startPoint.y + startH - i * (startH / (numBranch - 1)),
           startPoint.y + startH - i * (startH / (numBranch - 1)),
           arrowEndY,
           arrowEndY,
-        ],
+        ]),
         mode: "lines",
         line: {
           color: colorB,
@@ -71,12 +72,10 @@ export function drawBranch(
       let lineArrow = {
         type: "path",
         // 0.2는 삼각형 높이
-        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${
-          arrowEndY + widthTriangle
-        } 
-              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${
-          arrowEndY - widthTriangle
-        } Z`,
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle
+          } 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle
+          } Z`,
         fillcolor: colorB, // 채우기 색깔
         line: { color: colorB }, // 테두리 색깔
         name: {
@@ -136,26 +135,26 @@ export function drawBranch(
             armGroupType: armG.armGroupType[j],
             idx: branchIdx++,
           },
-          x: [
+          x: makeGraphClicked([
             armGLinePoint1.x,
             armGLinePoint1.x + armGW,
             armGLinePoint1.x + armGW + armGArrowW / 3,
             armGLinePoint1.x + armGW + (armGArrowW / 3) * 2,
             arrowEndX,
-          ],
-          y: [
+          ]),
+          y: makeGraphClicked([
             armGLinePoint1.y,
             startPoint.y +
-              startH -
-              j * (startH / (numBranch - 1)) -
-              (i - 1) * (startH / (numBranch - 1)),
+            startH -
+            j * (startH / (numBranch - 1)) -
+            (i - 1) * (startH / (numBranch - 1)),
             startPoint.y +
-              startH -
-              j * (startH / (numBranch - 1)) -
-              (i - 1) * (startH / (numBranch - 1)),
+            startH -
+            j * (startH / (numBranch - 1)) -
+            (i - 1) * (startH / (numBranch - 1)),
             arrowEndY,
             arrowEndY,
-          ],
+          ]),
           mode: "lines",
           line: {
             color: colorB,
@@ -169,12 +168,10 @@ export function drawBranch(
         let lineArrow = {
           type: "path",
           // 0.2는 삼각형 높이
-          path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${
-            arrowEndY + widthTriangle
-          } 
-	              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${
-            arrowEndY - widthTriangle
-          } Z`,
+          path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle
+            } 
+	              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle
+            } Z`,
           fillcolor: colorB, // 채우기 색깔
           line: { color: colorB }, // 테두리 색깔
           name: {
@@ -195,8 +192,8 @@ export function drawBranch(
           armGroupType: armG.armGroupType[i],
           idx: branchIdx++,
         },
-        x: [armGLinePoint1.x, armGLinePoint1.x + armGW, arrowEndX],
-        y: [armGLinePoint1.y, arrowEndY, arrowEndY],
+        x: makeGraphClicked([armGLinePoint1.x, armGLinePoint1.x + armGW, arrowEndX]),
+        y: makeGraphClicked([armGLinePoint1.y, arrowEndY, arrowEndY]),
         mode: "lines",
         line: {
           color: colorB,
@@ -210,12 +207,10 @@ export function drawBranch(
       let lineArrow = {
         type: "path",
         // 0.2는 삼각형 높이
-        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${
-          arrowEndY + widthTriangle
-        } 
-              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${
-          arrowEndY - widthTriangle
-        } Z`,
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle
+          } 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle
+          } Z`,
         fillcolor: colorB, // 채우기 색깔
         line: { color: colorB }, // 테두리 색깔
         name: {
@@ -244,8 +239,8 @@ export function drawBranch(
           armGroupType: armG.armGroupType[i],
           idx: branchIdx++,
         },
-        x: [armGLinePoint1.x, armGLinePoint1.x + armGW, arrowEndX],
-        y: [armGLinePoint1.y, arrowEndY, arrowEndY],
+        x: makeGraphClicked([armGLinePoint1.x, armGLinePoint1.x + armGW, arrowEndX]),
+        y: makeGraphClicked([armGLinePoint1.y, arrowEndY, arrowEndY]),
         mode: "lines",
         line: {
           color: colorB,
@@ -259,12 +254,10 @@ export function drawBranch(
       let lineArrow = {
         type: "path",
         // 0.2는 삼각형 높이
-        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${
-          arrowEndY + widthTriangle
-        } 
-              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${
-          arrowEndY - widthTriangle
-        } Z`,
+        path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle
+          } 
+              L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle
+          } Z`,
         fillcolor: colorB, // 채우기 색깔
         line: { color: colorB }, // 테두리 색깔
         name: {
@@ -287,8 +280,8 @@ export function drawBranch(
         armGroupType: armG.armGroupType[0],
         idx: branchIdx++,
       },
-      x: [armGLinePoint1.x, arrowEndX],
-      y: [arrowEndY, arrowEndY],
+      x: makeGraphClicked([armGLinePoint1.x, arrowEndX]),
+      y: makeGraphClicked([arrowEndY, arrowEndY]),
       mode: "lines",
       line: {
         color: colorB,
@@ -300,12 +293,10 @@ export function drawBranch(
     let lineArrow = {
       type: "path",
       // 0.2는 삼각형 높이
-      path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${
-        arrowEndY + widthTriangle
-      } 
-            L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${
-        arrowEndY - widthTriangle
-      } Z`,
+      path: `M ${arrowEndX - heightTriangle} ${arrowEndY} V ${arrowEndY + widthTriangle
+        } 
+            L ${arrowEndX} ${arrowEndY} L ${arrowEndX - heightTriangle} ${arrowEndY - widthTriangle
+        } Z`,
       fillcolor: colorB, // 채우기 색깔
       line: { color: colorB }, // 테두리 색깔
       name: {

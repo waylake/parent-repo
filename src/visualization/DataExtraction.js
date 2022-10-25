@@ -48,22 +48,9 @@ export function getInfo(infoDict) {
   for (var i = 0; i < info_list.length; i++) {
     ArmGroupType.push(info_list[i]["ArmGroupType"]);
     ArmGroupLabel.push(info_list[i]["ArmGroupLabel"]);
-    console.log(info_list[i]["InterventionDescription"]);
-    if (info_list[i]["InterventionDescription"].length === 0) { // if ["InterventionDescription"] is empty fill only key obj
-      console.log("if");
-      InterventionDescription.push(
-        [{
-          "Dosage": "",
-          "DrugName": "",
-          "Duration": "",
-          "HowToTake": "",
-          "OtherName": []
-        }]
-      )
-    }
-    else {
-      InterventionDescription.push(info_list[i]["InterventionDescription"]);
-    }
+
+    InterventionDescription.push(info_list[i]["InterventionDescription"]);
+
   }
 
   const armGroup = new data.ArmGroup(
