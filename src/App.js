@@ -47,6 +47,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState([]);
   const [isOriginal, setIsOriginal] = useState(false);
+  const [isBranchButton, setisBranchButton] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
@@ -79,8 +80,8 @@ function App() {
       for (let value of newLayout.shapes) {
         if (
           value.name &&
-          value.name[0] === "arrow" &&
-          value.name[1] === e.points[0].data.name[1]
+          value.name.shape === "arrow" &&
+          value.name.idx === e.points[0].data.name.idx
         ) {
           value.opacity = 1;
         }
@@ -98,22 +99,28 @@ function App() {
     for (let i = 0; i < data.length; i++) {
       if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
     }
-    if (branchToModified === "cross")
+
+    if (branchToModified === "cross") {
       moveIdxFront(newInfoDict, clickedBranchIdx);
+      newInfoDict.DesignModel = makeNewModel(
+        newInfoDict.DesignModel,
+        newInfoDict.DrugInformation.ArmGroupList.length,
+        "+"
+      );
+    }
+    else {
+      newInfoDict.DesignModel = makeNewModel(
+        newInfoDict.DesignModel,
+        newInfoDict.DrugInformation.ArmGroupList.length,
+        "-"
+      );
+    }
 
-    newInfoDict.DesignModel = makeNewModel(
-      newInfoDict.DesignModel,
-      newInfoDict.DrugInformation.ArmGroupList.length,
-      "+"
-    );
 
-    const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
-
-    const newDataJson = getInfo(newInfoDict);
-    const newVisualizationInfo = visualization(newDataJson);
-    const newData = newVisualizationInfo.Gdata;
-    const newLayout = newVisualizationInfo.Glayout;
+    const information = getInfo(newInfoDict);
+    const visualizationInformation = visualization(information);
+    const newData = visualizationInformation.Gdata;
+    const newLayout = visualizationInformation.Glayout;
 
     for (let value of newData) {
       if (value.name) value.hoverinfo = "none";
@@ -150,18 +157,26 @@ function App() {
 
   const drawGraph = (json) => { //모식도 그리기 함수
     const information = getInfo(json);
-    const visualizationInformation = visualization(information);
-    //data
-    const newData = visualizationInformation.Gdata;
-    //Layout
-    const newLayout = visualizationInformation.Glayout;
-    //Config
-    const newConfig = visualizationInformation.Gconfig;
+    try { //drug가 아닌 경우 모식도 생성X
+      const visualizationInformation = visualization(information);
+      //data
+      const newData = visualizationInformation.Gdata;
+      //Layout
+      const newLayout = visualizationInformation.Glayout;
+      //Config
+      const newConfig = visualizationInformation.Gconfig;
 
-    setData(newData);
-    setLayout(newLayout);
-    setConfig(newConfig);
-    setInfoDict(json);
+      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+        setisBranchButton(true);
+      else setisBranchButton(false);
+      setData(newData);
+      setLayout(newLayout);
+      setConfig(newConfig);
+      setInfoDict(json);
+
+    } catch (error) {
+      alert("This trial is not supported")
+    }
   };
 
   const initial = (e) => {
@@ -276,19 +291,21 @@ function App() {
     );
   } else if (mode === "edit") {
     content = (
-      <>
-        <Button
-          mode="parallel"
-          icon={faGripLines}
-          onChangeBranch={modifyBranch} // cross over -> parallel로 바꾸기
-        ></Button>
+      <>{isBranchButton &&
+        <>
+          <Button
+            mode="parallel"
+            icon={faGripLines}
+            onChangeBranch={modifyBranch} // cross over -> parallel로 바꾸기
+          ></Button>
 
-        <Button
-          mode="cross"
-          icon={faShuffle}
-          onChangeBranch={modifyBranch} // parallel -> cross over로 바꾸기
-        ></Button>
-
+          <Button
+            mode="cross"
+            icon={faShuffle}
+            onChangeBranch={modifyBranch} // parallel -> cross over로 바꾸기
+          ></Button>
+        </>
+      }
         <Button
           mode="save"
           icon={faFloppyDisk}
