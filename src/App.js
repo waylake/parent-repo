@@ -45,7 +45,7 @@ function App() {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState([]);
   const [isOriginal, setIsOriginal] = useState(false);
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
@@ -335,8 +335,7 @@ function App() {
                 }}
                 onClickAnnotation={(e) => {
                   setClicked(true);
-                  let eleArr = highlight(e, clicked, infoDict);
-                  setClicked(eleArr);
+                  highlight(e, clicked, infoDict);
                 }}
               ></Plot>
               <div className="buttonDiv">{content}</div>
