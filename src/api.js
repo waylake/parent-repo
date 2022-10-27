@@ -28,6 +28,7 @@ export const myRequest = async (nctid) => {
         console.log("cannot fetch error");
       }
     }
+    console.log(req);
     return req.data;
   } catch (e) {
     console.log(e);

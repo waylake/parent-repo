@@ -156,8 +156,10 @@ function App() {
   };
 
   const drawGraph = (json) => { //모식도 그리기 함수
-    const information = getInfo(json);
     //drug가 아닌 경우 모식도 생성X
+    if (json?.message) throw json.message
+    const information = getInfo(json);
+
     const visualizationInformation = visualization(information);
     //data
     const newData = visualizationInformation.Gdata;
@@ -230,7 +232,15 @@ function App() {
       setMode("read");
     }
     catch (error) {
-      alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
+      if (error === "It is keyError")
+        alert("keyError가 발생하며, 잘못된 url 또는 NCTID일 가능성이 높습니다.");
+      else if (error === "It is observational")
+        alert("해당 임상시험은 Study Type이 Observational이기 때문에 모식도를 생성하지 않습니다.");
+      else if (error.message ===
+        "Cannot read properties of undefined (reading 'Duration')")
+        // else if (error === TypeError)
+        alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
+      // else alert(error);
     }
   };
 
