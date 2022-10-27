@@ -11,7 +11,7 @@ function Search({ onCreate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreate(e.target.url.value);
+    onCreate(e.target.url.value.toUpperCase());
     // document.getElementById("clicked").style.cursor="wait";
   }
 

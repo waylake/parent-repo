@@ -157,26 +157,25 @@ function App() {
 
   const drawGraph = (json) => { //모식도 그리기 함수
     const information = getInfo(json);
-    try { //drug가 아닌 경우 모식도 생성X
-      const visualizationInformation = visualization(information);
-      //data
-      const newData = visualizationInformation.Gdata;
-      //Layout
-      const newLayout = visualizationInformation.Glayout;
-      //Config
-      const newConfig = visualizationInformation.Gconfig;
+    //drug가 아닌 경우 모식도 생성X
+    const visualizationInformation = visualization(information);
+    //data
+    const newData = visualizationInformation.Gdata;
+    //Layout
+    const newLayout = visualizationInformation.Glayout;
+    //Config
+    const newConfig = visualizationInformation.Gconfig;
 
-      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
-        setisBranchButton(true);
-      else setisBranchButton(false);
-      setData(newData);
-      setLayout(newLayout);
-      setConfig(newConfig);
-      setInfoDict(json);
 
-    } catch (error) {
-      alert("This trial is not supported")
-    }
+    if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+      setisBranchButton(true);
+    else setisBranchButton(false);
+    setData(newData);
+    setLayout(newLayout);
+    setConfig(newConfig);
+    setInfoDict(json);
+
+
   };
 
   const initial = (e) => {
@@ -225,9 +224,14 @@ function App() {
       setLoading(false);
     }
     setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-    drawGraph(result);
-    setVisible(true);
-    setMode("read");
+    try {
+      drawGraph(result);
+      setVisible(true);
+      setMode("read");
+    }
+    catch (error) {
+      alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
+    }
   };
 
 
