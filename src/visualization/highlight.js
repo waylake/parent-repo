@@ -9,19 +9,105 @@ function getIndex(queryArr, targetStr) {
   return arr;
 }
 
+function getEle(index, startIndex, endIndex, isArr, designModel) {
+  isArr = false;
+  let intervenStartIndex = startIndex;
+  let intervenEndIndex = endIndex;
+
+  let elem;
+  let idxArr;
+  let interElemArr = [];
+  //------------------------------------------------------------
+  // e.index: 1~13 은 공통임.
+  // condition
+  if (index === 1) {
+    elem = document.querySelector(
+      "#tab-body > div > div:nth-child(1) > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(1)"
+    );
+  }
+  // gender, healthy volunteer
+  else if (index >= 2 && index <= 3) {
+    let tags = document.querySelector(
+      "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody"
+    );
+    let order = index;
+    elem = tags.querySelector("tr:nth-child(" + String(order) + ")");
+  }
+  // min & max age
+  else if (index >= 4 && index <= 5) {
+    elem = document.querySelector(
+      "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody > tr:nth-child(1)"
+    );
+  }
+  // masking, enrollment, allocation, officialTitle, duration
+  else if ((index >= 6 && index <= 8) || index === 12 || index === 13) {
+    isArr = true; // not to implement style change in bottom of file.
+    let studydesigns = document.querySelectorAll(
+      "#tab-body > div > div:nth-child(1) > table > tbody > tr"
+    );
+    if (index === 6) idxArr = getIndex(studydesigns, "Masking");
+    else if (index === 7) idxArr = getIndex(studydesigns, "Enrollment");
+    else if (index === 8) idxArr = getIndex(studydesigns, "Allocation");
+    else if (index === 12) idxArr = getIndex(studydesigns, "Title");
+    else if (index === 13) idxArr = getIndex(studydesigns, "Date");
+
+    idxArr.forEach((index) => {
+      elem = document.querySelector(
+        "#tab-body > div > div:nth-child(1) > table > tbody > tr:nth-child(" +
+          index +
+          ")"
+      );
+      interElemArr.push(elem);
+      elem.style.background = "#fff59d";
+    });
+  }
+  // ratio
+  else if (index === 9) {
+    // n=x인 부분만 쳐야됨
+  }
+  // objective
+  else if (index === 10) {
+    // elem = document.querySelector("");
+    // title과 brief summary에서 가져옴.
+  }
+  // title
+  else if (index === 11) {
+    elem = document.querySelector("#main-content > div.tr-indent2 > h1");
+  }
+
+  //// 공통이 아닌 부분!!
+  // 각 군별 intervention과 washout period 처리
+  else if (index >= intervenStartIndex && index < intervenEndIndex) {
+    let tags = document.querySelector(
+      "#tab-body > div > div:nth-child(3) > table"
+    ); // intervention query
+
+    let nthIntervenIndex = index - intervenStartIndex;
+    let order = index - intervenStartIndex;
+    if (designModel != "Crossover Assignment")
+      order = Math.floor(nthIntervenIndex / 2); // 기간까지 표시하기 위함
+    elem = tags.querySelector(
+      "tbody > tr:nth-child(" + String(order + 1) + ")"
+    );
+  }
+
+  // crossover의 washout
+  else if (index >= intervenEndIndex) {
+    // 필요하다면 단어만 하이라이트도 필요. 일단은 표 전체를 하이라이트!
+    elem = document.querySelector(
+      "#tab-body > div > div:nth-child(3) > table > tbody"
+    );
+  }
+  let result_elements = [elem, interElemArr, isArr];
+  return result_elements;
+}
+
 export function highlight(e, clicked, infos) {
   // initialize
   let annotations = document.getElementsByClassName("annotation");
   let len_annos = annotations.length;
   console.log(annotations);
-
-  if (clicked[0]) {
-    clicked[0].style.background = "white";
-  } else if (clicked[1]) {
-    for (let q = 0; q < clicked[1].length; q++) {
-      clicked[1][q].style.background = "white";
-    }
-  }
+  console.log(e.annotation.text);
 
   let isArr = false;
 
@@ -41,90 +127,139 @@ export function highlight(e, clicked, infos) {
     intervenEndIndex = len_annos;
   }
 
-  let elem;
-  let idxArr;
-  //------------------------------------------------------------
-  // e.index: 1~13 은 공통임.
-  // condition
-  if (e.index === 1) {
-    elem = document.querySelector(
-      "#tab-body > div > div:nth-child(1) > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(1)"
-    );
-  }
-  // gender, healthy volunteer
-  else if (e.index >= 2 && e.index <= 3) {
-    let tags = document.querySelector(
-      "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody"
-    );
-    let order = e.index;
-    elem = tags.querySelector("tr:nth-child(" + String(order) + ")");
-  }
-  // min & max age
-  else if (e.index >= 4 && e.index <= 5) {
-    elem = document.querySelector(
-      "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody > tr:nth-child(1)"
-    );
-  }
-  // masking, enrollment, allocation, officialTitle, duration
-  else if ((e.index >= 6 && e.index <= 8) || e.index === 12 || e.index === 13) {
-    isArr = true; // not to implement style change in bottom of file.
-    let studydesigns = document.querySelectorAll(
-      "#tab-body > div > div:nth-child(1) > table > tbody > tr"
-    );
-    if (e.index === 6) idxArr = getIndex(studydesigns, "Masking");
-    else if (e.index === 7) idxArr = getIndex(studydesigns, "Enrollment");
-    else if (e.index === 8) idxArr = getIndex(studydesigns, "Allocation");
-    else if (e.index === 12) idxArr = getIndex(studydesigns, "Title");
-    else if (e.index === 13) idxArr = getIndex(studydesigns, "Date");
+  // //------------------------------------------------------------
+  // // e.index: 1~13 은 공통임.
+  // // condition
+  // if (e.index === 1) {
+  //   elem = document.querySelector(
+  //     "#tab-body > div > div:nth-child(1) > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(1)"
+  //   );
+  // }
+  // // gender, healthy volunteer
+  // else if (e.index >= 2 && e.index <= 3) {
+  //   let tags = document.querySelector(
+  //     "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody"
+  //   );
+  //   let order = e.index;
+  //   elem = tags.querySelector("tr:nth-child(" + String(order) + ")");
+  // }
+  // // min & max age
+  // else if (e.index >= 4 && e.index <= 5) {
+  //   elem = document.querySelector(
+  //     "#tab-body > div > div:nth-child(9) > div:nth-child(6) > table > tbody > tr:nth-child(1)"
+  //   );
+  // }
+  // // masking, enrollment, allocation, officialTitle, duration
+  // else if ((e.index >= 6 && e.index <= 8) || e.index === 12 || e.index === 13) {
+  //   isArr = true; // not to implement style change in bottom of file.
+  //   let studydesigns = document.querySelectorAll(
+  //     "#tab-body > div > div:nth-child(1) > table > tbody > tr"
+  //   );
+  //   if (e.index === 6) idxArr = getIndex(studydesigns, "Masking");
+  //   else if (e.index === 7) idxArr = getIndex(studydesigns, "Enrollment");
+  //   else if (e.index === 8) idxArr = getIndex(studydesigns, "Allocation");
+  //   else if (e.index === 12) idxArr = getIndex(studydesigns, "Title");
+  //   else if (e.index === 13) idxArr = getIndex(studydesigns, "Date");
 
-    idxArr.forEach((index) => {
-      elem = document.querySelector(
-        "#tab-body > div > div:nth-child(1) > table > tbody > tr:nth-child(" +
-          index +
-          ")"
-      );
-      elem.style.background = "#fff59d";
-    });
-  }
-  // ratio
-  else if (e.index === 9) {
-    // n=x인 부분만 쳐야됨
-  }
-  // objective
-  else if (e.index === 10) {
-    // elem = document.querySelector("");
-    // title과 brief summary에서 가져옴.
-  }
-  // title
-  else if (e.index === 11) {
-    elem = document.querySelector("#main-content > div.tr-indent2 > h1");
-  }
+  //   idxArr.forEach((index) => {
+  //     elem = document.querySelector(
+  //       "#tab-body > div > div:nth-child(1) > table > tbody > tr:nth-child(" +
+  //         index +
+  //         ")"
+  //     );
+  //     interElemArr.push(elem);
+  //     elem.style.background = "#fff59d";
+  //   });
+  // }
+  // // ratio
+  // else if (e.index === 9) {
+  //   // n=x인 부분만 쳐야됨
+  // }
+  // // objective
+  // else if (e.index === 10) {
+  //   // elem = document.querySelector("");
+  //   // title과 brief summary에서 가져옴.
+  // }
+  // // title
+  // else if (e.index === 11) {
+  //   elem = document.querySelector("#main-content > div.tr-indent2 > h1");
+  // }
 
-  //// 공통이 아닌 부분!!
-  // 각 군별 intervention과 washout period 처리
-  else if (e.index >= intervenStartIndex && e.index < intervenEndIndex) {
-    let tags = document.querySelector(
-      "#tab-body > div > div:nth-child(3) > table"
-    ); // intervention query
+  // //// 공통이 아닌 부분!!
+  // // 각 군별 intervention과 washout period 처리
+  // else if (e.index >= intervenStartIndex && e.index < intervenEndIndex) {
+  //   let tags = document.querySelector(
+  //     "#tab-body > div > div:nth-child(3) > table"
+  //   ); // intervention query
 
-    let nthIntervenIndex = e.index - intervenStartIndex;
-    let order = e.index - intervenStartIndex;
-    if (designModel != "Crossover Assignment")
-      order = Math.floor(nthIntervenIndex / 2); // 기간까지 표시하기 위함
-    elem = tags.querySelector(
-      "tbody > tr:nth-child(" + String(order + 1) + ")"
-    );
-  }
+  //   let nthIntervenIndex = e.index - intervenStartIndex;
+  //   let order = e.index - intervenStartIndex;
+  //   if (designModel != "Crossover Assignment")
+  //     order = Math.floor(nthIntervenIndex / 2); // 기간까지 표시하기 위함
+  //   elem = tags.querySelector(
+  //     "tbody > tr:nth-child(" + String(order + 1) + ")"
+  //   );
+  // }
 
-  // crossover의 washout
-  else if (e.index >= intervenEndIndex) {
-    // 필요하다면 단어만 하이라이트도 필요. 일단은 표 전체를 하이라이트!
-    elem = document.querySelector(
-      "#tab-body > div > div:nth-child(3) > table > tbody"
-    );
-  }
+  // // crossover의 washout
+  // else if (e.index >= intervenEndIndex) {
+  //   // 필요하다면 단어만 하이라이트도 필요. 일단은 표 전체를 하이라이트!
+  //   elem = document.querySelector(
+  //     "#tab-body > div > div:nth-child(3) > table > tbody"
+  //   );
+  // }
   // based on query 'elem', change background color!
-  if (isArr === false) elem.style.background = "#fff59d";
+  let elem_high = getEle(
+    e.index,
+    intervenStartIndex,
+    intervenEndIndex,
+    isArr,
+    designModel
+  );
+  //console.log("elem_highlight", elem_high);
+  if (isArr === false) {
+    elem_high[0].style.background = "#fff59d";
+    console.log(e.annotation, " ", elem_high[0])
+  }
 
-  return [elem, idxArr];
+  // remove existing highlight
+  for (let q = 1; q < len_annos; q++) {
+    if (q === e.index) {
+      console.log("continue for loop! ", q);
+      continue;
+    } else {
+      let elem;
+      let interElemArr;
+
+      let result_ele = getEle(
+        q,
+        intervenStartIndex,
+        intervenEndIndex,
+        isArr,
+        designModel
+      );
+      elem = result_ele[0];
+      interElemArr = result_ele[1];
+      isArr = result_ele[2];
+      //console.log("remove highlight", q, result_ele);
+
+      if (typeof elem !== "undefined" || elem !== null) {
+        try {
+          if (e.annotation.text !== "") {
+            elem.style.background = "white";
+          }else{
+            continue;
+          }
+        } catch (error) {
+          console.log(q, " error ", result_ele);
+          console.log(error);
+          continue;
+        }
+      } else if (isArr === true) {
+        for (let p = 0; p < intervenEndIndex - intervenStartIndex; p++) {
+          interElemArr[p].style.background = "white";
+        }
+      }
+    }
+  }
 }
