@@ -235,7 +235,6 @@ function App() {
         "Cannot read properties of undefined (reading 'Duration')")
         // else if (error === TypeError)
         alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
-      else alert(error);
     } finally {
       setLoading(false);
     }
