@@ -1,9 +1,8 @@
 #container {
-  height: 1200px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  background-color: rgb(223, 223, 223);
+  background-color: white;
 }
 #darkContainer {
   height: 1000px;
@@ -81,4 +80,19 @@
 .example {
   position: relative;
   /* bottom: 70px; */
+}
+
+#intro{
+  margin-top: 10%;
+  display: grid;
+  text-align: left;
+  justify-content: center;
+}
+#mainSentence{
+  color: darkblue;
+  font-size: 25px;
+}
+
+#description{
+  font-size: 16px;
 }

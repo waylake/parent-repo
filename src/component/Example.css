@@ -25,14 +25,20 @@
 .btn-group {
   visibility: hidden;
   position: absolute;
-  top: 41px;
+  top: 43px;
   left: 0px;
 }
 
 .btn-group button {
   padding: 5px 30px;
-  background-color: white;
-  color: rgba(10, 76, 138, 0.671);
-  border: none;
-  margin: 2px;
+  border-radius: 2px;
+  width: 170px;
+  background-color: rgba(121, 158, 193, 0.901);
+  color: white;
+  border: darkblue 0.5px;
+  margin-top: 1px;
+}
+
+.btn-group button:hover {
+  background-color: rgba(38, 106, 169, 0.901);
 }
