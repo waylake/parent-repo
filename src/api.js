@@ -19,17 +19,14 @@ export const getRequest = async (nctid) => {
 };
 
 //axios를 위한 함수
-export const myRequest = async (nctid) => {
+export const myRequest = async (json) => {
   // console.log(nctid);
   try {
     const retries = 2;
-    let body = {
-      url: nctid,
-    };
     let req;
     for (let q = 0; q < retries; q++) {
       try {
-        req = await axios.post(url+`/api`, body);
+        req = await axios.post(url+`/api`, json);
         if (req) {
           break;
         } else {

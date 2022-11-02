@@ -216,11 +216,13 @@ function App() {
     let result;
     let result_text = "<div id='wrapper'></div>";
     const Parser = require("html-react-parser");
+
+    let url = keyword.url;
     try {
       setLoading(true);
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
-      result_text += await myCrawling(keyword);
+      result_text += await myCrawling(url);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
       drawGraph(result);
       setVisible(true);
@@ -335,12 +337,15 @@ function App() {
 
   return (
     <div>
-      <div id="intro">
-        <div id="mainSentence">Browse 300.000+ ClinicalTrial Schematic Diagram</div>
-        <div id="description">Explore, search and find ClinicalTrial Schematic Diagram for your future experiment and project.<br/>
-          Edit and Download ClinicalTrial Schematic Diagrams.</div>
-      </div>
       <div id={loading ? "darkContainer" : "container"}>
+        <div id="intro">
+          <div>
+            <div id="mainSentence">Browse 300.000+ ClinicalTrial Schematic Diagram</div>
+            <div id="description">Explore, search and find ClinicalTrial Schematic Diagram for your future experiment and project.<br />
+              Edit and Download ClinicalTrial Schematic Diagrams.
+            </div>
+          </div>
+        </div>
         <div className="url">
           <Search onCreate={clickCreate}></Search>
           <div className="example">
