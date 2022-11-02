@@ -51,6 +51,7 @@ function App() {
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
+  const [api, setApi] = useState("acm");
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -334,6 +335,11 @@ function App() {
 
   return (
     <div>
+      <div id="intro">
+        <div id="mainSentence">Browse 300.000+ ClinicalTrial Schematic Diagram</div>
+        <div id="description">Explore, search and find ClinicalTrial Schematic Diagram for your future experiment and project.<br/>
+          Edit and Download ClinicalTrial Schematic Diagrams.</div>
+      </div>
       <div id={loading ? "darkContainer" : "container"}>
         <div className="url">
           <Search onCreate={clickCreate}></Search>
