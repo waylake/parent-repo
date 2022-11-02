@@ -25,8 +25,8 @@
   width: 800px;
   height: 800px;
   overflow: scroll;
-  border: 1px solid black;
-  margin: 10px;
+  /* border: 1px solid black;
+  margin: 10px; */
 }
 
 #plot {
@@ -57,9 +57,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 0;
-  padding-top: 0;
-  margin-bottom: 40px;
 }
 
 .questionIcon {

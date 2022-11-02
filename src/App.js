@@ -30,6 +30,12 @@ import "./css/trial-record.css";
 import Loading from "./component/Loading";
 import { highlight } from "./visualization/highlight";
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 function App() {
   const [infoDict, setInfoDict] = useState();
 
@@ -356,7 +362,16 @@ function App() {
         </div>
         {visible && (
           <div className="contents">
-            <div id="original">{text}</div>
+            <div id="original">
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1a-content">
+                  <Typography>Original Text</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {text}
+                </AccordionDetails>
+              </Accordion>
+            </div>
             <div
               id="draggable"
               draggable="true"
