@@ -29,12 +29,7 @@ import "./css/print.css";
 import "./css/trial-record.css";
 import Loading from "./component/Loading";
 import { highlight } from "./visualization/highlight";
-
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { DrawOriginalText } from "./component/OriginalText";
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -165,6 +160,7 @@ function App() {
   const drawGraph = (json) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
     const information = getInfo(json);
+    console.log(information);
 
     const visualizationInformation = visualization(information);
     //data
@@ -363,14 +359,7 @@ function App() {
         {visible && (
           <div className="contents">
             <div id="original">
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1a-content">
-                  <Typography>Original Text</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {text}
-                </AccordionDetails>
-              </Accordion>
+              <DrawOriginalText txt={text}></DrawOriginalText>
             </div>
             <div
               id="draggable"
