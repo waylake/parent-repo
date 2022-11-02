@@ -496,7 +496,7 @@ export function writeIntervention(
           captureevents: true,
         };
         let interDur = {
-          x: textStartX + armGArrowW - 0.3,
+          x: textStartX + armGArrowW - 1.3,
           y:
             testStartY -
             i * (startH / (numBranchLimit - 1)) +

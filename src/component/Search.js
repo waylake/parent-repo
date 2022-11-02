@@ -13,7 +13,13 @@ function Search({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setApi(e.target.api.value);
-    onCreate(e.target.url.value);
+    if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT")
+      onCreate(e.target.url.value.toUpperCase());
+    else {
+      console.log(e.target.url.value);
+      onCreate(e.target.url.value);
+    }
+    // document.getElementById("clicked").style.cursor="wait";
   }
 
   return (

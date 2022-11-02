@@ -157,27 +157,27 @@ function App() {
   };
 
   const drawGraph = (json) => { //모식도 그리기 함수
+    //drug가 아닌 경우 모식도 생성X
     const information = getInfo(json);
-    try { //drug가 아닌 경우 모식도 생성X
-      const visualizationInformation = visualization(information);
-      //data
-      const newData = visualizationInformation.Gdata;
-      //Layout
-      const newLayout = visualizationInformation.Glayout;
-      //Config
-      const newConfig = visualizationInformation.Gconfig;
 
-      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
-        setisBranchButton(true);
-      else setisBranchButton(false);
-      setData(newData);
-      setLayout(newLayout);
-      setConfig(newConfig);
-      setInfoDict(json);
+    const visualizationInformation = visualization(information);
+    //data
+    const newData = visualizationInformation.Gdata;
+    //Layout
+    const newLayout = visualizationInformation.Glayout;
+    //Config
+    const newConfig = visualizationInformation.Gconfig;
 
-    } catch (error) {
-      alert("This trial is not supported")
-    }
+
+    if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+      setisBranchButton(true);
+    else setisBranchButton(false);
+    setData(newData);
+    setLayout(newLayout);
+    setConfig(newConfig);
+    setInfoDict(json);
+
+
   };
 
   const initial = (e) => {
@@ -219,16 +219,27 @@ function App() {
     try {
       setLoading(true);
       result = await myRequest(keyword);
+      if (result?.message) throw result.message;
       result_text += await myCrawling(keyword);
-    } catch {
-      console.log("error");
+      setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+      drawGraph(result);
+      setVisible(true);
+      setMode("read");
+    } catch (error) {
+      if (error === "It is keyError")
+        alert("keyError가 발생하며, 잘못된 url 또는 NCTID일 가능성이 높습니다.");
+      else if (error === "It is observational")
+        alert("해당 임상시험은 Study Type이 Observational이기 때문에 모식도를 생성하지 않습니다.");
+      else if (error === "It is not nctID")
+        alert("잘못된 url 또는 NCTID 입니다.");
+      else if (error.message ===
+        "Cannot read properties of undefined (reading 'Duration')")
+        // else if (error === TypeError)
+        alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
     } finally {
       setLoading(false);
     }
-    setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-    drawGraph(result);
-    setVisible(true);
-    setMode("read");
+
   };
 
 
