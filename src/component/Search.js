@@ -12,12 +12,22 @@ function Search({ onCreate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let requestJson;
     setApi(e.target.api.value);
-    if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT")
-      onCreate(e.target.url.value.toUpperCase());
+    if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT") {
+      requestJson = {
+        api : String(e.target.api.value),
+        url: e.target.url.value.toUpperCase()
+      };
+      console.log("hola", requestJson);
+      onCreate(requestJson);
+    }
     else {
-      console.log(e.target.url.value);
-      onCreate(e.target.url.value);
+      requestJson = {
+        api: String(e.target.api.value),
+        url: e.target.url.value
+      };
+      onCreate(requestJson);
     }
     // document.getElementById("clicked").style.cursor="wait";
   }
