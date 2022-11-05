@@ -35,7 +35,7 @@ function Search({ onCreate }) {
   return (
     <div className="searchbar">
       <form onSubmit={handleSubmit}>
-        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+        <svg id="glass" version="1.0" xmlns="http://www.w3.org/2000/svg"
           width="1235.000000pt" height="1280.000000pt" viewBox="0 0 1235.000000 1280.000000"
           preserveAspectRatio="xMidYMid meet">
           <metadata>

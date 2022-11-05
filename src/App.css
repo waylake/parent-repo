@@ -5,7 +5,7 @@
   background-color: white;
 }
 #darkContainer {
-  height: 1000px;
+  height: 1500px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
