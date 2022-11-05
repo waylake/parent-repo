@@ -29,6 +29,7 @@ import "./css/print.css";
 import "./css/trial-record.css";
 import Loading from "./component/Loading";
 import { highlight } from "./visualization/highlight";
+import { DrawOriginalText } from "./component/OriginalText";
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -159,6 +160,7 @@ function App() {
   const drawGraph = (json) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
     const information = getInfo(json);
+    console.log(information);
 
     const visualizationInformation = visualization(information);
     //data
@@ -356,7 +358,9 @@ function App() {
         </div>
         {visible && (
           <div className="contents">
-            <div id="original">{text}</div>
+            <div id="original">
+              <DrawOriginalText txt={text}></DrawOriginalText>
+            </div>
             <div
               id="draggable"
               draggable="true"
