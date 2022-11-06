@@ -4,6 +4,7 @@
   grid-template-rows: repeat(2, 1fr);
   background-color: white;
 }
+
 #darkContainer {
   height: 1500px;
   display: grid;
@@ -25,8 +26,12 @@
   width: 800px;
   height: 800px;
   overflow: scroll;
+  -ms-overflow-style: none;
   /* border: 1px solid black;
   margin: 10px; */
+}
+#original::-webkit-scrollbar {
+  display: none;
 }
 
 #plot {
@@ -41,7 +46,7 @@
   background-color: rgba(0, 0, 0, 0);
   cursor: col-resize;
   height: 800px;
-  width: 2px;
+  width: 10px;
 }
 
 .buttonDiv {
