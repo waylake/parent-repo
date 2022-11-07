@@ -44,10 +44,13 @@ export const myRequest = async (json) => {
   }
 };
 
-export const writeImgRequest = async (imgSrc) => {
+export const writeImgRequest = async (imgSrc, nctID) => {
   let response;
   try {
-    response = await axios.post(url + '/img', { imgSrc: imgSrc });
+    response = await axios.post(url + '/img', {
+      imgSrc,
+      nctID
+    });
   }
   catch (error) {
     console.log(error);

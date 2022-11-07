@@ -57,6 +57,7 @@ function App() {
   const [initialSize, setInitialSize] = useState(null);
   const [home, setHome] = useState(0);
   const [imgArr, setImgArr] = useState([]);
+  const [nctArr, setNctArr] = useState([]);
   const [api, setApi] = useState("acm");
 
   const clikckBranch = (e) => {
@@ -350,10 +351,10 @@ function App() {
       const canvas = await html2canvas(graphImg);
       let url = canvas.toDataURL('image/png');
       url = url.replace("data:image/png;base64,", "");
-      console.log(url);
+
       let result;
       try {
-        result = await writeImgRequest(url);
+        result = await writeImgRequest(url, infoDict.NCTID);
       }
       catch (error) {
         console.log(error);
@@ -370,8 +371,9 @@ function App() {
     catch (error) {
       console.log(error);
     }
-    const { dataArr } = result;
-    setImgArr(dataArr);
+    const { images, ncts } = result;
+    setImgArr(images);
+    setNctArr(ncts);
   }
 
 
@@ -408,7 +410,7 @@ function App() {
             <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onClick={clickCreate} />
           </div>
         </div>
-        {!visible && <div className="contents"><History imgArr={imgArr} /></div>}
+        {!visible && <div className="contents"><History imgArr={imgArr} nctArr={nctArr} onClick={clickCreate} /></div>}
         {visible && (
           <div className="contents">
             <div id="original">
