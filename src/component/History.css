@@ -3,15 +3,13 @@
   height: 250px;
   border-radius: 10px;
   box-shadow: 5px 5px 15px black;
+  cursor: pointer;
 }
 
 #img-list {
   list-style-type: none;
   display: flex;
   justify-content: space-around;
-}
-
-ul {
   margin: 50px;
   padding: 0px;
   width: 70%;
