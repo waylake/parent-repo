@@ -90,6 +90,8 @@ html {
 
 .example {
   display: flex;
+  padding-right: 200px;
+  padding-top: 80px;
 }
 
 #intro {
@@ -101,12 +103,25 @@ html {
   align-items: flex-end;
 }
 #mainSentence {
-  color: darkblue;
+
+  color: #1b7692;
+  font-weight: bold;
   font-size: 25px;
 }
 
+#servicename {
+
+  margin-top: 90px; 
+  color: #1b7692;
+  font-weight: bold;
+  font-size: 40px;
+}
+
 #description {
-  font-size: 16px;
+  font-size: 20px;
   padding: 0;
   margin: 0;
+}
+#moseekimg{
+  padding-top: 15px;
 }

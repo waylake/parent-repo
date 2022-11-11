@@ -6,11 +6,13 @@
 .searchbar input {
   border-radius: 10px;
   border: 1px solid rgba(9, 100, 135, 0.238);
-  padding: 6px 10px;
+  padding:10px 10px;
   font-size: 17px;
-  width: 500px;
+  width: 700px;
   font-family: "NanumGothic";
   outline: none;
+  margin-top: 50px; 
+
 }
 
 .searchbar button {
@@ -30,6 +32,7 @@
 }
 
 .searchbar {
+  height: 30px;
   margin: 30px;
 }
 
@@ -42,11 +45,11 @@ form{
   padding:0;
   margin:0 7px 0 7px;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: 30px auto;
 }
 
 #selectAPI input{
-  width: 20px;
+  width: 30px;
 }
 
 /* 
@@ -59,7 +62,11 @@ form > svg{
 } */
 
 #glass{
-  height: 25px;;
-  width: 25px;
+  height: 35px;;
+  width: 35px;
   margin-right: 3px;
+  margin-top: 50px; 
+}
+#clicked{
+  margin-top: 50px; 
 }

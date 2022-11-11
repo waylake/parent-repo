@@ -74,18 +74,18 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
           </g>
         </svg>
 
-        <input type="text" placeholder="Search for ClinicalTrial Schematic Diagram..." name="url" value={nctId} onChange={handleNctIdChange}></input>
+        <input type="text" placeholder="Enter NCTID or ClinicalTrial's gov URL" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <div id="selectAPI">
           <span>
             <input type="checkbox" name="api" value="acm" checked></input>
             <label for="acm">Only ACM</label>
           </span>
-          <span>
+          <span id="radio2">
             <input type="checkbox" name="api" value="biolink" ></input>
             <label for="biolink">ACM+Biolinkbert</label>
           </span>
         </div>
-        <button type="submit" id="clicked">Generate</button>
+        <button type="submit" id="clicked">모식도 생성</button>
       </form>
     </div>
 

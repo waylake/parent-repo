@@ -24,6 +24,7 @@ import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons
 import { faGripLines, faFileImport, faCircleQuestion, faShuffle, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 import armLabel from "./img/label.png";
+import armLabel2 from "./img/check1.png";
 import "./css/w3-ct.css";
 import "./css/print.css";
 import "./css/trial-record.css";
@@ -396,9 +397,10 @@ function App() {
       <div id={loading ? "darkContainer" : "container"}>
         <div id="intro">
           <div>
-            <div id="mainSentence">Browse 300.000+ ClinicalTrial Schematic Diagram</div>
-            <div id="description">Explore, search and find ClinicalTrial Schematic Diagram for your future experiment and project.<br />
-              Edit and Download ClinicalTrial Schematic Diagrams.
+            <div id="servicename">Moseek<img id="moseekimg" src={armLabel2} alt="armlabel2" /></div>
+            <div id="mainSentence">Generate ClinicalTrial Schematic Diagram automatically</div>
+            <div id="description">Our service 'Moseek' will Automatically draw ClinicalTrial Schematic Diagram for your future experiment and project.<br />
+              Edit detail inforamtion or branch design and Download it is possible.
             </div>
           </div>
         </div>
