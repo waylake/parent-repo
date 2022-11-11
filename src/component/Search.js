@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Search.css";
+import Example from "./Example";
 
 
 function Search({ onCreate }) {
@@ -16,7 +17,7 @@ function Search({ onCreate }) {
     setApi(e.target.api.value);
     if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT") {
       requestJson = {
-        api : String(e.target.api.value),
+        api: String(e.target.api.value),
         url: e.target.url.value.toUpperCase()
       };
       console.log("hola", requestJson);
@@ -29,7 +30,10 @@ function Search({ onCreate }) {
       };
       onCreate(requestJson);
     }
-    // document.getElementById("clicked").style.cursor="wait";
+  }
+
+  const handleExampleClick = (nct) => {
+    setNctId(nct);
   }
 
   return (
@@ -73,6 +77,11 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
         </div>
         <button type="submit" id="clicked">Generate</button>
       </form>
+      <div className="example">
+        <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Crossover" nctIds={['NCT02040376', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
+      </div>
     </div>
 
   )

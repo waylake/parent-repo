@@ -1,11 +1,12 @@
 import "./Example.css";
-function Example({ name, nctIds, onClick }) {
+function Example({ name, nctIds, onCreate, onClick }) {
   const handleClick = (e) => {
     let requestJson = {
-      api : "acm",
+      api: "acm",
       url: e.target.value
     };
-    onClick(requestJson);
+    onCreate(requestJson);
+    onClick(e.target.value);
   }
   return (
     <div className="hover-div">
