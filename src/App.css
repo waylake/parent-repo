@@ -1,5 +1,5 @@
 html {
-  background-color: blanchedalmond;
+  background-color: #f6f1eb;
 }
 
 #container {
@@ -7,8 +7,9 @@ html {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
 
-  background-color: blanchedalmond;
+  background-color: #f6f1eb;
 }
+
 #darkContainer {
   height: 1500px;
   display: grid;
@@ -16,7 +17,7 @@ html {
   grid-template-rows: repeat(2, 1fr);
 
   filter: brightness(50%);
-  background-color: blanchedalmond;
+  background-color: #f6f1eb;
 }
 
 .contents {
@@ -27,12 +28,16 @@ html {
 
 #original {
   /* display: flex; */
-  background-color: white;
+  background-color: #f6f1eb;
   width: 800px;
   height: 800px;
   overflow: scroll;
+  -ms-overflow-style: none;
   /* border: 1px solid black;
   margin: 10px; */
+}
+#original::-webkit-scrollbar {
+  display: none;
 }
 
 #plot {
@@ -47,7 +52,7 @@ html {
   background-color: rgba(0, 0, 0, 0);
   cursor: col-resize;
   height: 800px;
-  width: 2px;
+  width: 10px;
 }
 
 .buttonDiv {
@@ -92,12 +97,20 @@ html {
   align-items: flex-end;
 }
 #mainSentence {
-  color: darkblue;
+  color: #1b7692;
+  font-weight: bold;
   font-size: 25px;
 }
 
+#servicename {
+  margin-top: 45px;
+  color: #1b7692;
+  font-weight: bold;
+  font-size: 40px;
+}
+
 #description {
-  font-size: 16px;
+  font-size: 20px;
   padding: 0;
   margin: 0;
 }
@@ -112,3 +125,6 @@ html {
 .modebar-group > a > svg::before {
   background-color: black;
 } */
+#moseekimg {
+  padding-top: 15px;
+}

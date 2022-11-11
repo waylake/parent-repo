@@ -13,11 +13,28 @@ function Search({ onCreate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let apiArr = Array.from(e.target.api);
+    console.log(apiArr[0].checked)
+    let sendAPI = "";
+    let apiList = [];
+    if (apiArr[0].checked === true) {
+      apiList.push('acm');
+      sendAPI += "acm";
+    }
+    // 두개 선택할 경우도 따로 처리해야됨.
+    else if (apiArr[1].checked === true) {
+      apiList.push('biolink');
+      sendAPI += "biolink";
+    }
+    if (!apiArr[0].checked && !apiArr[1].checked) {
+      alert("please select at least one api");
+    }
     let requestJson;
-    setApi(e.target.api.value);
+    // setApi(e.target.api.value);
     if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT") {
+      // api가 acm이면 acm버전 json을 / biolink면 biolinkbert 버전 json을 / acmbiolink면 두 버전의 json을 전달해줘야 한다.
       requestJson = {
-        api: String(e.target.api.value),
+        api: sendAPI,
         url: e.target.url.value.toUpperCase()
       };
       console.log("hola", requestJson);
@@ -25,7 +42,7 @@ function Search({ onCreate }) {
     }
     else {
       requestJson = {
-        api: String(e.target.api.value),
+        api: sendAPI,
         url: e.target.url.value
       };
       onCreate(requestJson);
@@ -64,18 +81,18 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
           </g>
         </svg>
 
-        <input type="text" placeholder="Search for ClinicalTrial Schematic Diagram..." name="url" value={nctId} onChange={handleNctIdChange}></input>
+        <input type="text" placeholder="Enter NCTID or ClinicalTrial's gov URL" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <div id="selectAPI">
           <span>
-            <input type="radio" name="api" value="acm" checked></input>
+            <input type="checkbox" name="api" value="acm"></input>
             <label for="acm">Only ACM</label>
           </span>
           <span>
-            <input type="radio" name="api" value="biolink"></input>
+            <input type="checkbox" name="api" value="biolink" ></input>
             <label for="biolink">ACM+Biolinkbert</label>
           </span>
         </div>
-        <button type="submit" id="clicked">Generate</button>
+        <button type="submit" id="clicked">모식도 생성</button>
       </form>
       <div className="example">
         <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
