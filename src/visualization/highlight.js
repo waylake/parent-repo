@@ -46,16 +46,16 @@ function getEle(index, startIndex, endIndex, isArr, designModel) {
       "#tab-body > div > div:nth-child(1) > table > tbody > tr"
     );
     if (index === 6) idxArr = getIndex(studydesigns, "Masking");
-    else if (index === 7) idxArr = getIndex(studydesigns, "Enrollment");
-    else if (index === 8) idxArr = getIndex(studydesigns, "Allocation");
-    else if (index === 12) idxArr = getIndex(studydesigns, "Title");
-    else if (index === 13) idxArr = getIndex(studydesigns, "Date");
+    else if (index === 7) { idxArr = getIndex(studydesigns, "Enrollment"); }
+    else if (index === 8) { idxArr = getIndex(studydesigns, "Allocation"); }
+    else if (index === 12) { idxArr = getIndex(studydesigns, "Title"); }
+    else if (index === 13) { idxArr = getIndex(studydesigns, "Date"); }
 
     idxArr.forEach((index) => {
       elem = document.querySelector(
         "#tab-body > div > div:nth-child(1) > table > tbody > tr:nth-child(" +
-          index +
-          ")"
+        index +
+        ")"
       );
       interElemArr.push(elem);
       elem.style.background = "#fff59d";
@@ -102,11 +102,11 @@ function getEle(index, startIndex, endIndex, isArr, designModel) {
   return result_elements;
 }
 
-export function highlight(e, clicked, infos) {
+export function highlight(e, infos) {
   // initialize
   let annotations = document.getElementsByClassName("annotation");
   let len_annos = annotations.length;
-  console.log(annotations);
+  // console.log(annotations);
   console.log(e.annotation.text);
 
   let isArr = false;
@@ -127,7 +127,7 @@ export function highlight(e, clicked, infos) {
     intervenEndIndex = len_annos;
   }
 
-  // //------------------------------------------------------------
+
   // // e.index: 1~13 은 공통임.
   // // condition
   // if (e.index === 1) {
@@ -208,6 +208,7 @@ export function highlight(e, clicked, infos) {
   //     "#tab-body > div > div:nth-child(3) > table > tbody"
   //   );
   // }
+
   // based on query 'elem', change background color!
   let elem_high = getEle(
     e.index,
@@ -241,18 +242,17 @@ export function highlight(e, clicked, infos) {
       elem = result_ele[0];
       interElemArr = result_ele[1];
       isArr = result_ele[2];
-      //console.log("remove highlight", q, result_ele);
 
       if (typeof elem !== "undefined" || elem !== null) {
         try {
           if (e.annotation.text !== "") {
             elem.style.background = "white";
-          }else{
+          } else {
             continue;
           }
         } catch (error) {
           console.log(q, " error ", result_ele);
-          console.log(error);
+          // console.log(error);
           continue;
         }
       } else if (isArr === true) {
