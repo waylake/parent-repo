@@ -90,9 +90,8 @@ html {
 
 .example {
   display: flex;
-  padding-right: 220px;
-  padding-top: 30px;
-  margin-right: 100px;
+  /* padding-right: 200px; */
+  padding-top: 40px;
 }
 
 #intro {
