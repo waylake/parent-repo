@@ -17,7 +17,7 @@ import { makeNewModel } from "./visualization/edit";
 import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest } from "./api";
 
 //state
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
@@ -435,7 +435,7 @@ function App() {
                 }}
                 onClickAnnotation={(e) => {
                   setClicked(true);
-                  highlight(e, clicked, infoDict);
+                  highlight(e, infoDict);
                 }}
               ></Plot>
               <div className="buttonDiv">{content}</div>
