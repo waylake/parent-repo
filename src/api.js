@@ -4,11 +4,11 @@ const prod = `http://3.35.243.113:5000`;
 const local = `http://localhost:5000`;
 
 // 개발자의 편의성을 위함. local에서 작업중이라면 7번의 isprod를 false로 바꿀것.
-let isprod = false;
+let isprod = true;
 let url;
-if(isprod){
+if (isprod) {
   url = prod;
-}else{
+} else {
   url = local;
 }
 
@@ -26,7 +26,7 @@ export const myRequest = async (json) => {
     let req;
     for (let q = 0; q < retries; q++) {
       try {
-        req = await axios.post(url+`/api`, json);
+        req = await axios.post(url + `/api`, json);
         if (req) {
           break;
         } else {
@@ -44,10 +44,37 @@ export const myRequest = async (json) => {
   }
 };
 
+export const writeImgRequest = async (imgSrc, nctID) => {
+  let response;
+  try {
+    response = await axios.post(url + '/img', {
+      imgSrc,
+      nctID
+    });
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+  return response.data;
+};
+
+export const readImgRequest = async () => {
+  let response;
+  try {
+    response = await axios.get(url + '/img');
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+  return response.data;
+}
+
 export const postRequest = async (json) => {
   let response;
   try {
-    response = await axios.post(url+'/create', json);
+    response = await axios.post(url + '/create', json);
   }
   catch (error) {
     console.log(error);
@@ -61,7 +88,7 @@ export const loadRequest = async (nctid) => {
   let response;
   let body = { url: nctid };
   try {
-    response = await axios.post(url+'/load', body);
+    response = await axios.post(url + '/load', body);
   }
   catch (error) {
     console.log(error);
@@ -80,7 +107,7 @@ export const myCrawling = async (nctid) => {
     let req;
     for (let q = 0; q < retries; q++) {
       try {
-        req = await axios.post(url+`/crawling`, body);
+        req = await axios.post(url + `/crawling`, body);
         if (req) {
           break;
         } else {

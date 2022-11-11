@@ -14,7 +14,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { postRequest, myRequest, myCrawling, loadRequest } from "./api";
+import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest } from "./api";
 
 //state
 import { useState} from "react";
@@ -30,6 +30,9 @@ import "./css/trial-record.css";
 import Loading from "./component/Loading";
 import { highlight } from "./visualization/highlight";
 import { DrawOriginalText } from "./component/OriginalText";
+
+import html2canvas from 'html2canvas';
+import History from "./component/History";
 
 function App() {
   const [infoDict, setInfoDict] = useState();
@@ -52,6 +55,9 @@ function App() {
   // these below are for resizable div contents.
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
+  const [home, setHome] = useState(0);
+  const [imgArr, setImgArr] = useState([]);
+  const [nctArr, setNctArr] = useState([]);
   const [api, setApi] = useState("acm");
 
   const clikckBranch = (e) => {
@@ -337,6 +343,54 @@ function App() {
     );
   }
 
+
+  const setImg = async () => {
+    const graphImg = document.querySelector("#plot > div.js-plotly-plot");
+
+    if (graphImg) {
+      const canvas = await html2canvas(graphImg);
+      let url = canvas.toDataURL('image/png');
+      url = url.replace("data:image/png;base64,", "");
+
+      let result;
+      try {
+        result = await writeImgRequest(url, infoDict.NCTID);
+      }
+      catch (error) {
+        console.log(error);
+      }
+
+    }
+  };
+
+  const getImg = async () => {
+    let result;
+    try {
+      result = await readImgRequest();
+    }
+    catch (error) {
+      console.log(error);
+    }
+    const { images, ncts } = result;
+    setImgArr(images);
+    setNctArr(ncts);
+  }
+
+
+
+
+
+  useEffect(() => {
+    setImg();
+
+  }, [infoDict]);
+
+  useEffect(() => {
+    getImg();
+  }, [home])
+
+
+
   return (
     <div>
       <div id={loading ? "darkContainer" : "container"}>
@@ -356,6 +410,7 @@ function App() {
             <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onClick={clickCreate} />
           </div>
         </div>
+        {!visible && <div className="contents"><History imgArr={imgArr} nctArr={nctArr} onClick={clickCreate} /></div>}
         {visible && (
           <div className="contents">
             <div id="original">
