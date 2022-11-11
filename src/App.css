@@ -57,15 +57,15 @@ html {
 
 .buttonDiv {
   position: absolute;
-  top: 1px;
-  right: 30px;
+  top: 2px;
+  right: 40px;
   display: flex;
 }
 
 .url {
   grid-column: 1/3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -88,12 +88,6 @@ html {
   visibility: visible;
 }
 
-.example {
-  display: flex;
-  /* padding-right: 200px; */
-  padding-top: 40px;
-}
-
 #intro {
   height: 200px;
   grid-column: 1/3;
@@ -103,15 +97,13 @@ html {
   align-items: flex-end;
 }
 #mainSentence {
-
   color: #1b7692;
   font-weight: bold;
   font-size: 25px;
 }
 
 #servicename {
-
-  margin-top: 45px; 
+  margin-top: 45px;
   color: #1b7692;
   font-weight: bold;
   font-size: 40px;
@@ -122,6 +114,17 @@ html {
   padding: 0;
   margin: 0;
 }
-#moseekimg{
+
+.modebar-group > a > svg {
+  font-size: 26px;
+}
+/* .modebar-group > a > svg::after {
+  background-color: black;
+  color: black;
+}
+.modebar-group > a > svg::before {
+  background-color: black;
+} */
+#moseekimg {
   padding-top: 15px;
 }

@@ -22,12 +22,12 @@ export function visualization(data) {
     shapes: [],
     annotations: [],
     yaxis: {
-      range: [],
+      range: [10, 11],
       showgrid: false,
       showticklabels: false,
     },
     width: 800,
-    height: 800,
+    height: 700,
     // autosize: true,
     xaxis: {
       range: [9, 27],
@@ -49,6 +49,10 @@ export function visualization(data) {
       showlegend: false,
     },
     dragmode: false,
+    modebar: {
+      color: "rgb(10, 76, 138)",
+      activecolor: "rgba(10, 76, 138, 0.5)",
+    }
   };
   let Gframes = [];
   let Gconfig = {
@@ -56,13 +60,8 @@ export function visualization(data) {
       annotationText: false,
     },
     modeBarButtons: [["toImage",],],
-    // modeBarButtonsToAdd: ['drawrect'],
-    // modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "zoom2d", "autoScale2d", 'lasso2d', 'select2d'],
     displayModeBar: true,
     displaylogo: false,
-    // fillFrame: true,
-    // frameMargins: 800,
-    // autosizable: true,
   };
 
   let startPoint = new Point(10, 10);

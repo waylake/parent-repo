@@ -122,7 +122,7 @@ export function drawInfoTrial(
           xanchor: "left",
           yanchor: "top",
           font: {
-            size: 11,
+            size: 13,
           },
           bordercolor: "#c7c7c7",
           align: "left",

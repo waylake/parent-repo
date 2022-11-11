@@ -6,14 +6,14 @@
 .searchbar input {
   border-radius: 10px;
   border: 1px solid rgba(9, 100, 135, 0.238);
-  padding:10px 10px;
+  padding: 10px 10px;
   font-size: 17px;
   width: 700px;
   font-family: "NanumGothic";
   outline: none;
 }
 
-.searchbar button {
+.searchbar > form > button {
   margin-left: 10px;
   color: white;
   background-color: rgba(10, 76, 138, 0.949);
@@ -25,7 +25,7 @@
   cursor: pointer;
   font-family: "NanumGothic";
 }
-.searchbar button:hover {
+.searchbar > form > button:hover {
   background-color: rgba(121, 158, 193, 0.901);
 }
 
@@ -34,19 +34,19 @@
   margin: 30px;
 }
 
-form{
+form {
   display: flex;
   align-items: center;
 }
 
-#selectAPI{
-  padding:0;
-  margin:0 7px 0 7px;
+#selectAPI {
+  padding: 0;
+  margin: 0 7px 0 7px;
   display: grid;
   grid-template-rows: 30px auto;
 }
 
-#selectAPI input{
+#selectAPI input {
   width: 30px;
 }
 
@@ -59,12 +59,14 @@ form > svg{
   margin-right: 3px;
 } */
 
-#glass{
-  height: 35px;;
+#glass {
+  height: 35px;
   width: 35px;
   margin-right: 3px;
-  
 }
-/* #clicked{
-  margin-top: 20px; 
-} */
+
+.example {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}

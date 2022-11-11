@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Search.css";
+import Example from "./Example";
 
 
 function Search({ onCreate }) {
@@ -16,16 +17,16 @@ function Search({ onCreate }) {
     console.log(apiArr[0].checked)
     let sendAPI = "";
     let apiList = [];
-    if(apiArr[0].checked === true){
+    if (apiArr[0].checked === true) {
       apiList.push('acm');
       sendAPI += "acm";
     }
     // 두개 선택할 경우도 따로 처리해야됨.
-    else if(apiArr[1].checked === true){
+    else if (apiArr[1].checked === true) {
       apiList.push('biolink');
       sendAPI += "biolink";
     }
-    if(!apiArr[0].checked && !apiArr[1].checked ){
+    if (!apiArr[0].checked && !apiArr[1].checked) {
       alert("please select at least one api");
     }
     let requestJson;
@@ -46,7 +47,10 @@ function Search({ onCreate }) {
       };
       onCreate(requestJson);
     }
-    // document.getElementById("clicked").style.cursor="wait";
+  }
+
+  const handleExampleClick = (nct) => {
+    setNctId(nct);
   }
 
   return (
@@ -90,6 +94,11 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
         </div>
         <button type="submit" id="clicked">모식도 생성</button>
       </form>
+      <div className="example">
+        <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Crossover" nctIds={['NCT02040376', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
+      </div>
     </div>
 
   )
