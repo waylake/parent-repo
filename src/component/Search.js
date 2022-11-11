@@ -25,6 +25,9 @@ function Search({ onCreate }) {
       apiList.push('biolink');
       sendAPI += "biolink";
     }
+    if(!apiArr[0].checked && !apiArr[1].checked ){
+      alert("please select at least one api");
+    }
     let requestJson;
     // setApi(e.target.api.value);
     if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT") {
@@ -77,10 +80,10 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
         <input type="text" placeholder="Enter NCTID or ClinicalTrial's gov URL" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <div id="selectAPI">
           <span>
-            <input type="checkbox" name="api" value="acm" checked></input>
+            <input type="checkbox" name="api" value="acm"></input>
             <label for="acm">Only ACM</label>
           </span>
-          <span id="radio2">
+          <span>
             <input type="checkbox" name="api" value="biolink" ></input>
             <label for="biolink">ACM+Biolinkbert</label>
           </span>
