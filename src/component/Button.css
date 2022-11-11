@@ -3,14 +3,14 @@
   height: 20px;
   width: 20px;
   z-index: 1;
-  font-size: 24px;
+  font-size: 26px;
   text-align: center;
   background-color: white;
   border: none;
-  color: rgb(199, 199, 199);
+  color: rgb(10, 76, 138);
   cursor: pointer;
   padding: 1px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .button.parallel::after,
@@ -21,7 +21,7 @@
 }
 
 .button:hover {
-  color: gray;
+  color: rgba(10, 76, 138, 0.5);
 }
 
 /* 말풍선 내용 내용 */
@@ -36,15 +36,15 @@
   font-size: 13px;
   z-index: 10;
   position: absolute;
-  top: 120%;
-  right: 1%;
+  top: 159%;
+  right: 15%;
 }
 
 /* 말풍선 꼬리 */
 .button::before {
   content: "";
   position: absolute;
-  top: 70%;
+  top: 110%;
   right: 25%;
   margin-left: -5px;
   border-width: 5px;

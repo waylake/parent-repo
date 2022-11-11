@@ -49,6 +49,10 @@ export function visualization(data) {
       showlegend: false,
     },
     dragmode: false,
+    modebar: {
+      color: "rgb(10, 76, 138)",
+      activecolor: "rgba(10, 76, 138, 0.5)",
+    }
   };
   let Gframes = [];
   let Gconfig = {

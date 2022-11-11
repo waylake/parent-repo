@@ -52,8 +52,8 @@ html {
 
 .buttonDiv {
   position: absolute;
-  top: 1px;
-  right: 30px;
+  top: 2px;
+  right: 40px;
   display: flex;
 }
 
@@ -101,3 +101,14 @@ html {
   padding: 0;
   margin: 0;
 }
+
+.modebar-group > a > svg {
+  font-size: 26px;
+}
+/* .modebar-group > a > svg::after {
+  background-color: black;
+  color: black;
+}
+.modebar-group > a > svg::before {
+  background-color: black;
+} */
