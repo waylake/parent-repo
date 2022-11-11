@@ -11,8 +11,6 @@
   width: 700px;
   font-family: "NanumGothic";
   outline: none;
-  margin-top: 50px; 
-
 }
 
 .searchbar button {
@@ -65,8 +63,8 @@ form > svg{
   height: 35px;;
   width: 35px;
   margin-right: 3px;
-  margin-top: 50px; 
+  
 }
-#clicked{
-  margin-top: 50px; 
-}
+/* #clicked{
+  margin-top: 20px; 
+} */

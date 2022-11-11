@@ -90,8 +90,9 @@ html {
 
 .example {
   display: flex;
-  padding-right: 200px;
-  padding-top: 80px;
+  padding-right: 220px;
+  padding-top: 30px;
+  margin-right: 100px;
 }
 
 #intro {
@@ -111,7 +112,7 @@ html {
 
 #servicename {
 
-  margin-top: 90px; 
+  margin-top: 45px; 
   color: #1b7692;
   font-weight: bold;
   font-size: 40px;
