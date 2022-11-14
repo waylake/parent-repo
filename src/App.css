@@ -75,17 +75,37 @@ html {
   position: absolute;
   top: 1px;
   left: 5px;
-  color: rgb(199, 199, 199);
+  font-size: 26px;
+  color: rgb(10, 76, 138);
 }
 
 .questionIcon img {
   visibility: hidden;
-  width: 150px;
+  width: 170px;
   position: absolute;
-  top: 100%;
-  left: 0px;
+  top: 115%;
+  left: 5%;
+  background-color: white;
+  border: solid 3px rgb(10, 76, 138);
+  padding: 2px;
 }
 .questionIcon:hover img {
+  visibility: visible;
+}
+
+.questionIcon::before {
+  content: "";
+  position: absolute;
+  top: 70%;
+  right: 10%;
+  margin-left: -5px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent rgb(10, 76, 138) transparent;
+  visibility: hidden;
+}
+
+.questionIcon:hover::before {
   visibility: visible;
 }
 
@@ -122,10 +142,16 @@ html {
 /* .modebar-group > a > svg::after {
   background-color: black;
   color: black;
+  background-color: #1b7692;
+  border: solid 100px blue;
 }
 .modebar-group > a > svg::before {
   background-color: black;
+  color: black;
+  background-color: #1b7692;
+  border: solid 100px blue;
 } */
+
 #moseekimg {
   padding-top: 15px;
 }

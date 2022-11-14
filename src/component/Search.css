@@ -39,11 +39,20 @@ form {
   align-items: center;
 }
 
+input[name="url"] {
+  flex-shrink: 2;
+}
+
+#clicked {
+  flex-shrink: 0;
+}
+
 #selectAPI {
   padding: 0;
   margin: 0 7px 0 7px;
   display: grid;
   grid-template-rows: 30px auto;
+  flex-shrink: 0;
 }
 
 #selectAPI input {
