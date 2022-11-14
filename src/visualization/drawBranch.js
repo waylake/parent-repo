@@ -4,7 +4,7 @@ export const armColorDict = {
   OtherS: "rgba(255, 210, 40, 1)", //gold
   "Active Comparator": "rgb(0, 191, 255)",
   "Placebo Comparator": "rgb(30, 144, 255)",
-  "No Intervention": "rgb(150, 165, 255)", // forest green
+  "No Intervention": "rgb(150, 165, 255)",
   Other: "rgb(0, 0, 255)", // 살짝 밝은 에메랄드
   "Sham Comparator": "rgb(20, 20, 140)", //blue
   None: "rgba(148, 20, 148, 1)", // violet
