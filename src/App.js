@@ -168,6 +168,7 @@ function App() {
 
   const drawGraph = (json) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
+    console.log(json);
     const information = getInfo(json);
     console.log(information);
 
@@ -234,6 +235,7 @@ function App() {
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
+      console.log(result_text);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
       drawGraph(result);
       setVisible(true);
@@ -262,7 +264,13 @@ function App() {
     // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
     const newInfoDict = { ...infoDict };
     const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
+    try {
+      changeInfoDict(newInfoDict, annot);
+    }
+    catch (error) {
+      console.log(error);
+    }
+
     try {
       result = await postRequest(newInfoDict);
     } catch (error) {
@@ -378,7 +386,9 @@ function App() {
     const { images, ncts } = result;
     setImgArr(images);
     setNctArr(ncts);
-  }
+  };
+
+
 
 
 
