@@ -17,7 +17,7 @@ import { makeNewModel } from "./visualization/edit";
 import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest } from "./api";
 
 //state
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
@@ -53,13 +53,15 @@ function App() {
   const [clicked, setClicked] = useState([]);
   const [isOriginal, setIsOriginal] = useState(false);
   const [isBranchButton, setisBranchButton] = useState(false);
-  // these below are for resizable div contents.
-  const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
   const [home, setHome] = useState(0);
   const [imgArr, setImgArr] = useState([]);
   const [nctArr, setNctArr] = useState([]);
   const [api, setApi] = useState("acm");
+  const [history, setHistory] = useState(0);
+
+  // these below are for resizable div contents.
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -236,6 +238,7 @@ function App() {
       drawGraph(result);
       setVisible(true);
       setMode("read");
+      setHistory(history + 1);
     } catch (error) {
       if (error === "It is keyError")
         alert("keyError가 발생하며, 잘못된 url 또는 NCTID일 가능성이 높습니다.");
@@ -384,7 +387,7 @@ function App() {
   useEffect(() => {
     setImg();
 
-  }, [infoDict]);
+  }, [history]);
 
   useEffect(() => {
     getImg();
