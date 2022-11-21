@@ -288,7 +288,7 @@ function App() {
   const loadEdited = async () => { // 원본 모식도 그리기
     let result;
     try {
-      result = await myRequest(infoDict.NCTID);
+      result = await myRequest({ url: infoDict.NCTID });
     } catch {
       console.log("error");
     }
