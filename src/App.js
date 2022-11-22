@@ -17,7 +17,7 @@ import { makeNewModel } from "./visualization/edit";
 import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest } from "./api";
 
 //state
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
@@ -53,13 +53,15 @@ function App() {
   const [clicked, setClicked] = useState([]);
   const [isOriginal, setIsOriginal] = useState(false);
   const [isBranchButton, setisBranchButton] = useState(false);
-  // these below are for resizable div contents.
-  const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
   const [home, setHome] = useState(0);
   const [imgArr, setImgArr] = useState([]);
   const [nctArr, setNctArr] = useState([]);
   const [api, setApi] = useState("acm");
+  const [history, setHistory] = useState(0);
+
+  // these below are for resizable div contents.
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
 
   const clikckBranch = (e) => {
     const newLayout = { ...layout };
@@ -166,6 +168,7 @@ function App() {
 
   const drawGraph = (json) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
+    console.log(json);
     const information = getInfo(json);
     console.log(information);
 
@@ -232,10 +235,12 @@ function App() {
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
+      console.log(result_text);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
       drawGraph(result);
       setVisible(true);
       setMode("read");
+      setHistory(history + 1);
     } catch (error) {
       if (error === "It is keyError")
         alert("keyError가 발생하며, 잘못된 url 또는 NCTID일 가능성이 높습니다.");
@@ -259,7 +264,13 @@ function App() {
     // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
     const newInfoDict = { ...infoDict };
     const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
+    try {
+      changeInfoDict(newInfoDict, annot);
+    }
+    catch (error) {
+      console.log(error);
+    }
+
     try {
       result = await postRequest(newInfoDict);
     } catch (error) {
@@ -285,7 +296,7 @@ function App() {
   const loadEdited = async () => { // 원본 모식도 그리기
     let result;
     try {
-      result = await myRequest(infoDict.NCTID);
+      result = await myRequest({ url: infoDict.NCTID });
     } catch {
       console.log("error");
     }
@@ -375,7 +386,9 @@ function App() {
     const { images, ncts } = result;
     setImgArr(images);
     setNctArr(ncts);
-  }
+  };
+
+
 
 
 
@@ -384,7 +397,7 @@ function App() {
   useEffect(() => {
     setImg();
 
-  }, [infoDict]);
+  }, [history]);
 
   useEffect(() => {
     getImg();
