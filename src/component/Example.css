@@ -1,12 +1,13 @@
 .hover-div {
   position: relative;
-  background-color: rgba(10, 76, 138, 1);
+  background-color: #0a4c8a;
   border-radius: 5px;
   color: white;
   display: inline-block;
   padding: 10px 20px;
   margin-right: 20px;
   width: 170px;
+  height: 45px;
   text-align: center;
   z-index: 200;
 }
@@ -25,13 +26,13 @@
 
 .btn-group {
   visibility: hidden;
-  position: absolute;
-  top: 43px;
-  left: 0px;
+  position: relative;
+  top: 13px;
+  left: -20px;
 }
 
 .btn-group button {
-  padding: 5px 30px;
+  padding: 5px 5px;
   border-radius: 2px;
   width: 170px;
   background-color: rgba(121, 158, 193, 0.901);
