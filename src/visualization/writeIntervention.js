@@ -1,6 +1,6 @@
 import { countLine } from "./drawPopulation";
 import { lineBreak } from "./drawInfoTrial";
-import { faTable } from "@fortawesome/free-solid-svg-icons";
+import { faCropSimple, faTable } from "@fortawesome/free-solid-svg-icons";
 
 export function writeIntervention(
   startPoint,
@@ -391,10 +391,11 @@ export function writeIntervention(
     for (let i = 0; i < numBranchLimit; i++) {
       drugInfo = armG.interventionDescription[i];
       drugDescription = "";
+      textStartX = armGLinePoint1.x + armGW + 0.1;
+      testStartY = startPoint.y + startH - 0.1;
       onlyDrug = "";
-      try {
-        textStartX = armGLinePoint1.x + armGW + 0.1;
-        testStartY = startPoint.y + startH - 0.1;
+
+      if (drugInfo.length !== 0) {
         let onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
         for (let j = 0; j < drugInfo.length; j++) {
           // 브랜치 위에 있는 글자
@@ -456,6 +457,8 @@ export function writeIntervention(
           showarrow: false,
           captureevents: true,
         };
+
+
         let interDur = {
           x: textStartX + armGArrowW,
           y:
@@ -477,8 +480,10 @@ export function writeIntervention(
           showarrow: false,
         };
         annotations.push(interObj, interDur);
-      } catch {
-        drugDescription = "No intervention";
+
+      }
+      else {
+        drugDescription = "No drug";
         let interObj = {
           x: textStartX,
           y: startPoint.y + startH - i * (startH / (numBranch - 1)),
@@ -489,7 +494,11 @@ export function writeIntervention(
             "<a href='#armgroup' target='_self' style='color:black;'>" +
             drugDescription +
             "</a>",
-          name: ["armGroup", "drug"],
+          name: {
+            type: "armGroup",
+            inJson: "DrugName",
+            idx: drugNameIdx++,
+          },
           font: {
             size: intervenFontSize,
           },
@@ -505,8 +514,12 @@ export function writeIntervention(
           xanchor: "left",
           yanchor: "bottom",
           align: "left",
-          text: armG.interventionDescription[1][0]["Duration"],
-          name: ["armGroup", "Duration"],
+          text: "empty",
+          name: {
+            type: "armGroup",
+            inJson: "Duration",
+            idx: durationIdx++,
+          },
           font: {
             size: intervenDurFontSize,
           },
