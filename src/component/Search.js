@@ -5,7 +5,6 @@ import Example from "./Example";
 
 function Search({ onCreate }) {
   const [nctId, setNctId] = useState();
-  const [api, setApi] = useState('acm');
 
   const handleNctIdChange = (e) => {
     setNctId(e.target.value);
@@ -14,44 +13,44 @@ function Search({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let apiArr = Array.from(e.target.api);
-    console.log(apiArr[0].checked)
     let sendAPI = "";
     let apiList = [];
+    console.log(apiArr);
     if (apiArr[0].checked === true) {
-      apiList.push('acm');
-      sendAPI += "acm";
+      apiList.push(apiArr[0].value);
+      sendAPI += apiArr[0].value;
     }
-    // 두개 선택할 경우도 따로 처리해야됨.
-    else if (apiArr[1].checked === true) {
-      apiList.push('biolink');
-      sendAPI += "biolink";
+    if (apiArr[1].checked === true) {
+      apiList.push(apiArr[1].value);
+      sendAPI += apiArr[1].value;
     }
+    // 두개 선택할 경우도 따로 처리해야됨
     if (!apiArr[0].checked && !apiArr[1].checked) {
       alert("please select at least one api");
     }
+
     let requestJson;
-    // setApi(e.target.api.value);
-    if (e.target.url.value.slice(0, 3).toUpperCase() === "NCT") {
-      // api가 acm이면 acm버전 json을 / biolink면 biolinkbert 버전 json을 / acmbiolink면 두 버전의 json을 전달해줘야 한다.
-      requestJson = {
-        api: sendAPI,
-        url: e.target.url.value.toUpperCase()
-      };
-      console.log("hola", requestJson);
-      onCreate(requestJson);
-    }
-    else {
-      requestJson = {
-        api: sendAPI,
-        url: e.target.url.value
-      };
-      onCreate(requestJson);
-    }
+    requestJson = {
+      // api: apiList,
+      api: sendAPI,
+      url: e.target.url.value.toUpperCase()
+    };
+    console.log("requestJson: ", requestJson);
+    onCreate(requestJson);
   }
 
   const handleExampleClick = (nct) => {
     setNctId(nct);
   }
+  // let checkVal = true
+  // const checkCheck = (e) => {
+  //   e.target.checked = !checkVal;
+  //   checkVal = !checkVal
+  // }
+
+  // const clickedfunc = (e) =>{
+  //   e.target.checked = true;
+  // }
 
   return (
     <div className="searchbar">
@@ -84,12 +83,12 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
         <input type="text" placeholder="Enter NCTID or ClinicalTrial's gov URL" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <div id="selectAPI">
           <span>
-            <input type="checkbox" name="api" value="acm"></input>
-            <label for="acm">Only ACM</label>
+            <input type="checkbox" name="api" value="biolink" checked></input>
+            <label for="biolink">ACM+Biolinkbert</label>
           </span>
           <span>
-            <input type="checkbox" name="api" value="biolink" ></input>
-            <label for="biolink">ACM+Biolinkbert</label>
+            <input type="checkbox" name="api" value="acm"></input>
+            <label for="acm">Only ACM</label>
           </span>
         </div>
         <button type="submit" id="clicked">모식도 생성</button>
