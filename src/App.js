@@ -17,7 +17,7 @@ import { makeNewModel } from "./visualization/edit";
 import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest } from "./api";
 
 //state
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
@@ -42,15 +42,24 @@ function App() {
   // 군 엄청 많아: NCT04844424
   // 약 엄청 많아: NCT02374567
 
-  const [data, setData] = useState();
-  const [layout, setLayout] = useState();
-  const [frames, setFrames] = useState();
-  const [config, setConfig] = useState();
+  // for biolinkbert version
+  const [dataBio, setDataBio] = useState();
+  const [layoutBio, setLayoutBio] = useState();
+  const [framesBio, setFramesBio] = useState();
+  const [configBio, setConfigBio] = useState();
+  const [isBio, setBio] = useState(true);
+  const [isTwo, setTwo] = useState(false);
+
+  // for acm version
+  const [dataAcm, setDataAcm] = useState();
+  const [layoutAcm, setLayoutAcm] = useState();
+  const [framesAcm, setFramesAcm] = useState();
+  const [configAcm, setConfigAcm] = useState();
+
   const [mode, setMode] = useState("read");
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
-  const [clicked, setClicked] = useState([]);
   const [isOriginal, setIsOriginal] = useState(false);
   const [isBranchButton, setisBranchButton] = useState(false);
   // these below are for resizable div contents.
@@ -59,32 +68,13 @@ function App() {
   const [home, setHome] = useState(0);
   const [imgArr, setImgArr] = useState([]);
   const [nctArr, setNctArr] = useState([]);
-  const [api, setApi] = useState("acm");
 
   const clikckBranch = (e) => {
-    const newLayout = { ...layout };
-    let selectedBranch = 0;
-    //branch 투명도
-    e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
-    //화살표 촉 투명도
-    for (let value of newLayout.shapes) {
-      if (
-        value.name &&
-        value.name.shape === "arrow" &&
-        value.name.idx === e.points[0].data.name.idx
-      ) {
-        value.opacity = value.opacity === 1 ? 0.3 : 1;
-      }
-    }
-    for (let value of data) {
-      //클릭된 개수 세기
-      selectedBranch =
-        value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
-    }
-    if (selectedBranch >= 3) {
+    if (isBio) {
+      const newLayout = { ...layoutBio };
+      let selectedBranch = 0;
       //branch 투명도
-      alert("두개 까지만 선택 가능합니다.");
-      e.points[0].data.opacity = 1;
+      e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
       //화살표 촉 투명도
       for (let value of newLayout.shapes) {
         if (
@@ -92,101 +82,240 @@ function App() {
           value.name.shape === "arrow" &&
           value.name.idx === e.points[0].data.name.idx
         ) {
-          value.opacity = 1;
+          value.opacity = value.opacity === 1 ? 0.3 : 1;
         }
       }
+      for (let value of dataBio) {
+        //클릭된 개수 세기
+        selectedBranch =
+          value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+      }
+      if (selectedBranch >= 3) {
+        //branch 투명도
+        alert("두개 까지만 선택 가능합니다.");
+        e.points[0].data.opacity = 1;
+        //화살표 촉 투명도
+        for (let value of newLayout.shapes) {
+          if (
+            value.name &&
+            value.name.shape === "arrow" &&
+            value.name.idx === e.points[0].data.name.idx
+          ) {
+            value.opacity = 1;
+          }
+        }
+      }
+      const newData = [...dataBio];
+      setDataBio(newData);
+      setLayoutBio(newLayout);
     }
-    const newData = [...data];
-    setData(newData);
-    setLayout(newLayout);
+    // if is Bio isn't selected
+    else {
+      const newLayout = { ...layoutAcm };
+      let selectedBranch = 0;
+      //branch 투명도
+      e.points[0].data.opacity = e.points[0].data.opacity === 1 ? 0.3 : 1;
+      //화살표 촉 투명도
+      for (let value of newLayout.shapes) {
+        if (
+          value.name &&
+          value.name.shape === "arrow" &&
+          value.name.idx === e.points[0].data.name.idx
+        ) {
+          value.opacity = value.opacity === 1 ? 0.3 : 1;
+        }
+      }
+      for (let value of dataAcm) {
+        //클릭된 개수 세기
+        selectedBranch =
+          value.opacity === 0.3 ? selectedBranch + 1 : selectedBranch;
+      }
+      if (selectedBranch >= 3) {
+        //branch 투명도
+        alert("두개 까지만 선택 가능합니다.");
+        e.points[0].data.opacity = 1;
+        //화살표 촉 투명도
+        for (let value of newLayout.shapes) {
+          if (
+            value.name &&
+            value.name.shape === "arrow" &&
+            value.name.idx === e.points[0].data.name.idx
+          ) {
+            value.opacity = 1;
+          }
+        }
+      }
+      const newData = [...dataAcm];
+      setDataAcm(newData);
+      setLayoutAcm(newLayout);
+    }
   };
 
   const modifyBranch = (branchToModified) => {
     //바뀔 인자값 넣기
-    const newInfoDict = { ...infoDict };
-    let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].opacity === 0.3) clickedBranchIdx.push(i);
-    }
+    if (isBio) {
+      const newInfoDict = { ...infoDict };
+      let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
+      for (let i = 0; i < dataBio.length; i++) {
+        if (dataBio[i].opacity === 0.3) clickedBranchIdx.push(i);
+      }
+      if (branchToModified === "cross") {
+        moveIdxFront(newInfoDict, clickedBranchIdx);
+        newInfoDict.DesignModel = makeNewModel(
+          newInfoDict.DesignModel,
+          newInfoDict.DrugInformation.ArmGroupList.length,
+          "+"
+        );
+      }
+      else {
+        newInfoDict.DesignModel = makeNewModel(
+          newInfoDict.DesignModel,
+          newInfoDict.DrugInformation.ArmGroupList.length,
+          "-"
+        );
+      }
 
-    if (branchToModified === "cross") {
-      moveIdxFront(newInfoDict, clickedBranchIdx);
-      newInfoDict.DesignModel = makeNewModel(
-        newInfoDict.DesignModel,
-        newInfoDict.DrugInformation.ArmGroupList.length,
-        "+"
-      );
+
+      const information = getInfo(newInfoDict);
+      const visualizationInformation = visualization(information);
+      const newData = visualizationInformation.Gdata;
+      const newLayout = visualizationInformation.Glayout;
+
+      for (let value of newData) {
+        if (value.name) value.hoverinfo = "none";
+      }
+      //Html tag 제거
+      removeHtmlTag(newLayout.annotations);
+      setInfoDict(newInfoDict);
+      setLayoutBio(newLayout);
+      setDataBio(newData);
     }
     else {
-      newInfoDict.DesignModel = makeNewModel(
-        newInfoDict.DesignModel,
-        newInfoDict.DrugInformation.ArmGroupList.length,
-        "-"
-      );
+      const newInfoDict = { ...infoDict };
+      let clickedBranchIdx = []; // 선택된 branchidx 2개 담기
+      for (let i = 0; i < dataAcm.length; i++) {
+        if (dataAcm[i].opacity === 0.3) clickedBranchIdx.push(i);
+      }
+      if (branchToModified === "cross") {
+        moveIdxFront(newInfoDict, clickedBranchIdx);
+        newInfoDict.DesignModel = makeNewModel(
+          newInfoDict.DesignModel,
+          newInfoDict.DrugInformation.ArmGroupList.length,
+          "+"
+        );
+      }
+      else {
+        newInfoDict.DesignModel = makeNewModel(
+          newInfoDict.DesignModel,
+          newInfoDict.DrugInformation.ArmGroupList.length,
+          "-"
+        );
+      }
+
+      const information = getInfo(newInfoDict);
+      const visualizationInformation = visualization(information);
+      const newData = visualizationInformation.Gdata;
+      const newLayout = visualizationInformation.Glayout;
+
+      for (let value of newData) {
+        if (value.name) value.hoverinfo = "none";
+      }
+      //Html tag 제거
+      removeHtmlTag(newLayout.annotations);
+      setInfoDict(newInfoDict);
+      setLayoutAcm(newLayout);
+      setDataAcm(newData);
     }
 
-
-    const information = getInfo(newInfoDict);
-    const visualizationInformation = visualization(information);
-    const newData = visualizationInformation.Gdata;
-    const newLayout = visualizationInformation.Glayout;
-
-    for (let value of newData) {
-      if (value.name) value.hoverinfo = "none";
-    }
-    //Html tag 제거
-    removeHtmlTag(newLayout.annotations);
-    setInfoDict(newInfoDict);
-    setLayout(newLayout);
-    setData(newData);
   };
 
   const editGraph = () => { // 모식도 편집되게 바꾸기 함수
     // editable하게 바꾸기
-    const newConfig = { ...config };
-    newConfig.edits.annotationText = true;
+    if (isBio) {
+
+      const newConfig = { ...configBio };
+      newConfig.edits.annotationText = true;
 
 
-    // Layout값 바꾸기
-    const newLayout = { ...layout };
-    const annot = newLayout.annotations;
-    //Html tag 제거
-    removeHtmlTag(annot);
+      // Layout값 바꾸기
+      const newLayout = { ...layoutBio };
+      const annot = newLayout.annotations;
+      //Html tag 제거
+      removeHtmlTag(annot);
 
-    // data 클릭 되게 바꾸기
-    const newData = [...data];
-    for (let value of newData) {
-      if (value.name) value.hoverinfo = "none";
+      // data 클릭 되게 바꾸기
+      const newData = [...dataBio];
+      for (let value of newData) {
+        if (value.name) value.hoverinfo = "none";
+      }
+      setConfigBio(newConfig);
+      setDataBio(newData);
+      setLayoutBio(newLayout);
+      setMode("edit");
     }
-    setConfig(newConfig);
-    setData(newData);
-    setLayout(newLayout);
-    setMode("edit");
+    else {
+      const newConfig = { ...configAcm };
+      newConfig.edits.annotationText = true;
+
+      // Layout값 바꾸기
+      const newLayout = { ...layoutAcm };
+      const annot = newLayout.annotations;
+      //Html tag 제거
+      removeHtmlTag(annot);
+
+      // data 클릭 되게 바꾸기
+      const newData = [...dataAcm];
+      for (let value of newData) {
+        if (value.name) value.hoverinfo = "none";
+      }
+      setConfigAcm(newConfig);
+      setDataAcm(newData);
+      setLayoutAcm(newLayout);
+      setMode("edit");
+    }
   };
 
-  const drawGraph = (json) => { //모식도 그리기 함수
+  const drawGraph = async (json, isBio) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
-    const information = getInfo(json);
-    console.log(information);
 
-    const visualizationInformation = visualization(information);
-    //data
-    const newData = visualizationInformation.Gdata;
-    //Layout
-    const newLayout = visualizationInformation.Glayout;
-    //Config
-    const newConfig = visualizationInformation.Gconfig;
+    if (isBio) {
+      const information = getInfo(json); // 혹시 이게 달라질 수 있는건가
+      console.log("Bio");
 
-
-    if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
-      setisBranchButton(true);
-    else setisBranchButton(false);
-    setData(newData);
-    setLayout(newLayout);
-    setConfig(newConfig);
-    setInfoDict(json);
+      const visualizationInformation = visualization(information);
+      const newData = visualizationInformation.Gdata; //data
+      const newLayout = visualizationInformation.Glayout; //Layout
+      const newConfig = visualizationInformation.Gconfig; //Config
 
 
+      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+        setisBranchButton(true);
+      else setisBranchButton(false);
+      setDataBio(newData);
+      setLayoutBio(newLayout);
+      setConfigBio(newConfig);
+      setInfoDict(json);
+      setBio(false);
+    }
+    else {
+      const information = getInfo(json);
+      console.log("Acm");
+
+      const visualizationInformation = visualization(information);
+      const newData = visualizationInformation.Gdata; //data
+      const newLayout = visualizationInformation.Glayout; //Layout
+      const newConfig = visualizationInformation.Gconfig; //Config
+
+
+      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+        setisBranchButton(true);
+      else setisBranchButton(false);
+      setDataAcm(newData);
+      setLayoutAcm(newLayout);
+      setConfigAcm(newConfig);
+      setInfoDict(json);
+      setBio(true);
+    }
   };
 
   const initial = (e) => {
@@ -233,7 +362,20 @@ function App() {
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-      drawGraph(result);
+      console.log("before drawing graph: ", result.biolink);
+      if (result.biolink != null) {
+        // 2개의 json이 있는 경우
+        let bioJson = result["biolink"];
+        let acmJson = result["acm"];
+        await drawGraph(bioJson, true);
+        await drawGraph(acmJson, false);
+        setTwo(true);
+      } else {
+        // 1개인 경우 == biolinkbert + acm의 case
+        setBio(true);
+        setTwo(false);
+        drawGraph(result, true);
+      }
       setVisible(true);
       setMode("read");
     } catch (error) {
@@ -255,18 +397,34 @@ function App() {
 
 
   const saveGraph = async () => { // 편집된 모식도 저장 함수
-    let result = '';
-    // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
-    const newInfoDict = { ...infoDict };
-    const annot = layout.annotations;
-    changeInfoDict(newInfoDict, annot);
-    try {
-      result = await postRequest(newInfoDict);
-    } catch (error) {
-      console.log(error);
+    if (isBio) {
+      let result = '';
+      // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+      const newInfoDict = { ...infoDict };
+      const annot = layoutBio.annotations;
+      changeInfoDict(newInfoDict, annot);
+      try {
+        result = await postRequest(newInfoDict);
+      } catch (error) {
+        console.log(error);
+      }
+      drawGraph(result, true);
+      setMode("read");
     }
-    drawGraph(result);
-    setMode("read");
+    else {
+      let result = '';
+      // //편집 완료시 태그 다시 추가 및 박스 크기와 위치 조절
+      const newInfoDict = { ...infoDict };
+      const annot = layoutAcm.annotations;
+      changeInfoDict(newInfoDict, annot);
+      try {
+        result = await postRequest(newInfoDict);
+      } catch (error) {
+        console.log(error);
+      }
+      drawGraph(result, false);
+      setMode("read");
+    }
   };
 
   const loadOriginal = async () => {
@@ -277,7 +435,7 @@ function App() {
     catch (error) {
       console.log(error);
     }
-    drawGraph(result);
+    drawGraph(result, isBio);
     setMode("read");
     setIsOriginal(true);
   };
@@ -289,7 +447,7 @@ function App() {
     } catch {
       console.log("error");
     }
-    drawGraph(result);
+    drawGraph(result, isBio);
     setMode("read");
     setIsOriginal(false);
   };
@@ -377,10 +535,6 @@ function App() {
     setNctArr(ncts);
   }
 
-
-
-
-
   useEffect(() => {
     setImg();
 
@@ -410,33 +564,59 @@ function App() {
         {!visible && <div className="contents"><History imgArr={imgArr} nctArr={nctArr} onClick={clickCreate} /></div>}
         {visible && (
           <div className="contents">
-            <div id="original">
+            <div id={isTwo ? "originalTwo" : "original"}>
               <DrawOriginalText txt={text}></DrawOriginalText>
             </div>
             <div
-              id="draggable"
+              id={isTwo ? "draggableTwo": "draggable"}
               draggable="true"
               onDragStart={initial}
               onDrag={resize}
             ></div>
             <div id="plot">
-              <Plot
-                layout={layout}
-                data={data}
-                frames={frames}
-                config={config}
-                onClick={(e) => {
-                  clikckBranch(e);
-                }}
-                onClickAnnotation={(e) => {
-                  setClicked(true);
-                  highlight(e, infoDict);
-                }}
-              ></Plot>
-              <div className="buttonDiv">{content}</div>
-              <div className="questionIcon">
-                <FontAwesomeIcon icon={faCircleQuestion} />
-                <img src={armLabel} alt="armlabel" />
+              <div id="firstPlot">
+                <div id="title_bio">
+                  ACM+Biolinkbert
+                </div>
+                <Plot
+                  layout={layoutBio}
+                  data={dataBio}
+                  frames={framesBio}
+                  config={configBio}
+                  onClick={(e) => {
+                    clikckBranch(e);
+                  }}
+                  onClickAnnotation={(e) => {
+                    highlight(e, infoDict);
+                  }}
+                ></Plot>
+                <div className="buttonDiv">{content}</div>
+                <div className="questionIcon">
+                  <FontAwesomeIcon icon={faCircleQuestion} />
+                  <img src={armLabel} alt="armlabel" />
+                </div>
+              </div>
+              <div id={isTwo ? "secondPlot" : "hidden_plot"}>
+                <div id="title_acm">
+                  Only ACM
+                </div>
+                <Plot
+                  layout={layoutAcm}
+                  data={dataAcm}
+                  frames={framesAcm}
+                  config={configAcm}
+                  onClick={(e) => {
+                    clikckBranch(e);
+                  }}
+                  onClickAnnotation={(e) => {
+                    highlight(e, infoDict);
+                  }}
+                ></Plot>
+                {/* <div className="buttonDiv">{content}</div>
+                <div className="questionIcon">
+                  <FontAwesomeIcon icon={faCircleQuestion} />
+                  <img src={armLabel} alt="armlabel" />
+                </div> */}
               </div>
             </div>
           </div>

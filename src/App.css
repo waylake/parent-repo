@@ -11,7 +11,6 @@ html {
 }
 
 #darkContainer {
-  /* height: 1500px; */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -40,6 +39,17 @@ html {
   display: none;
 }
 
+#originalTwo{
+  background-color: #f6f1eb;
+  width: 800px;
+  height: 1410px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+}
+#originalTwo::-webkit-scrollbar {
+  display: none;
+}
+
 #plot {
   margin: 10px;
   position: relative;
@@ -52,6 +62,16 @@ html {
   background-color: rgba(0, 0, 0, 0);
   cursor: col-resize;
   height: 800px;
+  width: 10px;
+}
+
+#draggableTwo {
+  position: relative;
+  right: 0.5%;
+  top: 5%;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: col-resize;
+  height: 1400px;
   width: 10px;
 }
 
@@ -139,19 +159,31 @@ html {
 .modebar-group > a > svg {
   font-size: 26px;
 }
-/* .modebar-group > a > svg::after {
-  background-color: black;
-  color: black;
-  background-color: #1b7692;
-  border: solid 100px blue;
-}
-.modebar-group > a > svg::before {
-  background-color: black;
-  color: black;
-  background-color: #1b7692;
-  border: solid 100px blue;
-} */
 
 #moseekimg {
   padding-top: 15px;
+}
+
+#title_bio {
+  position: absolute;
+  top: 1%;
+  left: 5%;
+  z-index: 100;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#title_acm {
+  position: absolute;
+  top: 51%;
+  left: 5%;
+  z-index: 100;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#hidden_plot{
+  display: none;
 }
