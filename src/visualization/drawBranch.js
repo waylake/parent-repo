@@ -92,7 +92,7 @@ export function drawBranch(
     let afWashPoint = armGLinePoint1.x + armGW + (armGArrowW / 3) * 2;
     washH = startPoint.y - startH / 10;
     let timeLine = {
-      x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW + 0.5],
+      x: [armGLinePoint1.x, armGLinePoint1.x + armGW + armGArrowW],
       y: [washH, washH],
       mode: "lines",
       line: {
