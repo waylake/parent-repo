@@ -1,4 +1,4 @@
-### Python Matplotlib으로 작성했던 시각화 코드를 React-js로 재작성하고, 편집툴로 확장하는 것이 목표이다. 
+### Python Matplotlib으로 작성했던 시각화 코드를 React-js로 재작성하고, <br>편집툴로 확장하는 것이 목표이다. 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

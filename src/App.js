@@ -62,12 +62,15 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isOriginal, setIsOriginal] = useState(false);
   const [isBranchButton, setisBranchButton] = useState(false);
-  // these below are for resizable div contents.
-  const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
   const [home, setHome] = useState(0);
   const [imgArr, setImgArr] = useState([]);
   const [nctArr, setNctArr] = useState([]);
+  const [api, setApi] = useState("acm");
+  const [history, setHistory] = useState(0);
+
+  // these below are for resizable div contents.
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
 
   const clikckBranch = (e) => {
     if (isBio) {
@@ -277,7 +280,6 @@ function App() {
 
   const drawGraph = async (json, isBio) => { //모식도 그리기 함수
     //drug가 아닌 경우 모식도 생성X
-
     if (isBio) {
       const information = getInfo(json); // 혹시 이게 달라질 수 있는건가
       console.log("Bio");
@@ -361,6 +363,7 @@ function App() {
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
+      console.log(result_text);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
       console.log("before drawing graph: ", result.biolink);
       if (result.biolink != null) {
@@ -378,6 +381,7 @@ function App() {
       }
       setVisible(true);
       setMode("read");
+      setHistory(history + 1);
     } catch (error) {
       if (error === "It is keyError")
         alert("keyError가 발생하며, 잘못된 url 또는 NCTID일 가능성이 높습니다.");
@@ -443,7 +447,7 @@ function App() {
   const loadEdited = async () => { // 원본 모식도 그리기
     let result;
     try {
-      result = await myRequest(infoDict.NCTID);
+      result = await myRequest({ url: infoDict.NCTID });
     } catch {
       console.log("error");
     }
@@ -533,12 +537,14 @@ function App() {
     const { images, ncts } = result;
     setImgArr(images);
     setNctArr(ncts);
-  }
+  };
+
+
 
   useEffect(() => {
     setImg();
 
-  }, [infoDict]);
+  }, [history]);
 
   useEffect(() => {
     getImg();
