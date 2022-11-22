@@ -290,7 +290,7 @@ function App() {
       const newConfig = visualizationInformation.Gconfig; //Config
 
 
-      if (json.DesignModel[0] === "c" && json.DrugInformation.ArmGroupList.length > 2)
+      if ((json.DesignModel[0] === "c" || json.DesignModel[0] === "C") && json.DrugInformation.ArmGroupList.length > 2)
         setisBranchButton(true);
       else setisBranchButton(false);
       setDataBio(newData);
