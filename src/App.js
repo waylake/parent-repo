@@ -593,7 +593,7 @@ function App() {
                     clikckBranch(e);
                   }}
                   onClickAnnotation={(e) => {
-                    highlight(e, infoDict);
+                    highlight(e, infoDict, isTwo);
                   }}
                 ></Plot>
                 <div className="buttonDiv">{content}</div>
@@ -615,7 +615,8 @@ function App() {
                     clikckBranch(e);
                   }}
                   onClickAnnotation={(e) => {
-                    highlight(e, infoDict);
+                    console.log("from second plot annotation");
+                    highlight(e, infoDict, isTwo);
                   }}
                 ></Plot>
                 {/* <div className="buttonDiv">{content}</div>
