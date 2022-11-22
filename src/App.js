@@ -363,7 +363,7 @@ function App() {
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
-      console.log(result_text);
+      // console.log(result_text);
       setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
       console.log("before drawing graph: ", result.biolink);
       if (result.biolink != null) {
@@ -508,7 +508,7 @@ function App() {
 
 
   const setImg = async () => {
-    const graphImg = document.querySelector("#plot > div.js-plotly-plot");
+    const graphImg = document.querySelector("#plot > #firstPlot div.js-plotly-plot");
 
     if (graphImg) {
       const canvas = await html2canvas(graphImg);
@@ -574,7 +574,7 @@ function App() {
               <DrawOriginalText txt={text}></DrawOriginalText>
             </div>
             <div
-              id={isTwo ? "draggableTwo": "draggable"}
+              id={isTwo ? "draggableTwo" : "draggable"}
               draggable="true"
               onDragStart={initial}
               onDrag={resize}
