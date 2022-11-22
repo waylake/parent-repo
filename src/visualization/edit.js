@@ -15,17 +15,20 @@ export function changeInfoDict(newInfoDict, annot) {
       if (annot[i].text === 'write text') annot[i].text = ''; // write text라 써져있으면 지우기
 
       if (annot[i].name.inJson === 'Duration') {
-        newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[0].Duration = annot[i].text;
+        if (newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription.length !== 0)
+          newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[0].Duration = annot[i].text;
       }
       else if (annot[i].name.inJson === 'DrugName') {
-        let t = 0;
-        while (annot[i].text.includes('+')) { // + 로 찾아
-          let idx = annot[i].text.indexOf('+');
-          newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
-          t++
-          annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
+        if (newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription.length !== 0) {
+          let t = 0;
+          while (annot[i].text.includes('+')) { // + 로 찾아
+            let idx = annot[i].text.indexOf('+');
+            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
+            t++
+            annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
+          }
+          newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text; // 맨 마지막 것 추가
         }
-        newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text; // 맨 마지막 것 추가
       }
     }
   }

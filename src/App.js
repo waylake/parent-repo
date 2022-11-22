@@ -297,7 +297,9 @@ function App() {
       setLayoutBio(newLayout);
       setConfigBio(newConfig);
       setInfoDict(json);
-      setBio(false);
+      console.log(json);
+      console.log(information);
+      console.log(newLayout.annotations);
     }
     else {
       const information = getInfo(json);
@@ -316,7 +318,7 @@ function App() {
       setLayoutAcm(newLayout);
       setConfigAcm(newConfig);
       setInfoDict(json);
-      setBio(true);
+      // setBio(true);
     }
   };
 
