@@ -95,8 +95,8 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
       </form>
       <div className="example">
         <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
-        <Example name="Crossover" nctIds={['NCT02040376', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
-        <Example name="Parallel" nctIds={['NCT05572333', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Crossover" nctIds={['NCT01610557', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Parallel" nctIds={['NCT05626283', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
       </div>
     </div>
 

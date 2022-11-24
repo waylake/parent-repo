@@ -391,10 +391,10 @@ function App() {
         alert("해당 임상시험은 Study Type이 Observational이기 때문에 모식도를 생성하지 않습니다.");
       else if (error === "It is not nctID")
         alert("잘못된 url 또는 NCTID 입니다.");
-      else if (error.message ===
-        "Cannot read properties of undefined (reading 'Duration')")
-        // else if (error === TypeError)
-        alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
+      // else if (error.message ===
+      //   "Cannot read properties of undefined (reading 'Duration')")
+      //   // else if (error === TypeError)
+      //   alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
     } finally {
       setLoading(false);
     }
