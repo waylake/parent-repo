@@ -55,6 +55,9 @@ export function changeInfoDict(newInfoDict, annot) {
             newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text
           }
 
+          newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription =
+            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription.slice(0, t + 1);
+
         }
       }
     }
