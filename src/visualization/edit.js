@@ -23,11 +23,38 @@ export function changeInfoDict(newInfoDict, annot) {
           let t = 0;
           while (annot[i].text.includes('+')) { // + 로 찾아
             let idx = annot[i].text.indexOf('+');
-            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
+            try {
+              newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text.substring(0, idx);//다시 약물 한개씩 쪼개서 집어 넣기
+            }
+            catch {
+              const obj = {
+                DrugName: "",
+                Duration: "",
+                Dosage: "",
+                HowToTake: "",
+                OtherName: [],
+              }
+              newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t] = obj;
+              newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text.substring(0, idx);//다시 약물 
+            }
             t++
             annot[i].text = annot[i].text.substring(idx + 1); // 앞에 것 지우기
           }
-          newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text; // 맨 마지막 것 추가
+          try {
+            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text//한개씩 쪼개서 집어 넣기
+          }
+          catch {
+            const obj = {
+              DrugName: "",
+              Duration: "",
+              Dosage: "",
+              HowToTake: "",
+              OtherName: [],
+            }
+            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t] = obj;
+            newInfoDict.DrugInformation.ArmGroupList[annot[i].name.idx].InterventionDescription[t].DrugName = annot[i].text
+          }
+
         }
       }
     }

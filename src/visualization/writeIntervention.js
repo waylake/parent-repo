@@ -39,7 +39,7 @@ export function writeIntervention(
   ) {
     // # numBranch 추가한 이유: single 이지만 군이 여러개인 경우 때문.
     drugInfo = armG.interventionDescription[0];
-    console.log(drugInfo);
+
     // drugInfo[0].DrugName = drugInfo[0].DrugName ? drugInfo[0].DrugName : "write text";
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
