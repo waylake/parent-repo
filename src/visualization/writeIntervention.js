@@ -1,6 +1,5 @@
 import { countLine } from "./drawPopulation";
 import { lineBreak } from "./drawInfoTrial";
-import { faCropSimple, faTable } from "@fortawesome/free-solid-svg-icons";
 
 export function writeIntervention(
   startPoint,
@@ -26,7 +25,7 @@ export function writeIntervention(
   const intervenFontSize = 12;
   const intervenDurFontSize = 9;
   const intervenHoverFontSize = 13;
-  const intervenBranchLetterLimit = 30;
+  const intervenBranchLetterLimit = 34;
   const intervenHoverLetterLimit = 15;
   let res;
   let drugNameIdx = 0;
@@ -482,8 +481,17 @@ export function writeIntervention(
         annotations.push(interObj, interDur);
 
       }
+      // drugInfo의 길이가 0인 경우
       else {
-        drugDescription = "No drug";
+        // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
+        if (drugInfo.length === 0) {
+          drugDescription = "No drug"; // no
+        }
+        // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
+        else {
+
+        }
+
         let interObj = {
           x: textStartX,
           y: startPoint.y + startH - i * (startH / (numBranch - 1)),
