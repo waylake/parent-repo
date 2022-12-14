@@ -1,8 +1,3 @@
-// import { countLine } from "./drawPopulation";
-// import { Point } from "./Point";
-
-import { faHighlighter } from "@fortawesome/free-solid-svg-icons";
-import { highlight } from "./highlight.js";
 import { countLine } from "./drawPopulation";
 
 // 단어 break해서라도 네모박스 라인 맞추기 위한 함수
@@ -14,10 +9,10 @@ export function lineBreak(inString, limit) {
     n++;
     point = inString.slice(0, limit).lastIndexOf("");
     if (point === -1) {
-      brString += inString.slice(0, limit) + "<br>";
-      inString = inString.slice(limit);
+      brString += inString.slice(0, limit+1) + "<br>";
+      inString = inString.slice(limit+1);
     } else {
-      brString += inString.slice(0, point) + "<br>";
+      brString += inString.slice(0, point+1) + "<br>";
       inString = inString.slice(point + 1);
     }
   }

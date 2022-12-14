@@ -4,7 +4,7 @@ const prod = `http://3.35.243.113:5000`;
 const local = `http://localhost:5000`;
 
 // 개발자의 편의성을 위함. local에서 작업중이라면 7번의 isprod를 false로 바꿀것.
-let isprod = false;
+let isprod = true;
 let url;
 if (isprod) {
   url = prod;
