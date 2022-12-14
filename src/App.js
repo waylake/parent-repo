@@ -31,7 +31,7 @@ import "./css/trial-record.css";
 import Loading from "./component/Loading";
 import { highlight } from "./visualization/highlight";
 import { DrawOriginalText } from "./component/OriginalText";
-
+import { domToReact } from 'html-react-parser';
 import html2canvas from 'html2canvas';
 import History from "./component/History";
 
@@ -357,14 +357,28 @@ function App() {
     let result_text = "<div id='wrapper'></div>";
     const Parser = require("html-react-parser");
 
+    const options = {
+      replace: ({ name, children, attribs }) => {
+        const list = ["studydesc", "studydesign", "wrapper", "armgroup", "eligibility"];
+
+        if (name === 'a') {
+          const result = list.some((el) => el === attribs.id);
+          if (!result) return <a>{domToReact(children, options)}</a>;
+        }
+
+        if (name === 'button' && attribs.class === "tr-dropbtn") return <span></span>
+        if (name === 'div' && attribs.class === "tr-dropdown-content") return <span></span>
+      }
+    }
+
     let url = keyword.url;
     try {
       setLoading(true);
       result = await myRequest(keyword);
       if (result?.message) throw result.message;
       result_text += await myCrawling(url);
-      // console.log(result_text);
-      setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
+
+      setText(Parser(result_text, options)); // 내용 생성 뒤 render될 수 있도록
       console.log("before drawing graph: ", result.biolink);
       if (result.biolink != null) {
         // 2개의 json이 있는 경우
@@ -539,10 +553,18 @@ function App() {
     setNctArr(ncts);
   };
 
+  const deleteHref = () => {
+    const aTags = document.querySelectorAll("#original a");
+    aTags.forEach((tag) => {
+      tag.removeAttribute('href');
+    })
+  };
+
 
 
   useEffect(() => {
     setImg();
+    // deleteHref();
 
   }, [history]);
 
