@@ -8,6 +8,7 @@ const modeList = {
   cross: 'Change branch to cross',
   loadOriginal: 'load original graph',
   loadEdited: 'load edited graph',
+  cancel: 'cancel editing'
 }
 
 function Button({ mode, icon, onChangeMode, onChangeBranch }) {

@@ -12,11 +12,6 @@ if (isprod) {
   url = local;
 }
 
-// export const getRequest = async (nctid) => {
-//   const response = await fetch(url+`/api/${nctid}`);
-//   const body = await response.json();
-//   return body;
-// };
 
 //axios를 위한 함수
 export const myRequest = async (json) => {
