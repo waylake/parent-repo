@@ -21,7 +21,7 @@ import { useState, useEffect } from "react";
 //아이콘
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
-import { faGripLines, faFileImport, faCircleQuestion, faShuffle, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faGripLines, faFileImport, faCircleQuestion, faShuffle, faArrowRotateLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import armLabel from "./img/label.png";
 import armLabel2 from "./img/check1.png";
@@ -337,21 +337,6 @@ function App() {
     re_bar.style.backgroundPositionX = `${parseInt(initialPos)}`;
   };
 
-  // const createOriginal = async (keyword) => {
-  //   let result_text;
-  //   const Parser = require("html-react-parser");
-  //   try {
-  //     setLoading(true);
-  //     result_text = await myCrawling(keyword);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  //   setText(Parser(result_text)); // 내용 생성 뒤 render될 수 있도록
-  // }
-
-
   const clickCreate = async (keyword) => { // 크롤링 및 모식도 한번에 동시 생성
     let result;
     let result_text = "<div id='wrapper'></div>";
@@ -403,10 +388,6 @@ function App() {
         alert("해당 임상시험은 Study Type이 Observational이기 때문에 모식도를 생성하지 않습니다.");
       else if (error === "It is not nctID")
         alert("잘못된 url 또는 NCTID 입니다.");
-      // else if (error.message ===
-      //   "Cannot read properties of undefined (reading 'Duration')")
-      //   // else if (error === TypeError)
-      //   alert("해당 임상시험은 drug intervention이 아니기 때문에 모식도를 생성하지 않습니다.");
     } finally {
       setLoading(false);
     }
@@ -470,6 +451,19 @@ function App() {
     setIsOriginal(false);
   };
 
+  const cancel = () => {
+    const information = getInfo(infoDict);
+    const visualizationInformation = visualization(information);
+
+    const newData = visualizationInformation.Gdata; //data
+    const newLayout = visualizationInformation.Glayout; //Layout
+    const newConfig = visualizationInformation.Gconfig; //Config
+    setMode("read");
+    setDataBio(newData);
+    setLayoutBio(newLayout);
+    setConfigBio(newConfig);
+  }
+
   let content = "";
   if (mode === "read") {
     //READ 모드일때 edit버튼을 누르면
@@ -512,9 +506,9 @@ function App() {
         ></Button>
 
         <Button
-          mode={isOriginal ? "loadEdited" : "loadOriginal"}
-          icon={isOriginal ? faArrowRotateLeft : faFileImport}
-          onChangeMode={isOriginal ? loadEdited : loadOriginal}
+          mode="cancel"
+          icon={faXmark}
+          onChangeMode={cancel}
         />
       </>
     );
@@ -553,18 +547,8 @@ function App() {
     setNctArr(ncts);
   };
 
-  const deleteHref = () => {
-    const aTags = document.querySelectorAll("#original a");
-    aTags.forEach((tag) => {
-      tag.removeAttribute('href');
-    })
-  };
-
-
-
   useEffect(() => {
     setImg();
-    // deleteHref();
 
   }, [history]);
 
