@@ -52,13 +52,13 @@
 Test Dataset: 약물명 데이터 4,520개
 (ClinicalTrial.gov의  Drug  Intervention 3,964개 + 식품의약품 안전처 제공 약물명 556개)
 
-<img src="https://user-images.githubusercontent.com/78090753/208905779-9ac9bc69-d229-4764-80d4-48faba1c099b.png" width="60%" height="60%">
+<img src="https://user-images.githubusercontent.com/78090753/208905779-9ac9bc69-d229-4764-80d4-48faba1c099b.png" width="50%" height="50%">
 
 **성능평가 결과**: **BiolinkBert + ACM** 선정
 
 # MoSeek: 모식도 자동생성 및 시각화 서비스
 
-<img src="https://user-images.githubusercontent.com/78090753/208905656-48368b3d-de89-41c2-9e8c-8b1d09591b11.png" width="60%" height="60%">
+<img src="https://user-images.githubusercontent.com/78090753/208905656-48368b3d-de89-41c2-9e8c-8b1d09591b11.png" width="70%" height="60%">
 
 ## 기능
 1. NCT_ID 및 ClinicalTrials.gov URL 로 검색해 해당 임상시험 설계 정보를 모식도로 한 눈에 파악할 수 있음.
