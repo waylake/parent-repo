@@ -52,11 +52,7 @@
 Test Dataset: 약물명 데이터 4,520개
 (ClinicalTrial.gov의  Drug  Intervention 3,964개 + 식품의약품 안전처 제공 약물명 556개)
 
- | ACM | BiolinkBert | BioElectra | ClinicalBert
----- | ---- | ---- | ---- | ----
-약물명 추출 정확도(+ACM) | 39.7% | **55.7%** | 55.3% | 48.4%
-모델 크기 | - | 5.17MB | 5.11MB | 5.19MB
-개체명 분류 속도| 1~2분 (4,520개 처리시)
+![image](https://user-images.githubusercontent.com/78090753/208905779-9ac9bc69-d229-4764-80d4-48faba1c099b.png)
 
 **성능평가 결과**: **BiolinkBert + ACM** 선정
 
