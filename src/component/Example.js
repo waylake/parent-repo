@@ -3,7 +3,7 @@ function Example({ name, nctIds, onCreate, onClick }) {
   const handleClick = (e) => {
     let requestJson = {
       api: "acm",
-      url: e.target.value
+      id: e.target.value
     };
     onCreate(requestJson);
     onClick(e.target.value);
