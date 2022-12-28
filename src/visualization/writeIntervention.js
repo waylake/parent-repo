@@ -1,5 +1,6 @@
 import { countLine } from "./drawPopulation";
 import { lineBreak } from "./drawInfoTrial";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 export function writeIntervention(
   startPoint,
@@ -21,6 +22,7 @@ export function writeIntervention(
   let textStartX;
   let testStartY;
   let drugInfo;
+  let interventionTypeList = intervention.typelist
 
   const intervenFontSize = 12;
   const intervenDurFontSize = 9;
@@ -39,7 +41,6 @@ export function writeIntervention(
     // # numBranch 추가한 이유: single 이지만 군이 여러개인 경우 때문.
     drugInfo = armG.interventionDescription[0];
 
-    // drugInfo[0].DrugName = drugInfo[0].DrugName ? drugInfo[0].DrugName : "write text";
     textStartX = armGLinePoint1.x + armGW + 0.1;
     testStartY = startPoint.y + startH / 2;
     let onlyDrugLineN = lineBreak(onlyDrug, intervenBranchLetterLimit)[0];
@@ -62,7 +63,23 @@ export function writeIntervention(
 
     res = countLine(drugDescription, 45);
     drugDescription = res[1];
-    onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
+    onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1]; // 길이에 맞춰 다음줄로 넘기기
+    let hoverText = drugDescription + ": " + drugHowToTake + "<br>"; // 약물에 대한 상세정보 text
+    if(interventionTypeList != null){
+
+      let intervenType = interventionTypeList[0] // intervention type을 알기 위함
+      
+      // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
+      if (drugInfo.length === 0 && intervenType === "Drug") {
+        onlyDrug = "empty";
+        hoverText = "None";
+      }
+      // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
+      if (drugInfo.length === 0 && intervenType !== "Drug") {
+        onlyDrug = "no drug";
+        hoverText = "None";
+      }
+    }
 
     let interObj = {
       x: textStartX,
@@ -83,7 +100,7 @@ export function writeIntervention(
         size: intervenFontSize,
       },
       showarrow: false,
-      hovertext: drugDescription + ": " + drugHowToTake + "<br>",
+      hovertext: hoverText,
       hoverlabel: {
         bgcolor: "rgba(0,0,0,0.1)",
         bordercolor: "rgba(0,0,0,0.1)",
@@ -114,13 +131,7 @@ export function writeIntervention(
     };
     annotations.push(interDur);
   }
-  // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
   else if ((designModel === "Crossover Assignment") & (numBranch === 2)) {
-    // 기업에서 요구했던 코드: washoutperiod 없거나 군 개수 2개 초과인 경우
-    // else if (
-    //   (designModel === "Crossover Assignment") &
-    //   ((typeof intervention.washoutPeriod == "String") & (numBranch === 2))
-    // ) {
     for (let i = 0; i < numBranch; i++) {
       drugDescription = "";
       onlyDrug = "";
@@ -141,6 +152,20 @@ export function writeIntervention(
 
       drugDescription = countLine(drugDescription, intervenHoverLetterLimit)[1];
       onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
+      if(interventionTypeList != null){
+        let intervenType = interventionTypeList[i] // intervention type을 알기 위함
+  
+        // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
+        if (drugInfo.length === 0 && intervenType === "Drug") {
+          onlyDrug = "empty";
+          drugDescription = "None";
+        }
+        // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
+        if (drugInfo.length === 0 && intervenType !== "Drug") {
+          onlyDrug = "no drug";
+          drugDescription = "None";
+        }
+      }
       // 꼬기 전
       let interObjB = {
         x: armGLinePoint1.x + armGW + 0.1,
@@ -171,34 +196,6 @@ export function writeIntervention(
         },
         showarrow: false,
       };
-      // 꼰 후
-      // let interObjA = {
-      //   x: armGLinePoint1.x + (armGArrowW / 3) * 2 + 1,
-      //   y: startPoint.y + i * (startH / (numBranch - 1)),
-      //   xanchor: "left",
-      //   yanchor: "bottom",
-      //   align: "left",
-      //   text: onlyDrug,
-      //   name: {
-      //     class: "armGroup",
-      //     prop: "drugName",
-      //     drugNameIdx: drugNameIdx++
-      //   },
-      //   font: {
-      //     size: intervenFontSize,
-      //   },
-      //   hovertext: drugDescription,
-      //   hoverlabel: {
-      //     bgcolor: "rgba(0,0,0,0.1)",
-      //     bordercolor: "rgba(0,0,0,0.1)",
-      //     font: {
-      //       size: intervenHoverFontSize,
-      //       color: "black",
-      //     },
-      //   },
-      //   showarrow: false,
-      // };
-      // annotations.push(interObjB, interObjA);
       annotations.push(interObjB);
     }
 
@@ -296,6 +293,20 @@ export function writeIntervention(
 
       drugDescription = countLine(drugDescription, intervenHoverLetterLimit)[1];
       onlyDrug = lineBreak(onlyDrug, intervenBranchLetterLimit)[1];
+      if(interventionTypeList != null){
+        let intervenType = interventionTypeList[i] // intervention type을 알기 위함
+  
+        // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
+        if (drugInfo.length === 0 && intervenType === "Drug") {
+          onlyDrug = "empty";
+          drugDescription = "None";
+        }
+        // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
+        if (drugInfo.length === 0 && intervenType !== "Drug") {
+          onlyDrug = "no drug";
+          drugDescription = "None";
+        }
+      }
 
       let interObj = {
         x: armGLinePoint1.x + armGW + 0.1,
@@ -483,13 +494,19 @@ export function writeIntervention(
       }
       // drugInfo의 길이가 0인 경우
       else {
-        // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
-        if (drugInfo.length === 0) {
-          drugDescription = "No drug"; // no
-        }
-        // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
-        else {
-
+        if(interventionTypeList != null){
+          let intervenType = interventionTypeList[i] // intervention type을 알기 위함
+  
+          // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
+          if (drugInfo.length === 0 && intervenType === "Drug") {
+            onlyDrug = "empty";
+            drugDescription = "None";
+          }
+          // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
+          if (drugInfo.length === 0 && intervenType !== "Drug") {
+            onlyDrug = "no drug";
+            drugDescription = "None";
+          }
         }
 
         let interObj = {
@@ -500,7 +517,7 @@ export function writeIntervention(
           align: "left",
           text:
             "<a href='#armgroup' target='_self' style='color:black;'>" +
-            drugDescription +
+            onlyDrug +
             "</a>",
           name: {
             type: "armGroup",
@@ -509,6 +526,15 @@ export function writeIntervention(
           },
           font: {
             size: intervenFontSize,
+          },
+          hovertext: drugDescription,
+          hoverlabel: {
+            bgcolor: "rgba(0,0,0,0.1)",
+            bordercolor: "rgba(0,0,0,0.1)",
+            font: {
+              size: intervenHoverFontSize,
+              color: "black",
+            },
           },
           showarrow: false,
           captureevents: true,
