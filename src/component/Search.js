@@ -5,6 +5,18 @@ import Example from "./Example";
 
 function Search({ onCreate }) {
   const [nctId, setNctId] = useState();
+  const [apis, setApis] = useState(["biolink"]);
+
+  const handleCheck = (e) => {
+    if (e.target.checked) {
+      const newApis = [...apis, e.target.value];
+      setApis(newApis);
+    }
+    else {
+      const newApis = apis.filter((api) => e.target.value !== api);
+      setApis(newApis);
+    }
+  }
 
   const handleNctIdChange = (e) => {
     setNctId(e.target.value);
@@ -12,34 +24,26 @@ function Search({ onCreate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let apiArr = Array.from(e.target.api);
-    let sendAPI = "";
-    let apiList = [];
-    console.log(apiArr);
-    if (apiArr[0].checked === true) {
-      apiList.push(apiArr[0].value);
-      sendAPI += apiArr[0].value;
-    }
-    if (apiArr[1].checked === true) {
-      apiList.push(apiArr[1].value);
-      sendAPI += apiArr[1].value;
-    }
-    // 두개 선택할 경우도 따로 처리해야됨
-    if (!apiArr[0].checked && !apiArr[1].checked) {
+
+    // acm과 biolinkbert 둘다 선택이 안되었을 때 예외 처리
+    if (!apis) {
       alert("please select at least one api");
+      return;
     }
 
     // nctId가 url인 경우 nctId만 추출
     const reg = /NCT[0-9]{8}/;
     const val = nctId.match(reg);
+
+    // 만약 nctid가 포함되어있지 않은 검색이면 예외처리
     if (!val) {
       alert("NCTID가 포함된 url 또는 NCTID를 입력해주세요");
       return;
     }
 
-    let requestJson;
-    requestJson = {
-      api: apiList,
+
+    const requestJson = {
+      api: apis,
       id: val[0].toUpperCase()
     };
 
@@ -82,20 +86,20 @@ c655 -54 1242 -275 1757 -661 818 -615 1315 -1537 1364 -2529 38 -770 -178
         <input type="text" placeholder="Enter NCTID or ClinicalTrial's gov URL" name="url" value={nctId} onChange={handleNctIdChange}></input>
         <div id="selectAPI">
           <span>
-            <input type="checkbox" name="api" value="biolink"></input>
+            <input type="checkbox" name="api" value="biolink" checked ></input>
             <label for="biolink">ACM+Biolinkbert</label>
           </span>
           <span>
-            <input type="checkbox" name="api" value="acm"></input>
+            <input type="checkbox" name="api" value="acm" onChange={handleCheck}></input>
             <label for="acm">Only ACM</label>
           </span>
         </div>
         <button type="submit" id="clicked">모식도 생성</button>
       </form>
       <div className="example">
-        <Example name="Single Group" nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
-        <Example name="Crossover" nctIds={['NCT01610557', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
-        <Example name="Parallel" nctIds={['NCT05626283', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Single Group" apis={apis} nctIds={['NCT05446467', 'NCT03727152', 'NCT03457311']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Crossover" apis={apis} nctIds={['NCT01610557', 'NCT04450953', 'NCT00400023']} onCreate={onCreate} onClick={handleExampleClick} />
+        <Example name="Parallel" apis={apis} nctIds={['NCT05626283', 'NCT05572060', 'NCT01723228']} onCreate={onCreate} onClick={handleExampleClick} />
       </div>
     </div>
 
