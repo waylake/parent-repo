@@ -29,12 +29,20 @@ function Search({ onCreate }) {
       alert("please select at least one api");
     }
 
+    // nctId가 url인 경우 nctId만 추출
+    const reg = /NCT[0-9]{8}/;
+    const val = nctId.match(reg);
+    if (!val) {
+      alert("NCTID가 포함된 url 또는 NCTID를 입력해주세요");
+      return;
+    }
+
     let requestJson;
     requestJson = {
-      // api: apiList,
-      api: sendAPI,
-      url: e.target.url.value.toUpperCase()
+      api: apiList,
+      id: val[0].toUpperCase()
     };
+
     console.log("requestJson: ", requestJson);
     onCreate(requestJson);
   }
@@ -42,15 +50,6 @@ function Search({ onCreate }) {
   const handleExampleClick = (nct) => {
     setNctId(nct);
   }
-  // let checkVal = true
-  // const checkCheck = (e) => {
-  //   e.target.checked = !checkVal;
-  //   checkVal = !checkVal
-  // }
-
-  // const clickedfunc = (e) =>{
-  //   e.target.checked = true;
-  // }
 
   return (
     <div className="searchbar">
