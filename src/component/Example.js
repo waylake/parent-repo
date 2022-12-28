@@ -1,8 +1,8 @@
 import "./Example.css";
-function Example({ name, nctIds, onCreate, onClick }) {
+function Example({ name, nctIds, apis, onCreate, onClick }) {
   const handleClick = (e) => {
     let requestJson = {
-      api: "acm",
+      api: apis,
       id: e.target.value
     };
     onCreate(requestJson);

@@ -6,8 +6,8 @@ function History({ imgArr, nctArr, onClick }) {
 
   const handleClick = (e) => {
     let requestJson = {
-      api: "acm",
-      url: e.target.alt
+      api: ["biolink"],
+      id: e.target.alt
     };
 
     onClick(requestJson);

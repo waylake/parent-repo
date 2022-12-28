@@ -12,12 +12,11 @@ if (isprod) {
   url = local;
 }
 
-
+// 편집된 모식도 불러오기 
 export const getRequest = async (info) => {
-  console.log(info);
+
   const { api, id } = info;
-  console.log(api);
-  console.log(id);
+
   let response;
   try {
     response = await axios.get(`${url}/api/${api}/${id}`);
@@ -28,32 +27,6 @@ export const getRequest = async (info) => {
 
   return response.data;
 }
-
-//axios를 위한 함수
-export const myRequest = async (json) => {
-  // console.log(nctid);
-  try {
-    const retries = 2;
-    let req;
-    for (let q = 0; q < retries; q++) {
-      try {
-        req = await axios.post(url + `/api`, json);
-        if (req) {
-          break;
-        } else {
-          console.log(req);
-          console.log("cannot fetch data");
-        }
-      } catch (e) {
-        console.log("cannot fetch error");
-      }
-    }
-    console.log(req);
-    return req.data;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const writeImgRequest = async (imgSrc, nctID) => {
   let response;
@@ -97,9 +70,8 @@ export const postRequest = async (json) => {
 export const loadRequest = async (nctid) => {
 
   let response;
-  let body = { url: nctid };
   try {
-    response = await axios.post(url + '/load', body);
+    response = await axios.get(`${url}/load/${nctid}`);
   }
   catch (error) {
     console.log(error);
@@ -112,13 +84,10 @@ export const myCrawling = async (nctid) => {
   // console.log(nctid);
   try {
     const retries = 2;
-    let body = {
-      url: nctid,
-    };
     let req;
     for (let q = 0; q < retries; q++) {
       try {
-        req = await axios.post(url + `/crawling`, body);
+        req = await axios.get(url + `/crawling/${nctid}`);
         if (req) {
           break;
         } else {

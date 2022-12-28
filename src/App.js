@@ -14,7 +14,7 @@ import { changeInfoDict } from "./visualization/edit";
 import { moveIdxFront } from "./visualization/edit";
 import { removeHtmlTag } from "./visualization/edit";
 import { makeNewModel } from "./visualization/edit";
-import { postRequest, myRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest, getRequest } from "./api";
+import { postRequest, myCrawling, loadRequest, imgSrcRequest, getImgRequest, writeImgRequest, readImgRequest, getRequest } from "./api";
 
 //state
 import { useState, useEffect } from "react";
@@ -282,7 +282,6 @@ function App() {
     //drug가 아닌 경우 모식도 생성X
     if (isBio) {
       const information = getInfo(json); // 혹시 이게 달라질 수 있는건가
-      console.log("Bio");
 
       const visualizationInformation = visualization(information);
       const newData = visualizationInformation.Gdata; //data
@@ -363,9 +362,9 @@ function App() {
       setLoading(true);
       result_text += await myCrawling(id);
       if (keyword.api.length === 2) {
-        // resultBio = await getRequest({ api: keyword.api[0], id });
+        resultBio = await getRequest({ api: keyword.api[0], id });
 
-        // if (resultBio?.message) throw resultBio.message;
+        if (resultBio?.message) throw resultBio.message;
         resultACM = await getRequest({ api: keyword.api[1], id });
         await drawGraph(resultBio, true);
         await drawGraph(resultACM, false);
@@ -373,7 +372,6 @@ function App() {
       }
       else {
         resultBio = await getRequest({ api: keyword.api[0], id });
-        console.log(resultBio);
         if (resultBio?.message) throw resultBio.message;
         drawGraph(resultBio, true);
         setBio(true);
@@ -383,20 +381,6 @@ function App() {
 
 
       setText(Parser(result_text, options)); // 내용 생성 뒤 render될 수 있도록
-
-      // if (result.biolink != null) {
-      //   // 2개의 json이 있는 경우
-      //   let bioJson = result["biolink"];
-      //   let acmJson = result["acm"];
-      //   await drawGraph(bioJson, true);
-      //   await drawGraph(acmJson, false);
-      //   setTwo(true);
-      // } else {
-      //   // 1개인 경우 == biolinkbert + acm의 case
-      //   setBio(true);
-      //   setTwo(false);
-      //   drawGraph(result, true);
-      // }
       setVisible(true);
       setMode("read");
       setHistory(history + 1);
@@ -445,7 +429,7 @@ function App() {
     }
   };
 
-  const loadOriginal = async () => {
+  const loadOriginal = async () => { // 원본 모식도 그리기
     let result;
     try {
       result = await loadRequest(infoDict.NCTID);
@@ -458,10 +442,10 @@ function App() {
     setIsOriginal(true);
   };
 
-  const loadEdited = async () => { // 원본 모식도 그리기
+  const loadEdited = async () => { // 편집된 모식도 그리기
     let result;
     try {
-      result = await myRequest({ url: infoDict.NCTID });
+      result = await getRequest({ api: "biolink", id: infoDict.NCTID });
     } catch {
       console.log("error");
     }
@@ -562,7 +546,7 @@ function App() {
       console.log(error);
     }
 
-    console.log(result);
+
     const { images, ncts } = result;
     setImgArr(images);
     setNctArr(ncts);
