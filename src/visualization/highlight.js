@@ -242,7 +242,7 @@ export function highlight(e, infos, istwo) {
       let singleElem = otherElem[0];
       let multiElem = otherElem[1];
       let isArray = otherElem[2];
-      // console.log("multiElem ", multiElem);
+      
       if ((isArray === false)) {
         try {
           if (e.annotation.text !== "") {
