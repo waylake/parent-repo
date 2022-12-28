@@ -5,7 +5,7 @@
 
 
 #### **upload.py**  
-input: json(정보추출 파일)  output: DB에 삽입  
+input: json(정보추출 파일) / output: DB에 삽입  
 최근 5개년 임상시험에 대해 추출된 json파일을 DB에 업로드하기 위한 파일입니다.
 
 #### **new_clinicalTrial_acm.py**  
