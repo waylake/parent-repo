@@ -71,12 +71,12 @@ export function writeIntervention(
       
       // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
       if (drugInfo.length === 0 && intervenType === "Drug") {
-        onlyDrug = "Drug data isn't extracted";
+        onlyDrug = "empty";
         hoverText = "None";
       }
       // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
       if (drugInfo.length === 0 && intervenType !== "Drug") {
-        onlyDrug = "Drug isn't used";
+        onlyDrug = "no drug";
         hoverText = "None";
       }
     }
@@ -157,12 +157,12 @@ export function writeIntervention(
   
         // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
         if (drugInfo.length === 0 && intervenType === "Drug") {
-          onlyDrug = "Drug data isn't extracted";
+          onlyDrug = "empty";
           drugDescription = "None";
         }
         // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
         if (drugInfo.length === 0 && intervenType !== "Drug") {
-          onlyDrug = "Drug isn't used";
+          onlyDrug = "no drug";
           drugDescription = "None";
         }
       }
@@ -298,12 +298,12 @@ export function writeIntervention(
   
         // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
         if (drugInfo.length === 0 && intervenType === "Drug") {
-          onlyDrug = "Drug data isn't extracted";
+          onlyDrug = "empty";
           drugDescription = "None";
         }
         // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
         if (drugInfo.length === 0 && intervenType !== "Drug") {
-          onlyDrug = "Drug isn't used";
+          onlyDrug = "no drug";
           drugDescription = "None";
         }
       }
@@ -499,12 +499,12 @@ export function writeIntervention(
   
           // drug가 추출 안 된 경우: drug type인데 빈 배열인 경우
           if (drugInfo.length === 0 && intervenType === "Drug") {
-            onlyDrug = "Drug data isn't extracted";
+            onlyDrug = "empty";
             drugDescription = "None";
           }
           // 해당 타입에서 약물이 사용되지 않는 경우: drug type이 아닌데 빈 배열인 경우
           if (drugInfo.length === 0 && intervenType !== "Drug") {
-            onlyDrug = "Drug isn't used";
+            onlyDrug = "no drug";
             drugDescription = "None";
           }
         }
