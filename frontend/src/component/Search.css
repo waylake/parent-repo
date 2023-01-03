@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "NanumGothic";
+  src: url(../font/NanumGothic-Regular.ttf);
+}
+
+.searchbar input {
+  border-radius: 10px;
+  border: 1px solid rgba(9, 100, 135, 0.238);
+  padding: 10px 10px;
+  font-size: 17px;
+  width: 700px;
+  font-family: "NanumGothic";
+  outline: none;
+}
+
+.searchbar > form > button {
+  margin-left: 10px;
+  color: white;
+  background-color: rgba(10, 76, 138, 0.949);
+  border: 1px solid rgb(10, 76, 138);
+  padding: 6px 8px;
+  font-size: 15px;
+  border-radius: 20px;
+  border-left: none;
+  cursor: pointer;
+  font-family: "NanumGothic";
+}
+.searchbar > form > button:hover {
+  background-color: rgba(121, 158, 193, 0.901);
+}
+
+.searchbar {
+  height: 30px;
+  margin: 30px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+input[name="url"] {
+  flex-shrink: 2;
+}
+
+#clicked {
+  flex-shrink: 0;
+}
+
+#selectAPI {
+  padding: 0;
+  margin: 0 7px 0 7px;
+  display: grid;
+  grid-template-rows: 30px auto;
+  flex-shrink: 0;
+}
+
+#selectAPI input {
+  width: 30px;
+}
+
+/* 
+이렇게 적으면 에러남.
+plotly가 svg여서 plotly에도 적용된거임
+form > svg{
+  height: 25px;;
+  width: 25px;
+  margin-right: 3px;
+} */
+
+#glass {
+  height: 35px;
+  width: 35px;
+  margin-right: 3px;
+}
+
+.example {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}

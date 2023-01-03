@@ -1,0 +1,60 @@
+.button {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  z-index: 1;
+  font-size: 26px;
+  color: rgb(10, 76, 138);
+  text-align: center;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  padding: 1px;
+  margin-right: 20px;
+}
+
+.button.parallel::after,
+.button.cross::after,
+.button.loadOriginal::after,
+.button.loadEdited::after,
+.button.cancel::after {
+  width: 150px;
+}
+
+.button:hover {
+  color: rgba(10, 76, 138, 0.5);
+}
+
+/* 말풍선 내용 내용 */
+.button::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  background-color: rgb(105, 115, 138);
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 7px 11px;
+  font-size: 13px;
+  z-index: 10;
+  position: absolute;
+  top: 159%;
+  right: 15%;
+}
+
+/* 말풍선 꼬리 */
+.button::before {
+  content: "";
+  position: absolute;
+  top: 110%;
+  right: 25%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgb(105, 115, 138) transparent;
+  visibility: hidden;
+}
+
+.button:hover::after,
+.button:hover::before {
+  visibility: visible;
+}
